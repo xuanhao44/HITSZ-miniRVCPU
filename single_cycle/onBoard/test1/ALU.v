@@ -17,8 +17,7 @@ module ALU (
  * 详细见 RISC-V 手册 P159
  */
 
-wire [4:0] shamt;
-assign shamt = B[4:0];
+wire [4:0] shamt = B[4:0];
 
 always @ (*) begin
     case (op)

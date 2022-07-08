@@ -13,7 +13,7 @@ module RF (
     output wire [31:0] rD1  ,
     output wire [31:0] rD2  ,
 
-    output wire [31:0] rD19
+    output wire [31:0] rD8
 );
 
 reg [31:0] rf[31:0];
@@ -21,7 +21,8 @@ reg [31:0] rf[31:0];
 // 寄存器读无时钟限制
 assign rD1 = rf[rR1];
 assign rD2 = rf[rR2];
-assign rD19 = rf[19];
+
+assign rD8 = rf[8  ];
 
 /*
  * 另一种实现: 写 0 的时候不判断照常写，读的时候只输出 0

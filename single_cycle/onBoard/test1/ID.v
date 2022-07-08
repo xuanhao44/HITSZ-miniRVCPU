@@ -16,10 +16,11 @@ module ID (
     output wire [31:0] sext_ext ,
     output wire [31:0] rf_rd1   ,
     output wire [31:0] rf_rd2   ,
-    output reg  [31:0] rf_wd    ,
 
-    output wire [31:0] rD19
+    output wire [31:0] rD8
 );
+
+reg [31:0] rf_wd;
 
 // MUX4_1
 always @ (*) begin
@@ -53,7 +54,7 @@ RF U_RF (
     .rD1        (rf_rd1          ),
     .rD2        (rf_rd2          ),
 
-    .rD19       (rD19            )
+    .rD8        (rD8             )
 );
 
 endmodule

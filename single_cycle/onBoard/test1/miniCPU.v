@@ -9,10 +9,8 @@ module miniCPU (
     output wire [31:0] alu_c    ,
     output wire [31:0] rf_rd2   ,
     output wire        dram_we  ,
-    output wire        rf_we    ,
-    output wire [31:0] rf_wd    ,
 
-    output wire [31:0] rD19
+    output wire [31:0] rD8
 );
 
 /*
@@ -24,7 +22,7 @@ wire [1:0]  npc_op  ; // 选择 NPC.npc 输出的控制信号
 
 // ID, WB
 wire [2:0]  sext_op ; // 选择 SEXT 中立即数生成模式的控制信号
-// rf_we: RF 的写控制信号, 已经在 output 中定义
+wire        rf_we   ; // RF 的写控制信号, 由于不在输出中故需要定义
 wire [1:0]  wd_sel  ; // 选择写回寄存器的控制信号
 
 // EX
@@ -48,7 +46,7 @@ wire [31:0] npc_pc4 ; // NPC 生成的 PC + 4, 专门用于写回目的寄存器
 wire [31:0] sext_ext; // SEXT 生成的立即数
 wire [31:0] rf_rd1  ; // RF 读出的寄存器 1 的值
 // rf_rd2: RF 读出的寄存器 2 的值, 已经在 output 中定义
-// rf_wd: 由 ID 阶段的 RF 选择后输出出来的 rf.wd,  已经在 output 中定义
+// rf_wd: 由 ID 阶段的 RF 选择后输出出来的 rf.wd, 没必要再输出
 
 // EX
 // alu_c: ALU 的计算结果 ALU.C, 已经在 output 中定义
@@ -115,9 +113,8 @@ ID U_ID (
     .sext_ext  (sext_ext ),
     .rf_rd1    (rf_rd1   ),
     .rf_rd2    (rf_rd2   ),
-    .rf_wd     (rf_wd    ), // 内部把 wd 选出来之后又输出
 
-    .rD19      (rD19     )
+    .rD8       (rD8      )
 );
 
 EX U_EX (

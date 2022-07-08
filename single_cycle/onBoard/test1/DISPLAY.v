@@ -1,129 +1,227 @@
 module DISPLAY (
-    input  wire       clk   ,
-	input  wire       rst_n ,
+    input  wire        clk   ,
+	input  wire        rst_n ,
 
-    input  wire       busy  ,
+    input  wire [31:0] data  ,
 
-    input  wire [7:0] z1    ,
-    input  wire [7:0] r1    ,
-    input  wire [7:0] z2    ,
-    input  wire [7:0] r2    ,
-
-	output reg  [7:0] led_en,
-	output reg        led_ca,
-	output reg        led_cb,
-    output reg        led_cc,
-	output reg        led_cd,
-	output reg        led_ce,
-	output reg        led_cf,
-	output reg        led_cg,
-	output reg        led_dp
+	output reg  [7:0]  led_en,
+	output reg         led_ca,
+	output reg         led_cb,
+    output reg         led_cc,
+	output reg         led_cd,
+	output reg         led_ce,
+	output reg         led_cf,
+	output reg         led_cg,
+	output wire        led_dp
 );
 
-reg [2:0] led_cnt;
+assign led_dp = 1;
+
+reg [17:0] cnt;
+localparam CNT_END = 18'd199_999; // 设置为 2ms, 199_999: 18bit
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)    led_cnt <= 3'h0;
-    else if (busy) led_cnt <= 3'h0;
-    else           led_cnt <= led_cnt + 3'h1;
+    if (~rst_n) cnt <= 0;// 复位 变为 0
+    	else if (cnt == CNT_END) cnt <= 0; // 当到达限值时,也变为 0
+    	else cnt <= cnt + 1; // 计数
 end
 
-wire led0_en_d = ~(led_cnt == 3'h0);
-wire led1_en_d = ~(led_cnt == 3'h1);
-wire led2_en_d = ~(led_cnt == 3'h2);
-wire led3_en_d = ~(led_cnt == 3'h3);
-wire led4_en_d = ~(led_cnt == 3'h4);
-wire led5_en_d = ~(led_cnt == 3'h5);
-wire led6_en_d = ~(led_cnt == 3'h6);
-wire led7_en_d = ~(led_cnt == 3'h7);
-
+// 使能按照 2ms 的周期变化
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)
-        led_en <= 8'b1111_1111;
-    else
-        led_en <= {led7_en_d, led6_en_d, led5_en_d, led4_en_d, led3_en_d, led2_en_d, led1_en_d, led0_en_d};
+    if (~rst_n) led_en <= 8'b1111_1110;
+        else if (cnt == CNT_END) led_en <= {led_en[0], led_en[7:1]};
 end
 
-reg [3:0] led_display;
+reg [3:0] hex; // 一个 16 进制数字
 
+// 分解 data 到每一位上, data 的 4bit 对应 1 个 hex
 always @ (*) begin
-    case (led_cnt)
-        3'h7   : led_display = z1[7:4];
-        3'h6   : led_display = z1[3:0];
-        3'h5   : led_display = r1[7:4];
-        3'h4   : led_display = r1[3:0];
-        3'h3   : led_display = z2[7:4];
-        3'h2   : led_display = z2[3:0];
-        3'h1   : led_display = r2[7:4];
-        3'h0   : led_display = r2[3:0];
-        default: led_display = 4'h0;
-    endcase
+	case (led_en)
+		8'b0111_1111: hex = data[31:28];
+		8'b1011_1111: hex = data[27:24];
+		8'b1101_1111: hex = data[23:20];
+		8'b1110_1111: hex = data[19:16];
+		8'b1111_0111: hex = data[15:12];
+		8'b1111_1011: hex = data[11:8 ];
+	    8'b1111_1101: hex = data[7 :4 ];
+	    8'b1111_1110: hex = data[3 :0 ];
+	    default     : hex = 4'h0       ;
+	endcase
 end
 
-wire eq0 = (led_display == 4'h0);
-wire eq1 = (led_display == 4'h1);
-wire eq2 = (led_display == 4'h2);
-wire eq3 = (led_display == 4'h3);
-wire eq4 = (led_display == 4'h4);
-wire eq5 = (led_display == 4'h5);
-wire eq6 = (led_display == 4'h6);
-wire eq7 = (led_display == 4'h7);
-wire eq8 = (led_display == 4'h8);
-wire eq9 = (led_display == 4'h9);
-wire eqa = (led_display == 4'ha);
-wire eqb = (led_display == 4'hb);
-wire eqc = (led_display == 4'hc);
-wire eqd = (led_display == 4'hd);
-wire eqe = (led_display == 4'he);
-wire eqf = (led_display == 4'hf);
-
-wire led_ca_d = ~(eq0 | eq2 | eq3 | eq5 | eq6 | eq7 | eq8 | eq9 | eqa | eqc | eqe | eqf);
-wire led_cb_d = ~(eq0 | eq1 | eq2 | eq3 | eq4 | eq7 | eq8 | eq9 | eqa | eqd);
-wire led_cc_d = ~(eq0 | eq1 | eq3 | eq4 | eq5 | eq6 | eq7 | eq8 | eq9 | eqa | eqb | eqd);
-wire led_cd_d = ~(eq0 | eq2 | eq3 | eq5 | eq6 | eq8 | eq9 | eqb | eqc | eqd | eqe);
-wire led_ce_d = ~(eq0 | eq2 | eq6 | eq8 | eqa | eqb | eqc | eqd | eqe | eqf);
-wire led_cf_d = ~(eq0 | eq4 | eq5 | eq6 | eq8 | eq9 | eqa | eqb | eqc | eqe | eqf);
-wire led_cg_d = ~(eq2 | eq3 | eq4 | eq5 | eq6 | eq8 | eq9 | eqa | eqb | eqd | eqe | eqf);
-wire led_dp_d = 1;
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_ca <= 1'b0;
-    else        led_ca <= led_ca_d;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_cb <= 1'b0;
-    else        led_cb <= led_cb_d;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_cc <= 1'b0;
-    else        led_cc <= led_cc_d;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_cd <= 1'b0;
-    else        led_cd <= led_cd_d;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_ce <= 1'b0;
-    else        led_ce <= led_ce_d;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_cf <= 1'b0;
-    else        led_cf <= led_cf_d;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_cg <= 1'b0;
-    else        led_cg <= led_cg_d;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) led_dp <= 1'b1;
-    else        led_dp <= led_dp_d;
+// 七段数码管如何表示 hex
+always @ (*) begin
+	case (hex)
+		4'h0: begin
+			// 只有 g 不亮
+			led_ca = 0;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 1;
+		end
+		4'h1: begin
+			// 只有 b c 亮
+            led_ca = 1;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 1;
+			led_ce = 1;
+			led_cf = 1;
+			led_cg = 1;
+		end
+		4'h2: begin
+			// 只有 c f 不亮
+			led_ca = 0;
+			led_cb = 0;
+			led_cc = 1;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 1;
+			led_cg = 0;
+		end
+		4'h3: begin
+			// 只有 e f 不亮
+			led_ca = 0;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 1;
+			led_cf = 1;
+			led_cg = 0;
+		end
+		4'h4: begin
+			led_ca = 1;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 1;
+			led_ce = 1;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'h5: begin
+			// 只有 b e 不亮
+			led_ca = 0;
+			led_cb = 1;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 1;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'h6: begin
+			// 只有 b 不亮
+			led_ca = 0;
+			led_cb = 1;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'h7: begin
+			// 只有 a b c 亮
+			led_ca = 0;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 1;
+			led_ce = 1;
+			led_cf = 1;
+			led_cg = 1;
+		end
+		4'h8: begin
+			// 全都亮
+			led_ca = 0;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'h9: begin
+			// 只有 d e 不亮
+			led_ca = 0;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 1;
+			led_ce = 1;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'ha: begin
+		    // 只有 d 不亮
+		    led_ca = 0;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 1;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'hb: begin
+		    // 只有 a b 不亮
+		    led_ca = 1;
+			led_cb = 1;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'hc: begin
+		    // 只有 d e g 亮
+		    led_ca = 1;
+			led_cb = 1;
+			led_cc = 1;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 1;
+			led_cg = 0;
+		end
+		4'hd: begin
+		    // 只有 a f 不亮
+		    led_ca = 1;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 1;
+			led_cg = 0;
+		end
+		4'he: begin
+		    // 只有 b c 不亮
+		    led_ca = 0;
+			led_cb = 1;
+			led_cc = 1;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		4'hf: begin
+		    // 只有 b c d 不亮
+		    led_ca = 0;
+			led_cb = 1;
+			led_cc = 1;
+			led_cd = 1;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 0;
+		end
+		default: begin
+			// 默认为 8
+			led_ca = 0;
+			led_cb = 0;
+			led_cc = 0;
+			led_cd = 0;
+			led_ce = 0;
+			led_cf = 0;
+			led_cg = 0;
+		end
+	endcase
 end
 
 endmodule
