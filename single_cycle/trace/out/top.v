@@ -30,6 +30,7 @@ miniCPU U_miniCPU (
     .alu_c     (alu_c      ), // output
     .rf_rd2    (rf_rd2     ), // output
     .dram_rd   (dram_rd    ), // input
+
     .rf_we     (rf_we      ), // output
     .rf_wd     (rf_wd      )  // output
 );
@@ -69,6 +70,6 @@ assign debug_wb_ena       = rf_we; // 即 RF 的写控制信号
 // debug_wb_reg: WB 阶段写入的寄存器号 (若 wb_ena 或 wb_have_inst = 0, 此项可为任意值)
 assign debug_wb_reg       = irom_inst[11:7]; // 目的寄存器
 // debug_wb_value: WB 阶段写入寄存器的值 (若 wb_ena 或 wb_have_inst = 0, 此项可为任意值)
-assign debug_wb_value     = rf_wd; // 由 ID 阶段的 RF 选择后输出出来的 rf_wD
+assign debug_wb_value     = rf_wd; // 由 ID 阶段的 RF 选择后输出出来的 rf_wd
 
 endmodule

@@ -9,10 +9,14 @@
 
 ## 工程
 
-|          工程版本          | 是否有 debug 信号<br>（用于 trace 比对） | IROM 和 DRAM <br>是否在 cpu 模块外部 | 是否有拨码开关<br>和 led 灯的外设 | 是否有七段数码管外设 |         功能         |
-| :------------------------: | :--------------------------------------: | :----------------------------------: | :-------------------------------: | :------------------: | :------------------: |
-|   single_cycle_trace_in    |                    Y                     |                  N                   |                 N                 |          N           |      trace 比对      |
-|   single_cycle_trace_out   |                    Y                     |                  Y                   |                 N                 |          N           |      trace 比对      |
-| single_cycle_onBoard_test1 |                    N                     |                  Y                   |                 N                 |          Y           | 上板跑老师的测试程序 |
-| single_cycle_onBoard_test2 |                    N                     |                  Y                   |                 Y                 |          Y           | 上板跑自己的汇编程序 |
+- single_cycle
+  - trace
+    - in：IROM 和 DRAM 在 cpu 里面。
+    - out：IROM 和 DRAM 在 cpu 外面。
+  - onBoard
+    - test1：运行给定的 IROM 的指令，在数码管上显示 2500_0018。
+      - 在 out 的基础上，使用老师提供的 ip 核，增添了数码管的外设（偷懒直接显示 x8），删除了 debug 的输出。
+    - test2：将自己的汇编指令导入 IROM，实现计算器的功能。
+      - 在 test1 的基础上，增添了拨码开关和 led 灯的外设（正式的外设）。
+- pipeline
 

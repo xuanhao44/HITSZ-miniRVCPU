@@ -33,7 +33,7 @@ wire [31:0] alu_c    ;
 wire [31:0] rf_rd2   ;
 wire [31:0] dram_rd  ;
 
-// 时钟分频, 无 lock 和 rst, 目前输出 10MHz 供 miniCPU, IROM, DRAM 使用
+// 时钟分频, 无 lock 和 rst, 目前输出 10MHz 供 miniCPU, DRAM 使用
 clk_div U_clk_div (
     .clk_in1   (clk        ),
     .clk_out1  (clk_10m    )

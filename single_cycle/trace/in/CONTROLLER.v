@@ -24,13 +24,9 @@ module CONTROLLER #(
     output reg         dram_we
 );
 
-wire [6:0] opcode; // 使用 inst[6:2] 5bit 也行, 因为末尾都是 2'b11
-wire [2:0] funct3;
-wire [6:0] funct7;
-
-assign opcode = inst[6:0];
-assign funct3 = inst[14:12];
-assign funct7 = inst[31:25];
+wire [6:0] opcode = inst[6:0]; // 使用 inst[6:2] 5bit 也行, 因为末尾都是 2'b11
+wire [2:0] funct3 = inst[14:12];
+wire [6:0] funct7 = inst[31:25];
 
 // 选择 NPC.npc 输出的控制信号: npc_op
 always @ (*) begin

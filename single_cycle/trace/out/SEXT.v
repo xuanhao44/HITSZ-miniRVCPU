@@ -9,8 +9,7 @@ module SEXT (
     output reg  [31:0] ext
 );
 
-wire sgn;
-assign sgn = din[24];
+wire sgn = din[24];
 
 always @ (*) begin
     case (op)

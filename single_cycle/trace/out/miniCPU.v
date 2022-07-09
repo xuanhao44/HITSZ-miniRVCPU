@@ -1,15 +1,16 @@
 // use for trace
 module miniCPU (
-    input  wire        clk      ,
+input  wire        clk      ,
     input  wire        rst_n    ,
 
-    input  wire [31:0] dram_rd  ,
+    output wire [31:0] pc_pc    ,
     input  wire [31:0] irom_inst,
 
-    output wire [31:0] pc_pc    ,
+    output wire        dram_we  ,
     output wire [31:0] alu_c    ,
     output wire [31:0] rf_rd2   ,
-    output wire        dram_we  ,
+    input  wire [31:0] dram_rd  ,
+
     output wire        rf_we    ,
     output wire [31:0] rf_wd
 );
@@ -136,6 +137,5 @@ EX U_EX (
     .alu_zero  (alu_zero ),
     .alu_sgn   (alu_sgn  )
 );
-
 
 endmodule
