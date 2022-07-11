@@ -30,13 +30,13 @@ wire [6:0] funct7 = inst[31:25];
 
 // 选择 NPC.npc 输出的控制信号: npc_op
 always @ (*) begin
-    case(opcode)
+    case (opcode)
         OP_R, OP_I, OP_LOAD, OP_LUI, OP_S:
             npc_op = `PC_4;
         OP_JALR:
             npc_op = `RD1_IMM;
         OP_B: begin
-            case(funct3)
+            case (funct3)
                 3'b000:  npc_op = zero ? `PC_IMM : `PC_4; // beq
                 3'b001:  npc_op = zero ? `PC_4 : `PC_IMM; // bne
                 3'b100:  npc_op = sgn  ? `PC_IMM : `PC_4; // blt
@@ -53,7 +53,7 @@ end
 
 // 选择写回寄存器的控制信号: wd_sel
 always @ (*) begin
-    case(opcode)
+    case (opcode)
         OP_R, OP_I:
             wd_sel = `ALU_C   ;
         OP_LOAD:
@@ -69,7 +69,7 @@ end
 
 // 选择 SEXT 中立即数生成模式的控制信号: sext_op
 always @ (*) begin
-    case(opcode)
+    case (opcode)
         OP_I: begin
             case (funct3)
                 3'b000, 3'b111, 3'b110, 3'b100:
@@ -114,9 +114,9 @@ end
 
 // 选择 ALU 运算方式: alu_op
 always @ (*) begin
-    case(opcode)
+    case (opcode)
         OP_R: begin
-            case(funct3)
+            case (funct3)
                 3'b000 : alu_op = funct7[5] ? `SUB : `ADD;
                 3'b111 : alu_op = `AND;
                 3'b110 : alu_op = `OR ;
@@ -127,7 +127,7 @@ always @ (*) begin
             endcase
         end
         OP_I: begin
-            case(funct3)
+            case (funct3)
                 3'b000 : alu_op = `ADD;
                 3'b111 : alu_op = `AND;
                 3'b110 : alu_op = `OR ;

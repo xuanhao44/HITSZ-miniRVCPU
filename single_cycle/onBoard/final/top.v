@@ -1,5 +1,5 @@
 /*
- * 上板测试 2, 实现计算器
+ * 单周期 cpu + 外设最终测试
  */
 module top (
     input  wire        clk       ,

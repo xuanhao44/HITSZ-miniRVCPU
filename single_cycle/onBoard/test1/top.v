@@ -76,7 +76,7 @@ dram U_dram (
 
 DISPLAY U_DISPLAY (
     // input
-    .clk       (clk        ), // 七段数码管的时钟频率与 CPU 无关, 仍然是 100 MHz
+    .clk       (clk_10m    ),
     .rst_n     (rst_n      ),
 
     .data      (rD8        ), // 数据输入
