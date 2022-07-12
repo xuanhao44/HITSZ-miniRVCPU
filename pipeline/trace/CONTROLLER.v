@@ -1,3 +1,5 @@
+`include "param.v"
+
 module CONTROLLER #(
     localparam OP_R    = 7'b0110011,
     localparam OP_I    = 7'b0010011,
@@ -13,9 +15,9 @@ module CONTROLLER #(
 
     output reg  [1:0]  wd_sel,
     output reg  [3:0]  alu_op,
-    output wire        alub_sel,
-    output wire        rf_we,
-    output wire        dram_we,
+    output reg         alub_sel,
+    output reg         rf_we,
+    output reg         dram_we,
     output reg  [2:0]  sext_op,
     output wire [2:0]  branch,
     output wire [1:0]  jump,
@@ -25,7 +27,7 @@ module CONTROLLER #(
     output wire        have_inst
 );
 
-wire [6:0] opcode = inst[6:0];
+wire [6:0] opcode = inst[6 :0 ];
 wire [2:0] funct3 = inst[14:12];
 wire [6:0] funct7 = inst[31:25];
 
@@ -40,63 +42,105 @@ wire B    = (opcode == OP_B);
 
 assign have_inst = R | I | lw | lui | sw | jalr | jal | B;
 
+// 选择写回寄存器的控制信号: wd_sel
 always @ (*) begin
-    if (R)         wd_sel = 2'b00;
-    else if (I)    wd_sel = 2'b00;
-    else if (lw)   wd_sel = 2'b01;
-    else if (lui)  wd_sel = 2'b11;
-    else if (jalr) wd_sel = 2'b10;
-    else if (jal)  wd_sel = 2'b10;
-    else           wd_sel = 2'b00;
+    case (opcode)
+        OP_R, OP_I:
+            wd_sel = `ALU_C   ;
+        OP_LOAD:
+            wd_sel = `DRAM_RD ;
+        OP_LUI:
+            wd_sel = `SEXT_EXT;
+        OP_JAL, OP_JALR:
+            wd_sel = `NPC_PC4 ;
+        default:
+            wd_sel = `ALU_C   ;
+    endcase
 end
 
+// 选择 ALU 运算方式: alu_op
 always @ (*) begin
-    if (R) begin
-        case (funct3)
-            3'b000:  alu_op = funct7[5] ? 4'b0110 : 4'b0010;
-            3'b111:  alu_op = 4'b0000;
-            3'b110:  alu_op = 4'b0001;
-            3'b100:  alu_op = 4'b0101;
-            3'b001:  alu_op = 4'b1000;
-            3'b101:  alu_op = funct7[5] ? 4'b1011 : 4'b1010;
-            default: alu_op = 4'b0000;
-        endcase
-    end
-    else if (I) begin
-        case (funct3)
-            3'b000:  alu_op = 4'b0010;
-            3'b111:  alu_op = 4'b0000;
-            3'b110:  alu_op = 4'b0001;
-            3'b100:  alu_op = 4'b0101;
-            3'b001:  alu_op = 4'b1000;
-            3'b101:  alu_op = funct7[5] ? 4'b1011 : 4'b1010;
-            default: alu_op = 4'b0000;
-        endcase
-    end
-    else if (lw)   alu_op = 4'b0010;
-    else if (sw)   alu_op = 4'b0010;
-    else if (jalr) alu_op = 4'b0010;
-    else if (B)    alu_op = 4'b0110;
-    else           alu_op = 4'b0000;
+    case (opcode)
+        OP_R: begin
+            case (funct3)
+                3'b000 : alu_op = funct7[5] ? `SUB : `ADD;
+                3'b111 : alu_op = `AND;
+                3'b110 : alu_op = `OR ;
+                3'b100 : alu_op = `XOR;
+                3'b001 : alu_op = `SLL;
+                3'b101 : alu_op = funct7[5] ? `SRA : `SRL;
+                default: alu_op = `AND;
+            endcase
+        end
+        OP_I: begin
+            case (funct3)
+                3'b000 : alu_op = `ADD;
+                3'b111 : alu_op = `AND;
+                3'b110 : alu_op = `OR ;
+                3'b100 : alu_op = `XOR;
+                3'b001 : alu_op = `SLL;
+                3'b101 : alu_op = funct7[5] ? `SRA : `SRL;
+                default: alu_op = `AND;
+            endcase
+        end
+        OP_LOAD, OP_S, OP_JALR:
+            alu_op = `ADD;
+        OP_B:
+            alu_op = `SUB;
+        default:
+            alu_op = `AND;
+    endcase
 end
 
-assign alub_sel = (I | lw | sw | jalr);
-assign rf_we = have_inst & ~(sw | B);
-assign dram_we = sw;
-
+// 选择 ALU.B 输入的控制信号: alub_sel
 always @ (*) begin
-    if (I) begin
-        if (funct3 == 3'b000 || funct3 == 3'b111 || funct3 == 3'b110 || funct3 == 3'b100) sext_op = 3'b000;
-        else if (funct3 == 3'b001 || funct3 == 3'b101) sext_op = 3'b001;
-        else sext_op = 3'b000;
-    end
-    else if (lw)   sext_op = 3'b000;
-    else if (lui)  sext_op = 3'b011;
-    else if (sw)   sext_op = 3'b010;
-    else if (jalr) sext_op = 3'b000;
-    else if (B)    sext_op = 3'b100;
-    else if (jal)  sext_op = 3'b101;
-    else           sext_op = 3'b000;
+    case (opcode)
+        OP_I, OP_LOAD, OP_S, OP_JALR:
+            alub_sel = `ALU_B_SEXT_EXT;
+        default:
+            alub_sel = `ALU_B_RF_RD2;
+    endcase
+end
+
+// RF 的写控制信号: rf_we
+always @ (*) begin
+    if (opcode == OP_S) rf_we = `DISABLE;
+        else if (opcode == OP_B) rf_we = `DISABLE;
+        else rf_we = `ENABLE;
+end
+
+// DRAM 的写控制信号: dram_we
+always @ (*) begin
+    if (opcode == OP_S) dram_we = `WRITE;
+        else dram_we = `READ;
+end
+
+// 选择 SEXT 中立即数生成模式的控制信号: sext_op
+always @ (*) begin
+    case (opcode)
+        OP_I: begin
+            case (funct3)
+                3'b000, 3'b111, 3'b110, 3'b100:
+                    sext_op = `IMM_I; // addi, andi, ori, xori
+                3'b001, 3'b101:
+                    sext_op = `IMM_SHIFT; // slli,(srli, srai)
+                default:
+                    sext_op = `IMM_I;
+            endcase
+        end
+        OP_LOAD, OP_JALR:
+            sext_op = `IMM_I;
+        OP_LUI:
+            sext_op = `IMM_U;
+        OP_S:
+            sext_op = `IMM_S;
+        OP_B:
+            sext_op = `IMM_B;
+        OP_JAL:
+            sext_op = `IMM_J;
+        default:
+            sext_op = `IMM_I;
+    endcase
 end
 
 assign branch = {funct3[2], funct3[0], B}; // 00:beq; 01:bne; 10:blt; 11:bge

@@ -1,3 +1,5 @@
+`include "param.v"
+
 module ALU (
     input  wire        alub_sel,
     input  wire [3:0]  alu_op  ,
@@ -23,14 +25,14 @@ wire [4:0] shamt = B[4:0];
 
 always @ (*) begin
     case (alu_op)
-        4'b0000: C = A & B;
-        4'b0001: C = A | B;
-        4'b0010: C = A + B;
-        4'b0110: C = A + (~B) + 1; // A - B = A + B' + 1
-        4'b0101: C = A ^ B;
-        4'b1000: C = A << shamt;
-        4'b1010: C = A >> shamt;
-        4'b1011: C = $signed(A) >>> shamt; // $signed(A) 强调 A 有符号
+        `AND   : C = A & B;
+        `OR    : C = A | B;
+        `ADD   : C = A + B;
+        `SUB   : C = A + (~B) + 1; // A - B = A + B' + 1
+        `XOR   : C = A ^ B;
+        `SLL   : C = A << shamt;
+        `SRL   : C = A >> shamt;
+        `SRA   : C = $signed(A) >>> shamt; // $signed(A) 强调 A 有符号
         default: C = 32'b0;
     endcase
 end
