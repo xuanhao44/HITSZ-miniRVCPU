@@ -49,7 +49,7 @@ always @ (*) begin
 	endcase
 end
 
-// 七段数码管如何表示 hex
+// 七段数码管如何表示 hex 的方法 1
 always @ (*) begin
 	case (hex)
 		4'h0: begin
@@ -223,5 +223,31 @@ always @ (*) begin
 		end
 	endcase
 end
+
+// 七段数码管如何表示 hex 的方法 2, 可选用一种
+// wire eq0 = (hex == 4'h0);
+// wire eq1 = (hex == 4'h1);
+// wire eq2 = (hex == 4'h2);
+// wire eq3 = (hex == 4'h3);
+// wire eq4 = (hex == 4'h4);
+// wire eq5 = (hex == 4'h5);
+// wire eq6 = (hex == 4'h6);
+// wire eq7 = (hex == 4'h7);
+// wire eq8 = (hex == 4'h8);
+// wire eq9 = (hex == 4'h9);
+// wire eqa = (hex == 4'ha);
+// wire eqb = (hex == 4'hb);
+// wire eqc = (hex == 4'hc);
+// wire eqd = (hex == 4'hd);
+// wire eqe = (hex == 4'he);
+// wire eqf = (hex == 4'hf);
+
+// assign led_ca = ~(eq0 | eq2 | eq3 | eq5 | eq6 | eq7 | eq8 | eq9 | eqa | eqe | eqf); // 无 1 4 b c d
+// assign led_cb = ~(eq0 | eq1 | eq2 | eq3 | eq4 | eq7 | eq8 | eq9 | eqa | eqd); // 无 5 6 b c e f
+// assign led_cc = ~(eq0 | eq1 | eq3 | eq4 | eq5 | eq6 | eq7 | eq8 | eq9 | eqa | eqb | eqd); // 无 2 c e f
+// assign led_cd = ~(eq0 | eq2 | eq3 | eq5 | eq6 | eq8 | eqb | eqc | eqd | eqe); // 无 1 4 7 9 a f
+// assign led_ce = ~(eq0 | eq2 | eq6 | eq8 | eqa | eqb | eqc | eqd | eqe | eqf); // 无 1 3 4 5 7 9
+// assign led_cf = ~(eq0 | eq4 | eq5 | eq6 | eq8 | eq9 | eqa | eqb | eqe | eqf); // 无 1 2 3 7 c d
+// assign led_cg = ~(eq2 | eq3 | eq4 | eq5 | eq6 | eq8 | eq9 | eqa | eqb | eqc | eqd | eqe | eqf); // 无 0 1 7
 
 endmodule

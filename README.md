@@ -15,15 +15,14 @@
   - trace
     - in：IROM 和 DRAM 在 cpu 里面。
     - out：IROM 和 DRAM 在 cpu 外面。
-    - back：写完单周期上板实验后，基于 out 的修改版本。
+    - wrong_example：基于 out 修改产生的错误版本。
   - onBoard
     - test1：运行给定的 IROM 的指令，在数码管上显示 2500_0018。
       - 在 out 的基础上，使用老师提供的 ip 核，增添了数码管的外设（偷懒直接显示 x8），**删除了 debug 的输出**。
     - test2：将自己的汇编指令导入 IROM，实现计算器的功能。
-      - 在 test1 的基础上，增添了拨码开关和 led 灯的外设（正式的外设）。
-    - final：为测试 cpu 最大频率的版本。
-      - 在 test2 的基础上，将绝大多数寄存器变量修改为线网，减少寄存器延迟。
-    - test2 和 final 都设计好了外设，因此上板的两个实验（trace 上板、实现计算器）都可以是一样的代码，只不过需要修改 IROM 和 DRAM 的 IP 核。
+      - 在 test1 的基础上，增添了拨码开关和 led 灯的外设（正式的外设），提供了另一种数码管的 DISPLAY 方法（在注释中）。
+    - ~~final：为测试 cpu 最大频率的版本。在 test2 的基础上，将绝大多数寄存器变量修改为线网，减少寄存器延迟。~~
+    - test2 设计好了外设，因此上板的两个实验（trace 上板、实现计算器）都可以使用 test2 的代码，只不过需要修改 IROM 和 DRAM 的 IP 核。
 - pipeline
 
 ### single_cycle/trace/in
@@ -64,9 +63,9 @@
   - IROM
   - DRAM
 
-### single_cycle/trace/back
+### single_cycle/trace/wrong_example
 
-结构同 out，修改为同 onBoard/final 的寄存器改线网。
+结构同 out，修改为大多数寄存器改线网，使用大量 assign 和三目运算符。
 
 ### single_cycle/onBoard/test1
 
@@ -92,10 +91,6 @@
   - LedDriver：LED 外设。
   - DigitDriver：七段数码管外设。
     - DISPLAY：数码管的显示部件。
-
-### single_cycle/onBoard/final
-
-结构同 test2，修改为：大部分变量类型由寄存器类型改为线网类型。
 
 
 
