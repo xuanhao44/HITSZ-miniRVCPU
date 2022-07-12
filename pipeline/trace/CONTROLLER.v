@@ -24,23 +24,21 @@ module CONTROLLER #(
     output wire        re1, // whether rD1 will be used
     output wire        re2, // whether rD2 will be used
 
-    output wire        have_inst
+    output reg         have_inst
 );
 
 wire [6:0] opcode = inst[6 :0 ];
 wire [2:0] funct3 = inst[14:12];
 wire [6:0] funct7 = inst[31:25];
 
-wire R    = (opcode == OP_R);
-wire I    = (opcode == OP_I);
-wire lw   = (opcode == OP_LOAD);
-wire lui  = (opcode == OP_LUI);
-wire sw   = (opcode == OP_S);
-wire jalr = (opcode == OP_JALR);
-wire jal  = (opcode == OP_JAL);
-wire B    = (opcode == OP_B);
-
-assign have_inst = R | I | lw | lui | sw | jalr | jal | B;
+always @ (*) begin
+    case (opcode)
+        OP_R, OP_I, OP_LOAD, OP_S, OP_B, OP_LUI, OP_JAL, OP_JALR:
+            have_inst = 1'b1;
+        default:
+            have_inst = 1'b0;
+    endcase
+end
 
 // 选择写回寄存器的控制信号: wd_sel
 always @ (*) begin
@@ -143,10 +141,10 @@ always @ (*) begin
     endcase
 end
 
-assign branch = {funct3[2], funct3[0], B}; // 00:beq; 01:bne; 10:blt; 11:bge
-assign jump = {opcode[3], jalr | jal};     // 0:jalr; 1:jal
+assign branch = {funct3[2], funct3[0], (opcode == OP_B)}; // 00:beq; 01:bne; 10:blt; 11:bge
+assign jump = {opcode[3], (opcode == OP_JALR) | (opcode == OP_JAL)};     // 0:jalr; 1:jal
 
-assign re1 = have_inst & ~(lui | jal);
-assign re2 = (R | sw | B);
+assign re1 = ~((opcode == OP_LUI) | (opcode == OP_JAL));
+assign re2 = ((opcode == OP_R) | (opcode == OP_S) | (opcode == OP_B));
 
 endmodule
