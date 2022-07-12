@@ -61,11 +61,11 @@ wire [4:0]  wR_ID, wR_EX, wR_MEM, wR_WB;
 
 // ------------------------- debug for trace ------------------------- //
 
-wire [31:0] debug_pc_EX, debug_pc_MEM, debug_pc_WB;
-wire debug_have_inst_ID, debug_have_inst_EX, debug_have_inst_MEM, debug_have_inst_WB;
+wire [31:0] pc_EX, pc_MEM, pc_WB;
+wire have_inst_ID, have_inst_EX, have_inst_MEM, have_inst_WB;
 
-assign debug_wb_have_inst = debug_have_inst_WB;
-assign debug_wb_pc = debug_pc_WB;
+assign debug_wb_have_inst = have_inst_WB;
+assign debug_wb_pc = pc_WB;
 assign debug_wb_ena = rf_we_WB;
 assign debug_wb_reg = wR_WB;
 assign debug_wb_value = wD_WB;
@@ -214,7 +214,7 @@ CONTROLLER U_CONTROLLER (
     .re1        (re1_ID),
     .re2        (re2_ID),
 
-    .debug_have_inst    (debug_have_inst_ID)
+    .have_inst  (have_inst_ID)
 );
 
 REG_ID_EX U_REG_ID_EX (
@@ -267,11 +267,11 @@ REG_ID_EX U_REG_ID_EX (
     .rD1_op     (rD1_op),
     .rD2_op     (rD2_op),
 
-    .debug_pc_i         (pc_ID),
-    .debug_pc_o         (debug_pc_EX),
+    .pc_i         (pc_ID),
+    .pc_o         (pc_EX),
 
-    .debug_have_inst_i  (debug_have_inst_ID),
-    .debug_have_inst_o  (debug_have_inst_EX)
+    .have_inst_i  (have_inst_ID),
+    .have_inst_o  (have_inst_EX)
 );
 
 // ------------------------- ID ------------------------- //
@@ -343,11 +343,11 @@ REG_EX_MEM U_REG_EX_MEM (
     .rD2_i      (rD2_EX),
     .rD2_o      (rD2_MEM),
 
-    .debug_pc_i         (debug_pc_EX),
-    .debug_pc_o         (debug_pc_MEM),
+    .pc_i         (pc_EX),
+    .pc_o         (pc_MEM),
 
-    .debug_have_inst_i  (debug_have_inst_EX),
-    .debug_have_inst_o  (debug_have_inst_MEM)
+    .have_inst_i  (have_inst_EX),
+    .have_inst_o  (have_inst_MEM)
 );
 
 // ------------------------- EX ------------------------- //
@@ -382,11 +382,11 @@ REG_MEM_WB U_REG_MEM_WB (
     .wD_i       (wD_MEM),
     .wD_o       (wD_WB),
 
-    .debug_pc_i         (debug_pc_MEM),
-    .debug_pc_o         (debug_pc_WB),
+    .pc_i         (pc_MEM),
+    .pc_o         (pc_WB),
 
-    .debug_have_inst_i  (debug_have_inst_MEM),
-    .debug_have_inst_o  (debug_have_inst_WB)
+    .have_inst_i  (have_inst_MEM),
+    .have_inst_o  (have_inst_WB)
 );
 
 // ------------------------- MEM ------------------------- //

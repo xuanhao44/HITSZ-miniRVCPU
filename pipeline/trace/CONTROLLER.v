@@ -22,7 +22,7 @@ module CONTROLLER #(
     output wire        re1, // whether rD1 will be used
     output wire        re2, // whether rD2 will be used
 
-    output wire        debug_have_inst
+    output wire        have_inst
 );
 
 wire [6:0] opcode = inst[6:0];
@@ -38,9 +38,7 @@ wire jalr = (opcode == OP_JALR);
 wire jal  = (opcode == OP_JAL);
 wire B    = (opcode == OP_B);
 
-assign is_inst = R | I | lw | lui | sw | jalr | jal | B;
-
-assign debug_have_inst = is_inst;
+assign have_inst = R | I | lw | lui | sw | jalr | jal | B;
 
 always @ (*) begin
     if (R)         wd_sel = 2'b00;
@@ -83,7 +81,7 @@ always @ (*) begin
 end
 
 assign alub_sel = (I | lw | sw | jalr);
-assign rf_we = is_inst & ~(sw | B);
+assign rf_we = have_inst & ~(sw | B);
 assign dram_we = sw;
 
 always @ (*) begin
@@ -104,7 +102,7 @@ end
 assign branch = {funct3[2], funct3[0], B}; // 00:beq; 01:bne; 10:blt; 11:bge
 assign jump = {opcode[3], jalr | jal};     // 0:jalr; 1:jal
 
-assign re1 = is_inst & ~(lui | jal);
+assign re1 = have_inst & ~(lui | jal);
 assign re2 = (R | sw | B);
 
 endmodule

@@ -5,10 +5,10 @@ module REG_ID_EX (
     input  wire        flush,
 
     input  wire [1:0]  wd_sel_i,
-    output reg [1:0]   wd_sel_o,
+    output reg  [1:0]  wd_sel_o,
 
     input  wire [3:0]  alu_op_i,
-    output reg [3:0]   alu_op_o,
+    output reg  [3:0]  alu_op_o,
 
     input  wire        alub_sel_i,
     output reg         alub_sel_o,
@@ -20,51 +20,51 @@ module REG_ID_EX (
     output reg         dram_we_o,
 
     input  wire [2:0]  branch_i,
-    output reg [2:0]   branch_o,
+    output reg  [2:0]  branch_o,
 
     input  wire [1:0]  jump_i,
-    output reg [1:0]   jump_o,
+    output reg  [1:0]  jump_o,
 
     input  wire [31:0] pcimm_i,
-    output reg [31:0]  pcimm_o,
+    output reg  [31:0] pcimm_o,
 
     input  wire [31:0] rD1_i,
-    output reg [31:0]  rD1_o,
+    output reg  [31:0] rD1_o,
 
     input  wire [31:0] rD2_i,
-    output reg [31:0]  rD2_o,
+    output reg  [31:0] rD2_o,
 
     input  wire [31:0] imm_i,
-    output reg [31:0]  imm_o,
+    output reg  [31:0] imm_o,
 
     input  wire [31:0] wD_i,
-    output reg [31:0]  wD_o,
+    output reg  [31:0] wD_o,
 
     input  wire [4:0]  wR_i,
-    output reg [4:0]   wR_o,
+    output reg  [4:0]  wR_o,
 
     input  wire [31:0] rD1_f, // forwarding
     input  wire [31:0] rD2_f, // forwarding
     input  wire        rD1_op,
     input  wire        rD2_op,
 
-    input  wire [31:0] debug_pc_i,
-    output reg  [31:0] debug_pc_o,
+    input  wire [31:0] pc_i,
+    output reg  [31:0] pc_o,
 
-    input  wire        debug_have_inst_i,
-    output reg         debug_have_inst_o
+    input  wire        have_inst_i,
+    output reg         have_inst_o
 );
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)     debug_pc_o <= 32'b0;
-    else if (flush) debug_pc_o <= 32'b0;
-    else            debug_pc_o <= debug_pc_i;
+    if (~rst_n)     pc_o <= 32'b0;
+    else if (flush) pc_o <= 32'b0;
+    else            pc_o <= pc_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)     debug_have_inst_o <= 1'b0;
-    else if (flush) debug_have_inst_o <= 1'b0;
-    else            debug_have_inst_o <= debug_have_inst_i;
+    if (~rst_n)     have_inst_o <= 1'b0;
+    else if (flush) have_inst_o <= 1'b0;
+    else            have_inst_o <= have_inst_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin

@@ -11,21 +11,21 @@ module REG_MEM_WB (
     input  wire [31:0] wD_i,
     output reg  [31:0] wD_o,
 
-    input  wire [31:0] debug_pc_i,
-    output reg  [31:0] debug_pc_o,
+    input  wire [31:0] pc_i,
+    output reg  [31:0] pc_o,
 
-    input  wire        debug_have_inst_i,
-    output reg         debug_have_inst_o
+    input  wire        have_inst_i,
+    output reg         have_inst_o
 );
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) debug_pc_o <= 32'b0;
-    else        debug_pc_o <= debug_pc_i;
+    if (~rst_n) pc_o <= 32'b0;
+    else        pc_o <= pc_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) debug_have_inst_o <= 1'b0;
-    else        debug_have_inst_o <= debug_have_inst_i;
+    if (~rst_n) have_inst_o <= 1'b0;
+    else        have_inst_o <= have_inst_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
