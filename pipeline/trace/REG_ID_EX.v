@@ -25,8 +25,8 @@ module REG_ID_EX (
     input  wire [1:0]  jump_i,
     output reg  [1:0]  jump_o,
 
-    input  wire [31:0] pcimm_i,
-    output reg  [31:0] pcimm_o,
+    input  wire [31:0] pc_imm_i,
+    output reg  [31:0] pc_imm_o,
 
     input  wire [31:0] rD1_i,
     output reg  [31:0] rD1_o,
@@ -110,8 +110,8 @@ always @ (posedge clk or negedge rst_n) begin
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) pcimm_o <= 32'b0;
-    else        pcimm_o <= pcimm_i;
+    if (~rst_n) pc_imm_o <= 32'b0;
+    else        pc_imm_o <= pc_imm_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin

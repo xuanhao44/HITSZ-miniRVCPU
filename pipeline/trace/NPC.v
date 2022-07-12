@@ -9,6 +9,6 @@ module NPC (
 
 assign pc4 = pc + 4;
 
-assign npc = (op == 1'b0) ? pc4 : npc_bj;
+assign npc = op ? npc_bj : pc4;
 
 endmodule

@@ -1,4 +1,4 @@
-module MUX1 (
+module WD_MUX1 (
     input  wire [1:0]  wd_sel,
     input  wire [31:0] wD    ,
     input  wire [31:0] imm   ,
@@ -8,9 +8,9 @@ module MUX1 (
 );
 
 always @ (*) begin
-    if (wd_sel == 2'b11)      wD_o = imm;
-    else if (wd_sel == 2'b00) wD_o = alu_c;
-    else                      wD_o = wD;
+    if (wd_sel == `SEXT_EXT)   wD_o = imm;
+    else if (wd_sel == `ALU_C) wD_o = alu_c;
+    else                       wD_o = wD;
 end
 
 endmodule
