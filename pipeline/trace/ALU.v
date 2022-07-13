@@ -1,20 +1,16 @@
 `include "param.v"
 
 module ALU (
-    input  wire        alub_sel,
-    input  wire [3:0]  alu_op  ,
+    // 控制信号
+    input  wire [3:0]  op  ,
+    // 数据信号
+    input  wire [31:0] A   ,
+    input  wire [31:0] B   ,
 
-    input  wire [31:0] rD1     ,
-    input  wire [31:0] rD2     ,
-    input  wire [31:0] imm     ,
-
-    output reg  [31:0] C       ,
-    output wire        zero    ,
+    output reg  [31:0] C   ,
+    output wire        zero,
     output wire        sgn
 );
-
-wire [31:0] A = rD1;
-wire [31:0] B = (alub_sel == 1'b0) ? rD2 : imm;
 
 /*
  * 简单的说, 在 RV-32I 中, 实现移位指令时, B 有用的位数只有低五位
@@ -24,7 +20,7 @@ wire [31:0] B = (alub_sel == 1'b0) ? rD2 : imm;
 wire [4:0] shamt = B[4:0];
 
 always @ (*) begin
-    case (alu_op)
+    case (op)
         `AND   : C = A & B;
         `OR    : C = A | B;
         `ADD   : C = A + B;
@@ -38,6 +34,6 @@ always @ (*) begin
 end
 
 assign zero = (C == 32'b0) ? 1'b1 : 1'b0;
-assign sgn = C[31];
+assign sgn  = C[31];
 
 endmodule

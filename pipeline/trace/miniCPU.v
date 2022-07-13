@@ -1,43 +1,35 @@
 module miniCPU (
-    input  wire        clk,
-    input  wire        rst_n,
+    input  wire        clk               ,
+    input  wire        rst_n             ,
 
-    output wire [31:0] pc_pc,
-    input  wire [31:0] irom_inst,
+    output wire [31:0] pc_pc             ,
+    input  wire [31:0] irom_inst         ,
 
-    output wire        dram_we,
-    output wire [31:0] addr,
-    output wire [31:0] write_data,
-    input  wire [31:0] read_data,
+    output wire        dram_we           ,
+    output wire [31:0] addr              ,
+    output wire [31:0] write_data        ,
+    input  wire [31:0] read_data         ,
 
     output wire        debug_wb_have_inst,
-    output wire [31:0] debug_wb_pc,
-    output wire        debug_wb_ena,
-    output wire [4:0]  debug_wb_reg,
+    output wire [31:0] debug_wb_pc       ,
+    output wire        debug_wb_ena      ,
+    output wire [4:0]  debug_wb_reg      ,
     output wire [31:0] debug_wb_value
 );
 
 /*
  *  控制信号
  */
-// npc_op: 选择 NPC.npc 输出的控制信号
-wire npc_op_EX;
-// wd_sel: 选择 SEXT 中立即数生成模式的控制信号
+
+wire npc_op;
 wire [1:0] wd_sel_ID, wd_sel_EX, wd_sel_MEM;
-// rf_we: RF 的写控制信号
 wire rf_we_ID, rf_we_EX, rf_we_MEM, rf_we_WB;
-// alub_sel: 选择 ALU.B 输入的控制信号
 wire alub_sel_ID, alub_sel_EX;
-// dram_we: DRAM 的写控制信号
 wire dram_we_ID, dram_we_EX, dram_we_MEM;
-// sext_op: 选择 SEXT 中立即数生成模式的控制信号
 wire [2:0] sext_op_ID, sext_op_EX;
-// alu_op: 选择 ALU 运算方式
 wire [3:0] alu_op_ID, alu_op_EX;
-// zero: ALU.C 判 0 信号, 输入控制器
-wire zero_EX;
-// sgn: ALU.C 符号 信号, 输入控制器
-wire sgn_EX;
+wire zero;
+wire sgn;
 
 wire [2:0] branch_ID, branch_EX;
 wire [1:0] jump_ID, jump_EX;
@@ -47,16 +39,18 @@ wire [1:0] jump_ID, jump_EX;
  */
 
 wire [31:0] pc_imm_ID, pc_imm_EX;
-wire [31:0] npc, npc_bj_EX;
+wire [31:0] npc;
+wire [31:0] npc_change;
 wire [31:0] pc_IF, pc_ID;
-wire [31:0] pc4_IF, pc4_ID;
+wire [31:0] pc4_IF, pc4_ID, pc4_EX;
 wire [31:0] inst_IF, inst_ID;
 wire [31:0] imm_ID, imm_EX;
 wire [31:0] rD1_ID, rD1_EX;
 wire [31:0] rD2_ID, rD2_EX, rD2_MEM;
+wire [31:0] alu_b;
 wire [31:0] alu_c_EX, alu_c_MEM;
-wire [31:0] dram_rd_MEM;
-wire [31:0] wD_EX, wD_EX_tmp, wD_MEM, wD_MEM_tmp, wD_WB;
+wire [31:0] dram_rd;
+wire [31:0] wD_EX, wD_MEM, wD_MEM_temp, wD_WB;
 wire [4:0]  wR_ID, wR_EX, wR_MEM, wR_WB;
 
 // ------------------------- debug for trace ------------------------- //
@@ -65,17 +59,17 @@ wire [31:0] pc_EX, pc_MEM, pc_WB;
 wire have_inst_ID, have_inst_EX, have_inst_MEM, have_inst_WB;
 
 assign debug_wb_have_inst = have_inst_WB;
-assign debug_wb_pc = pc_WB;
-assign debug_wb_ena = rf_we_WB;
-assign debug_wb_reg = wR_WB;
-assign debug_wb_value = wD_WB;
+assign debug_wb_pc        = pc_WB;
+assign debug_wb_ena       = rf_we_WB;
+assign debug_wb_reg       = wR_WB;
+assign debug_wb_value     = wD_WB;
 
 // ------------------------- debug for trace ------------------------- //
 
 // ------------------------- keep & FLUSH & FORWARDING ------------------------- //
 
-wire re1_ID, re2_ID;
-wire [31:0] rD1_f, rD2_f;
+wire rD1_used, rD2_used;
+wire [31:0] rD1_forward, rD2_forward;
 wire rD1_op, rD2_op;
 wire keep_PC, keep_IF_ID, keep_ID_EX, keep_EX_MEM, keep_MEM_WB;
 wire flush_IF_ID, flush_ID_EX, flush_EX_MEM, flush_MEM_WB;
@@ -87,8 +81,8 @@ HAZARDKILLER U_HAZARDKILLER (
 
     .wd_sel         (wd_sel_EX     ),
 
-    .re1_ID         (re1_ID        ),
-    .re2_ID         (re2_ID        ),
+    .rD1_used       (rD1_used      ),
+    .rD2_used       (rD2_used      ),
 
     .rf_we_EX       (rf_we_EX      ),
     .rf_we_MEM      (rf_we_MEM     ),
@@ -105,7 +99,7 @@ HAZARDKILLER U_HAZARDKILLER (
     .wD_MEM         (wD_MEM        ),
     .wD_WB          (wD_WB         ),
 
-    .npc_op         (npc_op_EX     ),
+    .npc_op         (npc_op        ),
 
     // output
     .keep_PC        (keep_PC       ),
@@ -119,11 +113,10 @@ HAZARDKILLER U_HAZARDKILLER (
     .flush_EX_MEM   (flush_EX_MEM  ),
     .flush_MEM_WB   (flush_MEM_WB  ),
 
-    .rD1_f          (rD1_f         ),
-    .rD2_f          (rD2_f         ),
-
     .rD1_op         (rD1_op        ),
-    .rD2_op         (rD2_op        )
+    .rD2_op         (rD2_op        ),
+    .rD1_forward    (rD1_forward   ),
+    .rD2_forward    (rD2_forward   )
 );
 
 // ------------------------- keep & FLUSH & FORWARDING ------------------------- //
@@ -144,14 +137,17 @@ PC U_PC (
 
 NPC U_NPC (
     // input
-    .op          (npc_op_EX  ),
+    .op          (npc_op     ),
     .pc          (pc_IF      ),
-    .npc_bj      (npc_bj_EX  ),
+    .npc_change  (npc_change ),
 
     // output
     .npc         (npc        ),
     .pc4         (pc4_IF     )
 );
+
+assign pc_pc = pc_IF;
+assign inst_IF = irom_inst;
 
 REG_IF_ID U_REG_IF_ID (
     .clk         (clk        ),
@@ -170,14 +166,9 @@ REG_IF_ID U_REG_IF_ID (
     .inst_o      (inst_ID    )
 );
 
-assign pc_pc = pc_IF;
-assign inst_IF = irom_inst;
-
 // ------------------------- IF ------------------------- //
 
 // ------------------------- ID ------------------------- //
-
-assign wR_ID = inst_ID[11:7];
 
 CONTROLLER U_CONTROLLER (
     // input
@@ -192,8 +183,9 @@ CONTROLLER U_CONTROLLER (
     .sext_op     (sext_op_ID    ),
     .branch      (branch_ID     ),
     .jump        (jump_ID       ),
-    .re1         (re1_ID        ),
-    .re2         (re2_ID        ),
+
+    .rD1_used    (rD1_used      ),
+    .rD2_used    (rD2_used      ),
 
     .have_inst   (have_inst_ID  )
 );
@@ -206,8 +198,6 @@ SEXT U_SEXT (
     // output
     .ext         (imm_ID        )
 );
-
-assign pc_imm_ID = pc_ID + imm_ID;
 
 RF U_RF (
     // input
@@ -225,6 +215,9 @@ RF U_RF (
     .rD1         (rD1_ID        ),
     .rD2         (rD2_ID        )
 );
+
+assign wR_ID = inst_ID[11:7];
+assign pc_imm_ID = pc_ID + imm_ID;
 
 REG_ID_EX U_REG_ID_EX (
     .clk         (clk           ),
@@ -256,26 +249,27 @@ REG_ID_EX U_REG_ID_EX (
     .pc_imm_i    (pc_imm_ID     ),
     .pc_imm_o    (pc_imm_EX     ),
 
+    .imm_i       (imm_ID        ),
+    .imm_o       (imm_EX        ),
+
+    .pc4_i       (pc4_ID        ),
+    .pc4_o       (pc4_EX        ),
+
+    .wR_i        (wR_ID         ),
+    .wR_o        (wR_EX         ),
+
     .rD1_i       (rD1_ID        ),
     .rD1_o       (rD1_EX        ),
 
     .rD2_i       (rD2_ID        ),
     .rD2_o       (rD2_EX        ),
 
-    .imm_i       (imm_ID        ),
-    .imm_o       (imm_EX        ),
-
-    .wD_i        (pc4_ID        ),
-    .wD_o        (wD_EX_tmp     ),
-
-    .wR_i        (wR_ID         ),
-    .wR_o        (wR_EX         ),
-
-    .rD1_f       (rD1_f         ),
-    .rD2_f       (rD2_f         ),
     .rD1_op      (rD1_op        ),
     .rD2_op      (rD2_op        ),
+    .rD1_forward (rD1_forward   ),
+    .rD2_forward (rD2_forward   ),
 
+    // debug in/out
     .pc_i        (pc_ID         ),
     .pc_o        (pc_EX         ),
 
@@ -287,19 +281,26 @@ REG_ID_EX U_REG_ID_EX (
 
 // ------------------------- EX ------------------------- //
 
-ALU U_ALU (
+ALU_MUX U_ALU_MUX (
     // input
     .alub_sel    (alub_sel_EX  ),
-    .alu_op      (alu_op_EX    ),
-
-    .rD1         (rD1_EX       ),
     .rD2         (rD2_EX       ),
     .imm         (imm_EX       ),
+    // output
+    .alu_b       (alu_b        )
+);
+
+ALU U_ALU (
+    // input
+    .op          (alu_op_EX    ),
+
+    .A           (rD1_EX       ),
+    .B           (alu_b        ),
 
     // output
     .C           (alu_c_EX     ),
-    .zero        (zero_EX      ),
-    .sgn         (sgn_EX       )
+    .zero        (zero         ),
+    .sgn         (sgn          )
 );
 
 NPC_CONTROL U_NPC_CONTROL (
@@ -308,8 +309,8 @@ NPC_CONTROL U_NPC_CONTROL (
     .branch      (branch_EX    ),
     .jump        (jump_EX      ),
     // from EX - ALU
-    .zero        (zero_EX      ),
-    .sgn         (sgn_EX       ),
+    .zero        (zero         ),
+    .sgn         (sgn          ),
     // from ID - adder
     .pc_imm      (pc_imm_EX    ),
     // from EX - ALU
@@ -317,19 +318,19 @@ NPC_CONTROL U_NPC_CONTROL (
 
     // output
     // to IF - NPC
-    .npc_op      (npc_op_EX    ),
-    .npc_bj      (npc_bj_EX    )
+    .npc_op      (npc_op       ),
+    .npc_change  (npc_change   )
 );
 
 WD_MUX1 U_WD_MUX1 (
     // input
     .wd_sel      (wd_sel_EX    ),
-    .wD          (wD_EX_tmp    ),
+    .pc4         (pc4_EX       ),
     .imm         (imm_EX       ),
     .alu_c       (alu_c_EX     ),
 
     // output
-    .wD_o        (wD_EX        )
+    .wD          (wD_EX        )
 );
 
 REG_EX_MEM U_REG_EX_MEM (
@@ -349,7 +350,7 @@ REG_EX_MEM U_REG_EX_MEM (
     .wR_o        (wR_MEM       ),
 
     .wD_i        (wD_EX        ),
-    .wD_o        (wD_MEM_tmp   ),
+    .wD_o        (wD_MEM_temp  ),
 
     .alu_c_i     (alu_c_EX     ),
     .alu_c_o     (alu_c_MEM    ),
@@ -357,6 +358,7 @@ REG_EX_MEM U_REG_EX_MEM (
     .rD2_i       (rD2_EX       ),
     .rD2_o       (rD2_MEM      ),
 
+    // debug in/out
     .pc_i        (pc_EX        ),
     .pc_o        (pc_MEM       ),
 
@@ -371,16 +373,16 @@ REG_EX_MEM U_REG_EX_MEM (
 assign dram_we     = dram_we_MEM;
 assign addr        = alu_c_MEM  ;
 assign write_data  = rD2_MEM    ;
-assign dram_rd_MEM = read_data  ;
+assign dram_rd     = read_data  ;
 
 WD_MUX2 U_WD_MUX2 (
     // input
     .wd_sel      (wd_sel_MEM   ),
-    .dram_rd     (dram_rd_MEM  ),
-    .wD          (wD_MEM_tmp   ),
+    .dram_rd     (dram_rd      ),
+    .wD_temp     (wD_MEM_temp  ),
 
     // output
-    .wD_o        (wD_MEM       )
+    .wD          (wD_MEM       )
 );
 
 REG_MEM_WB U_REG_MEM_WB (
@@ -396,6 +398,7 @@ REG_MEM_WB U_REG_MEM_WB (
     .wD_i        (wD_MEM       ),
     .wD_o        (wD_WB        ),
 
+    // debug in/out
     .pc_i        (pc_MEM       ),
     .pc_o        (pc_WB        ),
 

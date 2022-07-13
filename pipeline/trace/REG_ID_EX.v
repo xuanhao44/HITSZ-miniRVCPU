@@ -28,26 +28,28 @@ module REG_ID_EX (
     input  wire [31:0] pc_imm_i,
     output reg  [31:0] pc_imm_o,
 
+    input  wire [31:0] imm_i,
+    output reg  [31:0] imm_o,
+
+    input  wire [31:0] pc4_i,
+    output reg  [31:0] pc4_o,
+
+    input  wire [4:0]  wR_i,
+    output reg  [4:0]  wR_o,
+
     input  wire [31:0] rD1_i,
     output reg  [31:0] rD1_o,
 
     input  wire [31:0] rD2_i,
     output reg  [31:0] rD2_o,
 
-    input  wire [31:0] imm_i,
-    output reg  [31:0] imm_o,
-
-    input  wire [31:0] wD_i,
-    output reg  [31:0] wD_o,
-
-    input  wire [4:0]  wR_i,
-    output reg  [4:0]  wR_o,
-
-    input  wire [31:0] rD1_f, // forwarding
-    input  wire [31:0] rD2_f, // forwarding
+    // forwarding
     input  wire        rD1_op,
     input  wire        rD2_op,
+    input  wire [31:0] rD1_forward,
+    input  wire [31:0] rD2_forward,
 
+    // debug
     input  wire [31:0] pc_i,
     output reg  [31:0] pc_o,
 
@@ -65,6 +67,18 @@ always @ (posedge clk or negedge rst_n) begin
     if (~rst_n)     have_inst_o <= 1'b0;
     else if (flush) have_inst_o <= 1'b0;
     else            have_inst_o <= have_inst_i;
+end
+
+always @ (posedge clk or negedge rst_n) begin
+    if (~rst_n)      rD1_o <= 32'b0;
+    else if (rD1_op) rD1_o <= rD1_forward;
+    else             rD1_o <= rD1_i;
+end
+
+always @ (posedge clk or negedge rst_n) begin
+    if (~rst_n)      rD2_o <= 32'b0;
+    else if (rD2_op) rD2_o <= rD2_forward;
+    else             rD2_o <= rD2_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
@@ -98,9 +112,9 @@ always @ (posedge clk or negedge rst_n) begin
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)      branch_o <= 3'b0;
-    else if (flush)  branch_o <= 3'b0;
-    else             branch_o <= branch_i;
+    if (~rst_n)     branch_o <= 3'b0;
+    else if (flush) branch_o <= 3'b0;
+    else            branch_o <= branch_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
@@ -115,25 +129,13 @@ always @ (posedge clk or negedge rst_n) begin
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)      rD1_o <= 32'b0;
-    else if (rD1_op) rD1_o <= rD1_f;
-    else             rD1_o <= rD1_i;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)      rD2_o <= 32'b0;
-    else if (rD2_op) rD2_o <= rD2_f;
-    else             rD2_o <= rD2_i;
-end
-
-always @ (posedge clk or negedge rst_n) begin
     if (~rst_n) imm_o <= 32'b0;
     else        imm_o <= imm_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) wD_o <= 32'b0;
-    else        wD_o <= wD_i;
+    if (~rst_n) pc4_o <= 32'b0;
+    else        pc4_o <= pc4_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin

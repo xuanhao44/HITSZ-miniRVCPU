@@ -1,13 +1,16 @@
 module NPC_CONTROL (
-    input  wire [2:0]  branch,
-    input  wire [1:0]  jump  ,
-    input  wire        zero  ,
-    input  wire        sgn   ,
-    input  wire [31:0] pc_imm,
-    input  wire [31:0] alu_c ,
+    input  wire [2:0]  branch    ,
+    input  wire [1:0]  jump      ,
 
-    output reg         npc_op,
-    output reg  [31:0] npc_bj
+    input  wire        zero      ,
+    input  wire        sgn       ,
+
+    input  wire [31:0] pc_imm    ,
+
+    input  wire [31:0] alu_c     ,
+
+    output reg         npc_op    ,
+    output reg  [31:0] npc_change
 );
 
 always @ (*) begin
@@ -24,8 +27,8 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (jump == 2'b01) npc_bj = {alu_c[31:1], 1'b0}; // jalr
-    else               npc_bj = pc_imm; // branch, jal
+    if (jump == 2'b01) npc_change = {alu_c[31:1], 1'b0}; // jalr: rd1 + imm
+    else               npc_change = pc_imm; // branch, jal
 end
 
 endmodule

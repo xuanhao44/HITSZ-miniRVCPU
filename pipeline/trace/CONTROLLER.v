@@ -11,18 +11,20 @@ module CONTROLLER #(
     localparam OP_JALR = 7'b1100111
 )
 (
-    input  wire [31:0] inst,
+    input  wire [31:0] inst     ,
 
-    output reg  [1:0]  wd_sel,
-    output reg  [3:0]  alu_op,
-    output reg         alub_sel,
-    output reg         rf_we,
-    output reg         dram_we,
-    output reg  [2:0]  sext_op,
-    output wire [2:0]  branch,
-    output wire [1:0]  jump,
-    output wire        re1, // whether rD1 will be used
-    output wire        re2, // whether rD2 will be used
+    output reg  [1:0]  wd_sel   ,
+    output reg  [3:0]  alu_op   ,
+    output reg         alub_sel ,
+    output reg         rf_we    ,
+    output reg         dram_we  ,
+    output reg  [2:0]  sext_op  ,
+    output wire [2:0]  branch   ,
+    output wire [1:0]  jump     ,
+
+    // whether rD1/rD2 will be used
+    output wire        rD1_used ,
+    output wire        rD2_used ,
 
     output reg         have_inst
 );
@@ -30,6 +32,12 @@ module CONTROLLER #(
 wire [6:0] opcode = inst[6 :0 ];
 wire [2:0] funct3 = inst[14:12];
 wire [6:0] funct7 = inst[31:25];
+
+assign branch = {funct3[2], funct3[0], (opcode == OP_B)}; // 00:beq; 01:bne; 10:blt; 11:bge
+assign jump = {opcode[3], (opcode == OP_JALR) | (opcode == OP_JAL)}; // 0:jalr; 1:jal
+
+assign rD1_used = ~((opcode == OP_LUI) | (opcode == OP_JAL));
+assign rD2_used = ((opcode == OP_R) | (opcode == OP_S) | (opcode == OP_B));
 
 always @ (*) begin
     case (opcode)
@@ -140,11 +148,5 @@ always @ (*) begin
             sext_op = `IMM_I;
     endcase
 end
-
-assign branch = {funct3[2], funct3[0], (opcode == OP_B)}; // 00:beq; 01:bne; 10:blt; 11:bge
-assign jump = {opcode[3], (opcode == OP_JALR) | (opcode == OP_JAL)};     // 0:jalr; 1:jal
-
-assign re1 = ~((opcode == OP_LUI) | (opcode == OP_JAL));
-assign re2 = ((opcode == OP_R) | (opcode == OP_S) | (opcode == OP_B));
 
 endmodule

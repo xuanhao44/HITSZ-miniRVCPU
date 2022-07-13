@@ -19,38 +19,42 @@ wire [31:0] read_data ;
 
 inst_mem imem (
     // input
-    .a          (pc_pc[15:2]),  // input wire [13:0] a
+    .a                  (pc_pc[15:2]       ),  // input wire [13:0] a
     // output
-    .spo        (irom_inst  )   // output wire [31:0] spo
+    .spo                (irom_inst         )   // output wire [31:0] spo
 );
 
-miniCPU miniCPU_U (
-    .clk            (clk       ),
-    .rst_n          (rst_n     ),
+miniCPU U_miniCPU (
+    .clk                (clk               ),
+    .rst_n              (rst_n             ),
 
-    .pc_pc          (pc_pc     ), // output
-    .irom_inst      (irom_inst ), // input
+    // 连接 IROM
+    .pc_pc              (pc_pc             ), // output
+    .irom_inst          (irom_inst         ), // input
 
-    .dram_we        (dram_we   ), // output
-    .addr           (addr      ), // output
-    .write_data     (write_data), // output
-    .read_data      (read_data ), // input
+    // 连接 MEM
+    .dram_we            (dram_we           ), // output
+    .addr               (addr              ), // output
+    .write_data         (write_data        ), // output
+    .read_data          (read_data         ), // input
 
     .debug_wb_have_inst (debug_wb_have_inst),
-    .debug_wb_pc        (debug_wb_pc),
-    .debug_wb_ena       (debug_wb_ena),
-    .debug_wb_reg       (debug_wb_reg),
-    .debug_wb_value     (debug_wb_value)
+    .debug_wb_pc        (debug_wb_pc       ),
+    .debug_wb_ena       (debug_wb_ena      ),
+    .debug_wb_reg       (debug_wb_reg      ),
+    .debug_wb_value     (debug_wb_value    )
 );
 
-data_mem dmem (
+// 包装一下 dram
+MEM U_MEM (
     // input
-    .clk    (clk       ), // input  wire clka
-    .we     (dram_we   ), // input  wire [0:0] wea
-    .a      (addr[15:2]), // input  wire [13:0] addra
-    .d      (write_data), // input  wire [31:0] dina
+    .clk                (clk               ),
+    .mem_we             (dram_we           ),
+
+    .mem_addr           (addr              ),
+    .mem_write_data     (write_data        ),
     // output
-    .spo    (read_data )  // output wire [31:0] douta
+    .mem_read_data      (read_data         )
 );
 
 endmodule

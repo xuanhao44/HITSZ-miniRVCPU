@@ -18,21 +18,21 @@ module REG_IF_ID (
 always @ (posedge clk or negedge rst_n) begin
     if (~rst_n)     pc_o <= 32'b0;
     else if (flush) pc_o <= 32'b0;
-    else if (keep) pc_o <= pc_o;
+    else if (keep)  pc_o <= pc_o;
     else            pc_o <= pc_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
     if (~rst_n)     pc4_o <= 32'b0;
     else if (flush) pc4_o <= 32'b0;
-    else if (keep) pc4_o <= pc4_o;
+    else if (keep)  pc4_o <= pc4_o;
     else            pc4_o <= pc4_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
     if (~rst_n)     inst_o <= 32'b0;
     else if (flush) inst_o <= 32'b0;
-    else if (keep) inst_o <= inst_o;
+    else if (keep)  inst_o <= inst_o;
     else            inst_o <= inst_i;
 end
 
