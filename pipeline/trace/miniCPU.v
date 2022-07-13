@@ -71,8 +71,8 @@ assign debug_wb_value     = wD_WB;
 wire rD1_used, rD2_used;
 wire [31:0] rD1_forward, rD2_forward;
 wire rD1_op, rD2_op;
-wire keep_PC, keep_IF_ID, keep_ID_EX, keep_EX_MEM, keep_MEM_WB;
-wire flush_IF_ID, flush_ID_EX, flush_EX_MEM, flush_MEM_WB;
+wire keep_PC, keep_IF_ID; // keep_ID_EX, keep_EX_MEM, keep_MEM_WB 在本次实现中不需要
+wire flush_IF_ID, flush_ID_EX; // flush_EX_MEM, flush_MEM_WB 在本次实现中不需要
 
 HAZARDKILLER U_HAZARDKILLER (
     // input
@@ -104,14 +104,9 @@ HAZARDKILLER U_HAZARDKILLER (
     // output
     .keep_PC        (keep_PC       ),
     .keep_IF_ID     (keep_IF_ID    ),
-    .keep_ID_EX     (keep_ID_EX    ),
-    .keep_EX_MEM    (keep_EX_MEM   ),
-    .keep_MEM_WB    (keep_MEM_WB   ),
 
     .flush_IF_ID    (flush_IF_ID   ),
     .flush_ID_EX    (flush_ID_EX   ),
-    .flush_EX_MEM   (flush_EX_MEM  ),
-    .flush_MEM_WB   (flush_MEM_WB  ),
 
     .rD1_op         (rD1_op        ),
     .rD2_op         (rD2_op        ),

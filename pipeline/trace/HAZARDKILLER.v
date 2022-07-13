@@ -28,14 +28,9 @@ module HAZARDKILLER (
 
     output reg         keep_PC    ,
     output reg         keep_IF_ID ,
-    output reg         keep_ID_EX ,
-    output reg         keep_EX_MEM,
-    output reg         keep_MEM_WB,
 
     output reg         flush_IF_ID ,
     output reg         flush_ID_EX ,
-    output reg         flush_EX_MEM,
-    output reg         flush_MEM_WB,
 
     output wire        rD1_op,
     output wire        rD2_op,
