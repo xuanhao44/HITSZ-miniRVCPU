@@ -43,12 +43,15 @@ module HAZARDKILLER (
     output reg  [31:0] rD2_forward
 );
 
+// RAW - A
 wire data_hz1_rD1 = (wR_EX  == rR1_ID) & rf_we_EX  & rD1_used & (wR_EX  != 5'b0);
 wire data_hz1_rD2 = (wR_EX  == rR2_ID) & rf_we_EX  & rD2_used & (wR_EX  != 5'b0);
 
+// RAW - B
 wire data_hz2_rD1 = (wR_MEM == rR1_ID) & rf_we_MEM & rD1_used & (wR_MEM != 5'b0);
 wire data_hz2_rD2 = (wR_MEM == rR2_ID) & rf_we_MEM & rD2_used & (wR_MEM != 5'b0);
 
+// RAW - C
 wire data_hz3_rD1 = (wR_WB  == rR1_ID) & rf_we_WB  & rD1_used & (wR_WB  != 5'b0);
 wire data_hz3_rD2 = (wR_WB  == rR2_ID) & rf_we_WB  & rD2_used & (wR_WB  != 5'b0);
 

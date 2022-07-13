@@ -38,6 +38,7 @@ miniCPU U_miniCPU (
     .write_data         (write_data        ), // output
     .read_data          (read_data         ), // input
 
+    // debug
     .debug_wb_have_inst (debug_wb_have_inst),
     .debug_wb_pc        (debug_wb_pc       ),
     .debug_wb_ena       (debug_wb_ena      ),
