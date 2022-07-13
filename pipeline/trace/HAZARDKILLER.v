@@ -1,34 +1,43 @@
 module HAZARDKILLER (
-    input  wire        clk,
+    input  wire        clk  ,
     input  wire        rst_n,
 
     input  wire [1:0]  wd_sel,
+
     input  wire        re1_ID,
     input  wire        re2_ID,
-    input  wire        rf_we_EX,
+
+    input  wire        rf_we_EX ,
     input  wire        rf_we_MEM,
-    input  wire        rf_we_WB,
+    input  wire        rf_we_WB ,
+
     input  wire [4:0]  rR1_ID,
     input  wire [4:0]  rR2_ID,
-    input  wire [4:0]  wR_EX,
+
+    input  wire [4:0]  wR_EX ,
     input  wire [4:0]  wR_MEM,
-    input  wire [4:0]  wR_WB,
-    input  wire [31:0] wD_EX,
+    input  wire [4:0]  wR_WB ,
+
+    input  wire [31:0] wD_EX ,
     input  wire [31:0] wD_MEM,
-    input  wire [31:0] wD_WB,
+    input  wire [31:0] wD_WB ,
+
     input  wire        npc_op,
 
-    output reg         stall_PC,
-    output reg         stall_IF_ID,
-    output reg         stall_ID_EX,
-    output reg         stall_EX_MEM,
-    output reg         stall_MEM_WB,
-    output reg         flush_IF_ID,
-    output reg         flush_ID_EX,
+    output reg         keep_PC    ,
+    output reg         keep_IF_ID ,
+    output reg         keep_ID_EX ,
+    output reg         keep_EX_MEM,
+    output reg         keep_MEM_WB,
+
+    output reg         flush_IF_ID ,
+    output reg         flush_ID_EX ,
     output reg         flush_EX_MEM,
     output reg         flush_MEM_WB,
+
     output reg  [31:0] rD1_f,
     output reg  [31:0] rD2_f,
+
     output wire        rD1_op,
     output wire        rD2_op
 );
@@ -61,13 +70,13 @@ wire load_use_hz = (data_hz1_rD1 | data_hz1_rD2) & (wd_sel == 2'b01);
 wire control_hz = npc_op;
 
 always @ (*) begin
-    if (load_use_hz) stall_PC = 1'b1;
-    else             stall_PC = 1'b0;
+    if (load_use_hz) keep_PC = 1'b1;
+    else             keep_PC = 1'b0;
 end
 
 always @ (*) begin
-    if (load_use_hz) stall_IF_ID = 1'b1;
-    else             stall_IF_ID = 1'b0;
+    if (load_use_hz) keep_IF_ID = 1'b1;
+    else             keep_IF_ID = 1'b0;
 end
 
 always @ (*) begin

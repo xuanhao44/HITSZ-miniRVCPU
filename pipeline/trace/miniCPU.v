@@ -72,12 +72,12 @@ assign debug_wb_value = wD_WB;
 
 // ------------------------- debug for trace ------------------------- //
 
-// ------------------------- STALL & FLUSH & FORWARDING ------------------------- //
+// ------------------------- keep & FLUSH & FORWARDING ------------------------- //
 
 wire re1_ID, re2_ID;
 wire [31:0] rD1_f, rD2_f;
 wire rD1_op, rD2_op;
-wire stall_PC, stall_IF_ID, stall_ID_EX, stall_EX_MEM, stall_MEM_WB;
+wire keep_PC, keep_IF_ID, keep_ID_EX, keep_EX_MEM, keep_MEM_WB;
 wire flush_IF_ID, flush_ID_EX, flush_EX_MEM, flush_MEM_WB;
 
 HAZARDKILLER U_HAZARDKILLER (
@@ -86,27 +86,34 @@ HAZARDKILLER U_HAZARDKILLER (
     .rst_n          (rst_n         ),
 
     .wd_sel         (wd_sel_EX     ),
+
     .re1_ID         (re1_ID        ),
     .re2_ID         (re2_ID        ),
+
     .rf_we_EX       (rf_we_EX      ),
     .rf_we_MEM      (rf_we_MEM     ),
     .rf_we_WB       (rf_we_WB      ),
+
     .rR1_ID         (inst_ID[19:15]),
     .rR2_ID         (inst_ID[24:20]),
+
     .wR_EX          (wR_EX         ),
     .wR_MEM         (wR_MEM        ),
     .wR_WB          (wR_WB         ),
+
     .wD_EX          (wD_EX         ),
     .wD_MEM         (wD_MEM        ),
     .wD_WB          (wD_WB         ),
+
     .npc_op         (npc_op_EX     ),
 
     // output
-    .stall_PC       (stall_PC      ),
-    .stall_IF_ID    (stall_IF_ID   ),
-    .stall_ID_EX    (stall_ID_EX   ),
-    .stall_EX_MEM   (stall_EX_MEM  ),
-    .stall_MEM_WB   (stall_MEM_WB  ),
+    .keep_PC        (keep_PC       ),
+    .keep_IF_ID     (keep_IF_ID    ),
+    .keep_ID_EX     (keep_ID_EX    ),
+    .keep_EX_MEM    (keep_EX_MEM   ),
+    .keep_MEM_WB    (keep_MEM_WB   ),
+
     .flush_IF_ID    (flush_IF_ID   ),
     .flush_ID_EX    (flush_ID_EX   ),
     .flush_EX_MEM   (flush_EX_MEM  ),
@@ -114,11 +121,12 @@ HAZARDKILLER U_HAZARDKILLER (
 
     .rD1_f          (rD1_f         ),
     .rD2_f          (rD2_f         ),
+
     .rD1_op         (rD1_op        ),
     .rD2_op         (rD2_op        )
 );
 
-// ------------------------- STALL & FLUSH & FORWARDING ------------------------- //
+// ------------------------- keep & FLUSH & FORWARDING ------------------------- //
 
 // ------------------------- IF ------------------------- //
 
@@ -127,7 +135,7 @@ PC U_PC (
     .clk         (clk        ),
     .rst_n       (rst_n      ),
 
-    .stall       (stall_PC   ),
+    .keep        (keep_PC    ),
     .npc         (npc        ),
 
     // output
@@ -149,7 +157,7 @@ REG_IF_ID U_REG_IF_ID (
     .clk         (clk        ),
     .rst_n       (rst_n      ),
 
-    .stall       (stall_IF_ID),
+    .keep        (keep_IF_ID ),
     .flush       (flush_IF_ID),
 
     .pc_i        (pc_IF      ),
@@ -168,6 +176,27 @@ assign inst_IF = irom_inst;
 // ------------------------- IF ------------------------- //
 
 // ------------------------- ID ------------------------- //
+
+assign wR_ID = inst_ID[11:7];
+
+CONTROLLER U_CONTROLLER (
+    // input
+    .inst        (inst_ID       ),
+
+    // output
+    .wd_sel      (wd_sel_ID     ),
+    .alu_op      (alu_op_ID     ),
+    .alub_sel    (alub_sel_ID   ),
+    .rf_we       (rf_we_ID      ),
+    .dram_we     (dram_we_ID    ),
+    .sext_op     (sext_op_ID    ),
+    .branch      (branch_ID     ),
+    .jump        (jump_ID       ),
+    .re1         (re1_ID        ),
+    .re2         (re2_ID        ),
+
+    .have_inst   (have_inst_ID  )
+);
 
 SEXT U_SEXT (
     // input
@@ -195,27 +224,6 @@ RF U_RF (
     // output
     .rD1         (rD1_ID        ),
     .rD2         (rD2_ID        )
-);
-
-assign wR_ID = inst_ID[11:7];
-
-CONTROLLER U_CONTROLLER (
-    // input
-    .inst        (inst_ID       ),
-
-    // output
-    .wd_sel      (wd_sel_ID     ),
-    .alu_op      (alu_op_ID     ),
-    .alub_sel    (alub_sel_ID   ),
-    .rf_we       (rf_we_ID      ),
-    .dram_we     (dram_we_ID    ),
-    .sext_op     (sext_op_ID    ),
-    .branch      (branch_ID     ),
-    .jump        (jump_ID       ),
-    .re1         (re1_ID        ),
-    .re2         (re2_ID        ),
-
-    .have_inst   (have_inst_ID  )
 );
 
 REG_ID_EX U_REG_ID_EX (
