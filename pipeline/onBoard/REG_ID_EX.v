@@ -43,31 +43,12 @@ module REG_ID_EX (
     input  wire [31:0] rD2_i      ,
     output reg  [31:0] rD2_o      ,
 
-    // forward
+    // forwarding
     input  wire        rD1_op     ,
     input  wire        rD2_op     ,
     input  wire [31:0] rD1_forward,
-    input  wire [31:0] rD2_forward,
-
-    // debug
-    input  wire [31:0] pc_i       ,
-    output reg  [31:0] pc_o       ,
-
-    input  wire        have_inst_i,
-    output reg         have_inst_o
+    input  wire [31:0] rD2_forward
 );
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)     pc_o <= 32'b0;
-    else if (flush) pc_o <= 32'b0;
-    else            pc_o <= pc_i;
-end
-
-always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n)     have_inst_o <= 1'b0;
-    else if (flush) have_inst_o <= 1'b0;
-    else            have_inst_o <= have_inst_i;
-end
 
 // 可能接收前递 rD1/ rD2
 always @ (posedge clk or negedge rst_n) begin
