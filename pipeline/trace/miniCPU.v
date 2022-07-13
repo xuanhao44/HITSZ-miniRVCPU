@@ -21,15 +21,15 @@ module miniCPU (
  *  控制信号
  */
 
-wire npc_op;
-wire [1:0] wd_sel_ID, wd_sel_EX, wd_sel_MEM;
-wire rf_we_ID, rf_we_EX, rf_we_MEM, rf_we_WB;
-wire alub_sel_ID, alub_sel_EX;
-wire dram_we_ID, dram_we_EX, dram_we_MEM;
-wire [2:0] sext_op_ID, sext_op_EX;
-wire [3:0] alu_op_ID, alu_op_EX;
-wire zero;
-wire sgn;
+wire        npc_op; // important! 变为了实质上的 pc 跳转信号!
+wire [1:0]  wd_sel_ID, wd_sel_EX, wd_sel_MEM;
+wire        rf_we_ID, rf_we_EX, rf_we_MEM, rf_we_WB;
+wire        alub_sel_ID, alub_sel_EX;
+wire        dram_we_ID, dram_we_EX, dram_we_MEM;
+wire [2:0]  sext_op_ID, sext_op_EX;
+wire [3:0]  alu_op_ID, alu_op_EX;
+wire        zero;
+wire        sgn;
 
 wire [2:0] branch_ID, branch_EX;
 wire [1:0] jump_ID, jump_EX;
@@ -46,35 +46,33 @@ wire [31:0] pc4_IF, pc4_ID, pc4_EX;
 wire [31:0] inst_IF, inst_ID;
 wire [31:0] imm_ID, imm_EX;
 wire [31:0] rD1_ID, rD1_EX;
-wire [31:0] rD2_ID, rD2_EX, rD2_MEM;
+wire [31:0] rD2_ID, rD2_EX, rD2_MEM; // rD2 的用处比 rD1 多, 还要到 MEM 去 sw
 wire [31:0] alu_b;
 wire [31:0] alu_c_EX, alu_c_MEM;
 wire [31:0] dram_rd;
 wire [31:0] wD_EX, wD_MEM, wD_MEM_temp, wD_WB;
 wire [4:0]  wR_ID, wR_EX, wR_MEM, wR_WB;
 
-// ------------------------- debug for trace ------------------------- //
+/*
+ * debug
+ *
+ * 注意: 本质不是流水线寄存器的一部分, 不要用于正式的数据传递
+ */
 
 wire [31:0] pc_EX, pc_MEM, pc_WB;
-wire have_inst_ID, have_inst_EX, have_inst_MEM, have_inst_WB;
+wire        have_inst_ID, have_inst_EX, have_inst_MEM, have_inst_WB;
 
-assign debug_wb_have_inst = have_inst_WB;
-assign debug_wb_pc        = pc_WB;
-assign debug_wb_ena       = rf_we_WB;
-assign debug_wb_reg       = wR_WB;
-assign debug_wb_value     = wD_WB;
+/*
+ * hazard detection unit
+ */
 
-// ------------------------- debug for trace ------------------------- //
+wire        rD1_used, rD2_used; // 用于判断 rD1/rD2 是否被使用
+wire        rD1_op, rD2_op; // 前递使能
+wire [31:0] rD1_forward, rD2_forward; // 前递数据
+wire        keep_PC, keep_IF_ID; // keep_ID_EX, keep_EX_MEM, keep_MEM_WB 在本次实现中不需要
+wire        flush_IF_ID, flush_ID_EX; // flush_EX_MEM, flush_MEM_WB 在本次实现中不需要
 
-// ------------------------- keep & FLUSH & FORWARDING ------------------------- //
-
-wire rD1_used, rD2_used;
-wire [31:0] rD1_forward, rD2_forward;
-wire rD1_op, rD2_op;
-wire keep_PC, keep_IF_ID; // keep_ID_EX, keep_EX_MEM, keep_MEM_WB 在本次实现中不需要
-wire flush_IF_ID, flush_ID_EX; // flush_EX_MEM, flush_MEM_WB 在本次实现中不需要
-
-HAZARDKILLER U_HAZARDKILLER (
+HAZARD_DETECTION U_HAZARD_DETECTION (
     // input
     .clk            (clk           ),
     .rst_n          (rst_n         ),
@@ -114,9 +112,9 @@ HAZARDKILLER U_HAZARDKILLER (
     .rD2_forward    (rD2_forward   )
 );
 
-// ------------------------- keep & FLUSH & FORWARDING ------------------------- //
-
-// ------------------------- IF ------------------------- //
+/*
+ * IF
+ */
 
 PC U_PC (
     // input
@@ -161,9 +159,9 @@ REG_IF_ID U_REG_IF_ID (
     .inst_o      (inst_ID    )
 );
 
-// ------------------------- IF ------------------------- //
-
-// ------------------------- ID ------------------------- //
+/*
+ * ID
+ */
 
 CONTROLLER U_CONTROLLER (
     // input
@@ -203,7 +201,7 @@ RF U_RF (
 
     .rR1         (inst_ID[19:15]),
     .rR2         (inst_ID[24:20]),
-    .wR          (wR_WB         ),
+    .wR          (wR_WB         ), // WB is here!
     .wD          (wD_WB         ),
 
     // output
@@ -259,6 +257,7 @@ REG_ID_EX U_REG_ID_EX (
     .rD2_i       (rD2_ID        ),
     .rD2_o       (rD2_EX        ),
 
+    // 数据前递
     .rD1_op      (rD1_op        ),
     .rD2_op      (rD2_op        ),
     .rD1_forward (rD1_forward   ),
@@ -272,9 +271,9 @@ REG_ID_EX U_REG_ID_EX (
     .have_inst_o (have_inst_EX  )
 );
 
-// ------------------------- ID ------------------------- //
-
-// ------------------------- EX ------------------------- //
+/*
+ * EX
+ */
 
 ALU_MUX U_ALU_MUX (
     // input
@@ -298,6 +297,8 @@ ALU U_ALU (
     .sgn         (sgn          )
 );
 
+// important! 及其重要的跳转判断以及跳转 pc 值的计算模块(身兼两职)
+// 要到 EX 阶段才能获取到 zero 和 sgn 作出最终判断, 才能得到 alu.c 计算 npc
 NPC_CONTROL U_NPC_CONTROL (
     // input
     // from ID - CONTROLLER
@@ -317,6 +318,7 @@ NPC_CONTROL U_NPC_CONTROL (
     .npc_change  (npc_change   )
 );
 
+// wD 的第一次选择, 主要是为了在流水线寄存器里少塞点数据, 比如不再传递 pc4 和 imm
 WD_MUX1 U_WD_MUX1 (
     // input
     .wd_sel      (wd_sel_EX    ),
@@ -361,15 +363,16 @@ REG_EX_MEM U_REG_EX_MEM (
     .have_inst_o (have_inst_MEM)
 );
 
-// ------------------------- EX ------------------------- //
-
-// ------------------------- MEM ------------------------- //
+/*
+ * MEM
+ */
 
 assign dram_we     = dram_we_MEM;
 assign addr        = alu_c_MEM  ;
 assign write_data  = rD2_MEM    ;
 assign dram_rd     = read_data  ;
 
+// wD 的第二次也是最后一次选择, 终于在 MEM 阶段获得了 dram.rd
 WD_MUX2 U_WD_MUX2 (
     // input
     .wd_sel      (wd_sel_MEM   ),
@@ -401,6 +404,10 @@ REG_MEM_WB U_REG_MEM_WB (
     .have_inst_o (have_inst_WB )
 );
 
-// ------------------------- MEM ------------------------- //
+assign debug_wb_have_inst = have_inst_WB;
+assign debug_wb_pc        = pc_WB;
+assign debug_wb_ena       = rf_we_WB;
+assign debug_wb_reg       = wR_WB;
+assign debug_wb_value     = wD_WB;
 
 endmodule

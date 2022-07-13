@@ -1,15 +1,15 @@
 module REG_IF_ID (
-    input  wire        clk,
-    input  wire        rst_n,
+    input  wire        clk   ,
+    input  wire        rst_n ,
 
-    input  wire        keep,
-    input  wire        flush,
+    input  wire        keep  ,
+    input  wire        flush ,
 
-    input  wire [31:0] pc_i,
-    output reg  [31:0] pc_o,
+    input  wire [31:0] pc_i  ,
+    output reg  [31:0] pc_o  ,
 
-    input  wire [31:0] pc4_i,
-    output reg  [31:0] pc4_o,
+    input  wire [31:0] pc4_i ,
+    output reg  [31:0] pc4_o ,
 
     input  wire [31:0] inst_i,
     output reg  [31:0] inst_o

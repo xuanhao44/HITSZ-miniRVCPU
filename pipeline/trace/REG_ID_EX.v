@@ -1,57 +1,57 @@
 module REG_ID_EX (
-    input  wire        clk,
-    input  wire        rst_n,
+    input  wire        clk        ,
+    input  wire        rst_n      ,
 
-    input  wire        flush,
+    input  wire        flush      ,
 
-    input  wire [1:0]  wd_sel_i,
-    output reg  [1:0]  wd_sel_o,
+    input  wire [1:0]  wd_sel_i   ,
+    output reg  [1:0]  wd_sel_o   ,
 
-    input  wire [3:0]  alu_op_i,
-    output reg  [3:0]  alu_op_o,
+    input  wire [3:0]  alu_op_i   ,
+    output reg  [3:0]  alu_op_o   ,
 
-    input  wire        alub_sel_i,
-    output reg         alub_sel_o,
+    input  wire        alub_sel_i ,
+    output reg         alub_sel_o ,
 
-    input  wire        rf_we_i,
-    output reg         rf_we_o,
+    input  wire        rf_we_i    ,
+    output reg         rf_we_o    ,
 
-    input  wire        dram_we_i,
-    output reg         dram_we_o,
+    input  wire        dram_we_i  ,
+    output reg         dram_we_o  ,
 
-    input  wire [2:0]  branch_i,
-    output reg  [2:0]  branch_o,
+    input  wire [2:0]  branch_i   ,
+    output reg  [2:0]  branch_o   ,
 
-    input  wire [1:0]  jump_i,
-    output reg  [1:0]  jump_o,
+    input  wire [1:0]  jump_i     ,
+    output reg  [1:0]  jump_o     ,
 
-    input  wire [31:0] pc_imm_i,
-    output reg  [31:0] pc_imm_o,
+    input  wire [31:0] pc_imm_i   ,
+    output reg  [31:0] pc_imm_o   ,
 
-    input  wire [31:0] imm_i,
-    output reg  [31:0] imm_o,
+    input  wire [31:0] imm_i      ,
+    output reg  [31:0] imm_o      ,
 
-    input  wire [31:0] pc4_i,
-    output reg  [31:0] pc4_o,
+    input  wire [31:0] pc4_i      ,
+    output reg  [31:0] pc4_o      ,
 
-    input  wire [4:0]  wR_i,
-    output reg  [4:0]  wR_o,
+    input  wire [4:0]  wR_i       ,
+    output reg  [4:0]  wR_o       ,
 
-    input  wire [31:0] rD1_i,
-    output reg  [31:0] rD1_o,
+    input  wire [31:0] rD1_i      ,
+    output reg  [31:0] rD1_o      ,
 
-    input  wire [31:0] rD2_i,
-    output reg  [31:0] rD2_o,
+    input  wire [31:0] rD2_i      ,
+    output reg  [31:0] rD2_o      ,
 
     // forwarding
-    input  wire        rD1_op,
-    input  wire        rD2_op,
+    input  wire        rD1_op     ,
+    input  wire        rD2_op     ,
     input  wire [31:0] rD1_forward,
     input  wire [31:0] rD2_forward,
 
     // debug
-    input  wire [31:0] pc_i,
-    output reg  [31:0] pc_o,
+    input  wire [31:0] pc_i       ,
+    output reg  [31:0] pc_o       ,
 
     input  wire        have_inst_i,
     output reg         have_inst_o
@@ -69,9 +69,10 @@ always @ (posedge clk or negedge rst_n) begin
     else            have_inst_o <= have_inst_i;
 end
 
+// 可能接收前递 rD1/ rD2
 always @ (posedge clk or negedge rst_n) begin
     if (~rst_n)      rD1_o <= 32'b0;
-    else if (rD1_op) rD1_o <= rD1_forward;
+    else if (rD1_op) rD1_o <= rD1_forward; // 由于 考虑前递，故排除在 flush 之外
     else             rD1_o <= rD1_i;
 end
 
@@ -123,24 +124,30 @@ always @ (posedge clk or negedge rst_n) begin
     else            jump_o <= jump_i;
 end
 
+// 数据信号可以选择不 flush, 也可以 flush; 这里选择全部 flush
+
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) pc_imm_o <= 32'b0;
-    else        pc_imm_o <= pc_imm_i;
+    if (~rst_n)     pc_imm_o <= 32'b0;
+    else if (flush) pc_imm_o <= 32'b0;
+    else            pc_imm_o <= pc_imm_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) imm_o <= 32'b0;
-    else        imm_o <= imm_i;
+    if (~rst_n)     imm_o <= 32'b0;
+    else if (flush) imm_o <= 32'b0;
+    else            imm_o <= imm_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) pc4_o <= 32'b0;
-    else        pc4_o <= pc4_i;
+    if (~rst_n)     pc4_o <= 32'b0;
+    else if (flush) pc4_o <= 32'b0;
+    else            pc4_o <= pc4_i;
 end
 
 always @ (posedge clk or negedge rst_n) begin
-    if (~rst_n) wR_o <= 5'b0;
-    else        wR_o <= wR_i;
+    if (~rst_n)     wR_o <= 5'b0;
+    else if (flush) wR_o <= 5'b0;
+    else            wR_o <= wR_i;
 end
 
 endmodule

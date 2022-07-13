@@ -1,18 +1,18 @@
 module REG_MEM_WB (
-    input  wire        clk,
-    input  wire        rst_n,
+    input  wire        clk        ,
+    input  wire        rst_n      ,
 
-    input  wire        rf_we_i,
-    output reg         rf_we_o,
+    input  wire        rf_we_i    ,
+    output reg         rf_we_o    ,
 
-    input  wire [4:0]  wR_i,
-    output reg  [4:0]  wR_o,
+    input  wire [4:0]  wR_i       ,
+    output reg  [4:0]  wR_o       ,
 
-    input  wire [31:0] wD_i,
-    output reg  [31:0] wD_o,
+    input  wire [31:0] wD_i       ,
+    output reg  [31:0] wD_o       ,
 
-    input  wire [31:0] pc_i,
-    output reg  [31:0] pc_o,
+    input  wire [31:0] pc_i       ,
+    output reg  [31:0] pc_o       ,
 
     input  wire        have_inst_i,
     output reg         have_inst_o

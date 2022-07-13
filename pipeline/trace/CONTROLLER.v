@@ -33,11 +33,11 @@ wire [6:0] opcode = inst[6 :0 ];
 wire [2:0] funct3 = inst[14:12];
 wire [6:0] funct7 = inst[31:25];
 
-assign branch = {funct3[2], funct3[0], (opcode == OP_B)}; // 00:beq; 01:bne; 10:blt; 11:bge
-assign jump = {opcode[3], (opcode == OP_JALR) | (opcode == OP_JAL)}; // 0:jalr; 1:jal
+assign branch = {funct3[2], funct3[0], (opcode == OP_B)}; // 3'b000:beq; 3'b011:bne; 3'b101:blt; 3'b111:bge
+assign jump = {opcode[3], (opcode == OP_JALR) || (opcode == OP_JAL)}; // 2'b10:jalr; 2'b11:jal
 
-assign rD1_used = ~((opcode == OP_LUI) | (opcode == OP_JAL));
-assign rD2_used = ((opcode == OP_R) | (opcode == OP_S) | (opcode == OP_B));
+assign rD1_used = ~((opcode == OP_LUI) || (opcode == OP_JAL));
+assign rD2_used = ((opcode == OP_R) || (opcode == OP_S) || (opcode == OP_B));
 
 always @ (*) begin
     case (opcode)
