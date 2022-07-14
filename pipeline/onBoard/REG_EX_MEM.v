@@ -1,26 +1,26 @@
 module REG_EX_MEM (
-    input  wire        clk        ,
-    input  wire        rst_n      ,
+    input  wire        clk      ,
+    input  wire        rst_n    ,
 
-    input  wire [1:0]  wd_sel_i   ,
-    output reg  [1:0]  wd_sel_o   ,
+    input  wire [1:0]  wd_sel_i ,
+    output reg  [1:0]  wd_sel_o ,
 
-    input  wire        rf_we_i    ,
-    output reg         rf_we_o    ,
+    input  wire        rf_we_i  ,
+    output reg         rf_we_o  ,
 
-    input  wire        dram_we_i  ,
-    output reg         dram_we_o  ,
+    input  wire        dram_we_i,
+    output reg         dram_we_o,
 
-    input  wire [4:0]  wR_i       ,
-    output reg  [4:0]  wR_o       ,
+    input  wire [4:0]  wR_i     ,
+    output reg  [4:0]  wR_o     ,
 
-    input  wire [31:0] wD_i       ,
-    output reg  [31:0] wD_o       ,
+    input  wire [31:0] wD_i     ,
+    output reg  [31:0] wD_o     ,
 
-    input  wire [31:0] alu_c_i    ,
-    output reg  [31:0] alu_c_o    ,
+    input  wire [31:0] alu_c_i  ,
+    output reg  [31:0] alu_c_o  ,
 
-    input  wire [31:0] rD2_i      ,
+    input  wire [31:0] rD2_i    ,
     output reg  [31:0] rD2_o
 );
 
