@@ -20,7 +20,7 @@ module BUS (
     input  wire [31:0] io_read_data
 );
 
-// IO 设备使能
+// IO 设备使能·
 assign io_en = (cpu_addr[31:12] == `IO);
 
 // 判断 cpu 传来的地址是否是传向 MEM 的地址
