@@ -1,11 +1,36 @@
-# 计算机设计与实践 HITSZ-miniRVCPU
+# 计算机设计与实践 HITSZ - miniRVCPU
+
+## 项目结构
+
+```ascii
+├─ single-cycle              单周期 CPU 代码
+│  ├─ trace                  trace 比对代码
+│     ├─ in                  IROM 和 DRAM 在 CPU 里面
+│     ├─ out                 IROM 和 DRAM 在 CPU 外面
+│     └─ wrong-example       错误示例代码
+│  └─ onBoard                开发板运行代码
+│     ├─ test1               测试 1 上板代码（实验性质）
+│     └─ test2               测试 2 上板代码（通用）
+├─ pipeline                  流水线 CPU 代码
+│  ├─ trace                  trace 比对代码
+│  └─ onBoard                开发板运行代码（通用）
+├─ report                    实验报告
+├─ _srcs                     资源文件
+└─ _images                   图片仓库
+```
 
 ## 参考
 
-- https://hitsz-cslab.gitee.io/cpu/
+- https://hitsz-cslab.gitee.io/CPU/
 - https://github.com/xyfJASON/HITSZ-miniRV-1
 - https://github.com/Yikai-coder/HITsz_CPU_design
 - https://github.com/FinCreWorld/miniRV-1
+
+## 实现
+
+- 实现了单周期 CPU 以及流水线 CPU，涉及 24 条基本指令。
+- 分支预测功能：采用静态分支预测，默认不进行跳转。
+- 实现了结构清晰、可高度复用的总线外设。
 
 ## Tips
 
@@ -21,22 +46,22 @@
 
 - single_cycle
   - trace
-    - in：IROM 和 DRAM 在 cpu 里面。
-    - out：IROM 和 DRAM 在 cpu 外面。
+    - in：IROM 和 DRAM 在 CPU 里面。
+    - out：IROM 和 DRAM 在 CPU 外面。
     - wrong_example：基于 out 修改产生的错误版本。
   - onBoard
     - test1：运行给定的 IROM 的指令，在数码管上显示 2500_0018。
-      - 在 out 的基础上，使用老师提供的 ip 核，增添了数码管的外设（偷懒直接显示 x8），**删除了 debug 的输出**。
+      - 在 out 的基础上，使用老师提供的 ip 核，增添了数码管的外设（**做法是偷懒直接显示 x8！**），**删除了 debug 的输出**。
     - test2：将自己的汇编指令导入 IROM，实现计算器的功能。
       - 在 test1 的基础上，增添了拨码开关和 led 灯的外设（正式的外设），提供了另一种数码管的 DISPLAY 方法（在注释中）。
-    - ~~final：为测试 cpu 最大频率的版本。在 test2 的基础上，将绝大多数寄存器变量修改为线网，减少寄存器延迟。~~
+    - ~~final：为测试 CPU 最大频率的版本。在 test2 的基础上，将绝大多数寄存器变量修改为线网，减少寄存器延迟。~~
     - test2 设计好了外设，因此上板的两个实验（trace 上板、实现计算器）都可以使用 test2 的代码，只不过需要修改 IROM 和 DRAM 的 IP 核。
 - pipeline
   - trace
     - 和单周期区别较大。
 
   - onBoard
-    - 删除了 debug 的输出，复用单周期总线外设代码。
+    - 删除了 debug 的输出，复用单周期总线外设代码，可用于 test1、test2 两个实验。
 
 
 ### single_cycle/trace/in
@@ -60,7 +85,7 @@
 
 ### single_cycle/trace/out
 
-在 top 里实例化 IROM 和 DRAM，便于后续上板。
+在 top 里实例化 IROM 和 DRAM，**便于后续上板**。
 
 - top
   - miniCPU
@@ -79,7 +104,7 @@
 
 ### single_cycle/trace/wrong_example
 
-结构同 out，修改为大多数寄存器改线网，使用大量 assign 和三目运算符。
+结构同 out，修改为大多数寄存器改线网，使用大量 assign 和三目运算符，错误原因请看报告。
 
 ### single_cycle/onBoard/test1
 
@@ -105,4 +130,35 @@
   - LedDriver：LED 外设。
   - DigitDriver：七段数码管外设。
     - DISPLAY：数码管的显示部件。
+
+### pipeline/trace
+
+top
+
+- miniCPU
+  - HAZARD_DETECTION
+  - IF
+    - PC
+    - NPC
+  - REG_IF_ID
+  - ID/WB
+    - CONTROLLER
+    - SEXT
+    - RF
+  - REG_ID_EX
+  - EX
+    - ALU_MUX
+    - ALU
+    - NPC_CONTROL
+    - WD_MUX1
+  - REG_EX_MEM
+  - MEM
+    - WD_MUX2
+  - REG_MEM_WB
+- IROM
+- DRAM
+
+### pipeline/onBoard/test1、test2
+
+同 single_cycle/onBoard/test2 的结构。
 
