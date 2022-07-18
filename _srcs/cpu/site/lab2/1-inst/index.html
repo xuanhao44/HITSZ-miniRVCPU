@@ -1,0 +1,2630 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.5">
+    
+    
+      
+        <title>miniRV-1指令集 - 计算机设计与实践（2022夏季） | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4a0965b7.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#00bdd6">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-minirv-1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="计算机设计与实践（2022夏季） | 哈工大（深圳）" class="md-header__button md-logo" aria-label="计算机设计与实践（2022夏季） | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M160 352h192V160H160v192zm288-176h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-16c0-35.35-28.65-64-64-64h-16V16c0-8.836-7.2-16-16-16-8.836 0-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-16c-35.35 0-64 28.65-64 64v16H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v16c0 35.35 28.65 64 64 64h16v48c0 8.8 7.2 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h16c35.35 0 64-28.65 64-64v-16h48c8.838 0 16-7.164 16-16s-7.162-16-16-16h-48v-64h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-64zm-64 192c0 8.836-7.162 16-16 16H144c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v224z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            计算机设计与实践（2022夏季） | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              miniRV-1指令集
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitee.com/hitsz-cslab/cpu" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HITSZ-ECEI-CS/CPUDesign
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        首页
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab1/0-overview/" class="md-tabs__link">
+        实验1：RISC-V汇编程序设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../0-overview/" class="md-tabs__link md-tabs__link--active">
+        实验2：单周期CPU设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab3/0-overview/" class="md-tabs__link">
+        实验3：流水线CPU设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../trace/trace/" class="md-tabs__link">
+        Trace测试说明
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../verify/realtest/" class="md-tabs__link">
+        CPU的调试与下板验证
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../codingstyle/" class="md-tabs__link">
+        Verilog代码规范
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="计算机设计与实践（2022夏季） | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="计算机设计与实践（2022夏季） | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M160 352h192V160H160v192zm288-176h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-16c0-35.35-28.65-64-64-64h-16V16c0-8.836-7.2-16-16-16-8.836 0-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-16c-35.35 0-64 28.65-64 64v16H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v16c0 35.35 28.65 64 64 64h16v48c0 8.8 7.2 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h16c35.35 0 64-28.65 64-64v-16h48c8.838 0 16-7.164 16-16s-7.162-16-16-16h-48v-64h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-64zm-64 192c0 8.836-7.162 16-16 16H144c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v224z"/></svg>
+
+    </a>
+    计算机设计与实践（2022夏季） | 哈工大（深圳）
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitee.com/hitsz-cslab/cpu" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HITSZ-ECEI-CS/CPUDesign
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          首页
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="首页" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          首页
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        实验须知
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../board/minisys/" class="md-nav__link">
+        开发板使用须知
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_3">
+          作业提交说明
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="作业提交说明" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          作业提交说明
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../submit/submit/" class="md-nav__link">
+        【重要!】课程提交要求
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../submit/operation/" class="md-nav__link">
+        作业系统指南
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          实验1：RISC-V汇编程序设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验1：RISC-V汇编程序设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验1：RISC-V汇编程序设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/1-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/2-logisim/" class="md-nav__link">
+        Logisim简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/3-submit/" class="md-nav__link">
+        验收与提交
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          实验2：单周期CPU设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验2：单周期CPU设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          实验2：单周期CPU设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          实验原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验原理" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          miniRV-1指令集
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        miniRV-1指令集
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-minirv-1" class="md-nav__link">
+    1. miniRV-1通用寄存器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-minirv-1" class="md-nav__link">
+    2. miniRV-1指令格式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-minirv-1" class="md-nav__link">
+    3. miniRV-1指令总表
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 指令详解
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 指令详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-r" class="md-nav__link">
+    4.1 R型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 R型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add" class="md-nav__link">
+    add
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sub" class="md-nav__link">
+    sub
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#and" class="md-nav__link">
+    and
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#or" class="md-nav__link">
+    or
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xor" class="md-nav__link">
+    xor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sll" class="md-nav__link">
+    sll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srl" class="md-nav__link">
+    srl
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sra" class="md-nav__link">
+    sra
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slt" class="md-nav__link">
+    slt (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sltu" class="md-nav__link">
+    sltu (选)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-i" class="md-nav__link">
+    4.2 I型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 I型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addi" class="md-nav__link">
+    addi
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andi" class="md-nav__link">
+    andi
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ori" class="md-nav__link">
+    ori
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xori" class="md-nav__link">
+    xori
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slli" class="md-nav__link">
+    slli
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srli" class="md-nav__link">
+    srli
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srai" class="md-nav__link">
+    srai
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slti" class="md-nav__link">
+    slti (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sltiu" class="md-nav__link">
+    sltiu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lb" class="md-nav__link">
+    lb (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lbu" class="md-nav__link">
+    lbu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lh" class="md-nav__link">
+    lh (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lhu" class="md-nav__link">
+    lhu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lw" class="md-nav__link">
+    lw
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jalr" class="md-nav__link">
+    jalr
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-s" class="md-nav__link">
+    4.3 S型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 S型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sb" class="md-nav__link">
+    sb (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sh" class="md-nav__link">
+    sh (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sw" class="md-nav__link">
+    sw
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-b" class="md-nav__link">
+    4.4 B型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 B型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beq" class="md-nav__link">
+    beq
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bne" class="md-nav__link">
+    bne
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blt" class="md-nav__link">
+    blt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bltu" class="md-nav__link">
+    bltu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bge" class="md-nav__link">
+    bge
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bgeu" class="md-nav__link">
+    bgeu (选)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-u" class="md-nav__link">
+    4.5 U型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 U型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lui" class="md-nav__link">
+    lui
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auipc" class="md-nav__link">
+    auipc (选)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-j" class="md-nav__link">
+    4.6 J型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 J型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jal" class="md-nav__link">
+    jal
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-parts/" class="md-nav__link">
+        功能部件设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3-datpth/" class="md-nav__link">
+        数据通路设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4-ctrler/" class="md-nav__link">
+        控制单元设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5-timing/" class="md-nav__link">
+        单周期CPU时序
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6-verify/" class="md-nav__link">
+        CPU功能验证
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7-bus/" class="md-nav__link">
+        系统总线
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8-peripheral/" class="md-nav__link">
+        接口与外设
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9-macros/" class="md-nav__link">
+        Verilog宏定义使用
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-constr/" class="md-nav__link">
+        附录：添加约束
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          实验3：流水线CPU设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验3：流水线CPU设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          实验3：流水线CPU设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          实验原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验原理" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/1-pipeline/" class="md-nav__link">
+        流水线概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/2-perfectpl/" class="md-nav__link">
+        理想流水线
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/3-hazard/" class="md-nav__link">
+        数据相关与流水线冒险
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/4-handleDH/" class="md-nav__link">
+        数据冒险的处理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/5-handleCH/" class="md-nav__link">
+        控制冒险的处理
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/6-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Trace测试说明
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Trace测试说明" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Trace测试说明
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/trace/" class="md-nav__link">
+        测试机制说明
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/remote_env/" class="md-nav__link">
+        附录1：远程平台使用指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/vm/" class="md-nav__link">
+        附录2：虚拟机使用指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/env_bymyself/" class="md-nav__link">
+        附录3：实验环境部署指南
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          CPU的调试与下板验证
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CPU的调试与下板验证" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          CPU的调试与下板验证
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verify/realtest/" class="md-nav__link">
+        下板验证说明
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2">
+          CPU调试方法
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CPU调试方法" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          CPU调试方法
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verify/trace-debug/" class="md-nav__link">
+        方法1：利用Trace调试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verify/online-debug/" class="md-nav__link">
+        方法2：FPGA在线调试
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Verilog代码规范
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Verilog代码规范" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Verilog代码规范
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../codingstyle/" class="md-nav__link">
+        Verilog代码规范
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-minirv-1" class="md-nav__link">
+    1. miniRV-1通用寄存器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-minirv-1" class="md-nav__link">
+    2. miniRV-1指令格式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-minirv-1" class="md-nav__link">
+    3. miniRV-1指令总表
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 指令详解
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 指令详解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-r" class="md-nav__link">
+    4.1 R型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 R型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add" class="md-nav__link">
+    add
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sub" class="md-nav__link">
+    sub
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#and" class="md-nav__link">
+    and
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#or" class="md-nav__link">
+    or
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xor" class="md-nav__link">
+    xor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sll" class="md-nav__link">
+    sll
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srl" class="md-nav__link">
+    srl
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sra" class="md-nav__link">
+    sra
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slt" class="md-nav__link">
+    slt (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sltu" class="md-nav__link">
+    sltu (选)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-i" class="md-nav__link">
+    4.2 I型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.2 I型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addi" class="md-nav__link">
+    addi
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andi" class="md-nav__link">
+    andi
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ori" class="md-nav__link">
+    ori
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xori" class="md-nav__link">
+    xori
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slli" class="md-nav__link">
+    slli
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srli" class="md-nav__link">
+    srli
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srai" class="md-nav__link">
+    srai
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slti" class="md-nav__link">
+    slti (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sltiu" class="md-nav__link">
+    sltiu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lb" class="md-nav__link">
+    lb (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lbu" class="md-nav__link">
+    lbu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lh" class="md-nav__link">
+    lh (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lhu" class="md-nav__link">
+    lhu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lw" class="md-nav__link">
+    lw
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jalr" class="md-nav__link">
+    jalr
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-s" class="md-nav__link">
+    4.3 S型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 S型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sb" class="md-nav__link">
+    sb (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sh" class="md-nav__link">
+    sh (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sw" class="md-nav__link">
+    sw
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-b" class="md-nav__link">
+    4.4 B型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 B型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beq" class="md-nav__link">
+    beq
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bne" class="md-nav__link">
+    bne
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blt" class="md-nav__link">
+    blt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bltu" class="md-nav__link">
+    bltu (选)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bge" class="md-nav__link">
+    bge
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bgeu" class="md-nav__link">
+    bgeu (选)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-u" class="md-nav__link">
+    4.5 U型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.5 U型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lui" class="md-nav__link">
+    lui
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auipc" class="md-nav__link">
+    auipc (选)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-j" class="md-nav__link">
+    4.6 J型指令
+  </a>
+  
+    <nav class="md-nav" aria-label="4.6 J型指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jal" class="md-nav__link">
+    jal
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+  <h1>miniRV-1指令集</h1>
+
+<p>&emsp;&emsp;本实验要求同学们基于miniRV-1指令集实现单周期CPU。miniRV-1是RV32I的子集，因而兼容RISC-V。</p>
+<p>&emsp;&emsp;miniRV-1指令集共包含32个通用寄存器和37条指令 (含R型10条、I型15条、S型3条、B型6条、U型2条、J型1条)。</p>
+<h2 id="1-minirv-1">1. miniRV-1通用寄存器</h2>
+<p>&emsp;&emsp;miniRV-1具有32个32位通用寄存器，与RV32I完全相同，如表2-1所示。</p>
+<p><center>表2-1 miniRV-1通用寄存器</center></p>
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th align="center">寄存器</th>
+<th align="center">助记符</th>
+<th align="left">释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">x0</td>
+<td align="center">zero</td>
+<td align="left">常数0，永远只返回0 (硬件0，只读不可写)</td>
+</tr>
+<tr>
+<td align="center">x1</td>
+<td align="center">ra</td>
+<td align="left">存放调用子程序(函数)时的返回地址 (Return Address)</td>
+</tr>
+<tr>
+<td align="center">x2</td>
+<td align="center">sp</td>
+<td align="left">堆栈指针。对它的调整必须显式地通过指令来实现，硬件不支持堆栈指针的调整 (Stack Pointer)</td>
+</tr>
+<tr>
+<td align="center">x3</td>
+<td align="center">gp</td>
+<td align="left">全局指针。某些运行时系统用来为static或extern变量提供简单的访问方式 (Global Pointer)</td>
+</tr>
+<tr>
+<td align="center">x4</td>
+<td align="center">tp</td>
+<td align="left">线程指针。多线程应用程序通过该寄存器来访问某个线程的本地数据 (Thread Pointer)</td>
+</tr>
+<tr>
+<td align="center">x5~x7</td>
+<td align="center">t0~t2</td>
+<td align="left">存放临时变量，子程序(函数)使用时不保存这些寄存器的值，因此调用后它们的值会被破坏</td>
+</tr>
+<tr>
+<td align="center">x8</td>
+<td align="center">s0/fp</td>
+<td align="left">子程序用该寄存器做堆栈帧指针。子程序(函数)必须在返回前恢复这些寄存器的值以保证其没有变化 (Saved Register / Frame Pointer)</td>
+</tr>
+<tr>
+<td align="center">x9</td>
+<td align="center">s1</td>
+<td align="left">子程序用寄存器。子程序(函数)必须在返回前恢复这些寄存器的值以保证其没有变化 (Saved Register)</td>
+</tr>
+<tr>
+<td align="center">x10~x11</td>
+<td align="center">a0~a1</td>
+<td align="left">存放子程序(函数)调用时的整型参数或返回值</td>
+</tr>
+<tr>
+<td align="center">x12~x17</td>
+<td align="center">a2~a7</td>
+<td align="left">存放子程序(函数)调用时的整型参数</td>
+</tr>
+<tr>
+<td align="center">x18~x27</td>
+<td align="center">s2~s11</td>
+<td align="left">子程序用寄存器。子程序(函数)必须在返回前恢复这些寄存器的值以保证其没有变化 (Saved Register)</td>
+</tr>
+<tr>
+<td align="center">x28~x31</td>
+<td align="center">t3~t6</td>
+<td align="left">存放临时变量，子程序(函数)使用时不保存这些寄存器的值，因此调用后它们的值会被破坏</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
+<p>&emsp;&emsp;在汇编语言中，既可以通过寄存器号也可以通过助记符来引用一个寄存器。例如，汇编中的“x0”和“zero”均表示第0个寄存器；“x8”、“s0”和“fp”均表示第8个寄存器。</p>
+<h2 id="2-minirv-1">2. miniRV-1指令格式</h2>
+<p>&emsp;&emsp;miniRV-1指令集的指令格式与RISC-V完全相同，如图2-1所示。</p>
+<p><center><img src = "../assets/2-1.png" width = 650></center>
+<center>图2-1 miniRV-1指令格式</center></p>
+<h2 id="3-minirv-1">3. miniRV-1指令总表</h2>
+<p>&emsp;&emsp;miniRV-1指令的格式、功能、语法及解释汇总如表2-2所示。</p>
+<p><center>表2-2 miniRV-1指令总表</center>
+<center><img src = "../assets/t2-2.png"></center></p>
+<p>&emsp;&emsp;下面对每条指令的格式、功能等给出详细解释，所使用的符号约定如表2-3所示。</p>
+<p><center>表2-3 符号释义</center></p>
+<p><center></p>
+<table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="left">释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">rs1、rs2、rd</td>
+<td align="left">32位通用寄存器的编号 (rs1、rs2存放源操作数，rd存放目的操作数)</td>
+</tr>
+<tr>
+<td align="center">shamt</td>
+<td align="left">5位移位位数</td>
+</tr>
+<tr>
+<td align="center">imm</td>
+<td align="left">12位立即数</td>
+</tr>
+<tr>
+<td align="center">offset</td>
+<td align="left">12位偏移量</td>
+</tr>
+<tr>
+<td align="center">PC</td>
+<td align="left">赋值符号右侧的PC表示当前指令的地址</td>
+</tr>
+<tr>
+<td align="center">(rs1)</td>
+<td align="left">寄存器rs1的值 (其他同理)</td>
+</tr>
+<tr>
+<td align="center">Mem[addr]</td>
+<td align="left">地址为addr的存储单元的值</td>
+</tr>
+<tr>
+<td align="center">sext(a)</td>
+<td align="left">a的符号扩展</td>
+</tr>
+</tbody>
+</table>
+<p></center></p>
+<h2 id="4">4. 指令详解</h2>
+<h3 id="41-r">4.1 R型指令</h3>
+<h4 id="add">add</h4>
+<ul>
+<li>指令名：加法  </li>
+<li>使用语法：add rd, rs1, rs2  </li>
+<li>功能描述：把寄存器rs1加上寄存器rs2，结果写入寄存器rd。忽略算术溢出。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">add</span><span class="w"> </span><span class="no">x4</span><span class="p">,</span><span class="w"> </span><span class="no">x2</span><span class="p">,</span><span class="w"> </span><span class="no">x3</span><span class="w">    </span><span class="c1">; (x4) ← (x2) + (x3), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="sub">sub</h4>
+<ul>
+<li>指令名：减法  </li>
+<li>使用语法：sub rd, rs1, rs2  </li>
+<li>功能描述：从寄存器rs1减去寄存器rs2，结果写入寄存器rd。忽略算术溢出。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sub</span><span class="w"> </span><span class="no">x7</span><span class="p">,</span><span class="w"> </span><span class="no">x5</span><span class="p">,</span><span class="w"> </span><span class="no">x9</span><span class="w">    </span><span class="c1">; (x7) ← (x5) - (x9), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="and">and</h4>
+<ul>
+<li>指令名：逻辑与  </li>
+<li>使用语法：and rd, rs1, rs2  </li>
+<li>功能描述：将寄存器rs1和寄存器rs2进行按位与，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">and</span><span class="w"> </span><span class="no">x6</span><span class="p">,</span><span class="w"> </span><span class="no">x1</span><span class="p">,</span><span class="w"> </span><span class="no">x0</span><span class="w">    </span><span class="c1">; (x6) ← (x1) &amp; (x0), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="or">or</h4>
+<ul>
+<li>指令名：逻辑或  </li>
+<li>使用语法：or rd, rs1, rs2  </li>
+<li>功能描述：将寄存器rs1和寄存器rs2进行按位或，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">or</span><span class="w"> </span><span class="no">x12</span><span class="p">,</span><span class="w"> </span><span class="no">x13</span><span class="p">,</span><span class="w"> </span><span class="no">x1</span><span class="w">    </span><span class="c1">; (x12) ← (x13) | (x1), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="xor">xor</h4>
+<ul>
+<li>指令名：逻辑异或  </li>
+<li>使用语法：xor rd, rs1, rs2  </li>
+<li>功能描述：将寄存器rs1和寄存器rs2进行按位异或，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">xor</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t0</span><span class="w">    </span><span class="c1">; (t0) ← (t0) ^ (t0), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="sll">sll</h4>
+<ul>
+<li>指令名: 逻辑左移  </li>
+<li>使用语法：sll rd, rs1, rs2  </li>
+<li>功能描述：把寄存器rs1左移rs2位，低位补0，结果写入寄存器rd。<code>rs2[4:0]</code>表示左移位数，高位忽略。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sll</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="no">t6</span><span class="p">,</span><span class="w"> </span><span class="no">t2</span><span class="w">    </span><span class="c1">; (t1) ← (t6) &lt;&lt; (t2), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="srl">srl</h4>
+<ul>
+<li>指令名: 逻辑右移  </li>
+<li>使用语法：srl rd, rs1, rs2  </li>
+<li>功能描述：把寄存器rs1右移rs2位，高位补0，结果写入寄存器rd。<code>rs2[4:0]</code>表示右移位数，高位忽略。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">srl</span><span class="w"> </span><span class="no">t5</span><span class="p">,</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="no">t4</span><span class="w">    </span><span class="c1">; (t5) ← (t3) &gt;&gt; (t4), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="sra">sra</h4>
+<ul>
+<li>指令名: 算术右移  </li>
+<li>使用语法：sra rd, rs1, rs2  </li>
+<li>功能描述：把寄存器rs1右移rs2位，高位补<code>rs1[31]</code>，结果写入寄存器rd。<code>rs2[4:0]</code>表示右移位数，高位忽略。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sra</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="no">t4</span><span class="p">,</span><span class="w"> </span><span class="no">t7</span><span class="w">    </span><span class="c1">; (t3) ← (t4) &gt;&gt; (t7), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="slt"><em>slt</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名: 小于则置位  </li>
+<li>使用语法：slt rd, rs1, rs2  </li>
+<li>功能描述：比较寄存器rs1和寄存器rs2，比较时视为有符号数。如果rs1更小，向寄存器rd写入1，否则写入0。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">slt</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="no">t2</span><span class="p">,</span><span class="w"> </span><span class="no">t0</span><span class="w">    </span><span class="c1">; (t1) ← ((t2) &lt; (t0)), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="sltu"><em>sltu</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名: 无符号小于则置位  </li>
+<li>使用语法：sltu rd, rs1, rs2  </li>
+<li>功能描述：比较寄存器rs1和寄存器rs2，比较时视为无符号数。如果rs1更小，向寄存器rd写入1，否则写入0。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sltu</span><span class="w"> </span><span class="no">s5</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="no">s1</span><span class="w">    </span><span class="c1">; (s5) ← ((t1) &lt; (s1)), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h3 id="42-i">4.2 I型指令</h3>
+<h4 id="addi">addi</h4>
+<ul>
+<li>指令名：立即数加法  </li>
+<li>使用语法：addi rd, rs1, imm  </li>
+<li>功能描述：把符号扩展的立即数加到寄存器rs1上，结果写入寄存器rd。忽略算术溢出。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">addi</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="no">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w">    </span><span class="c1">; (sp) ← (sp) + 4, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="andi">andi</h4>
+<ul>
+<li>指令名：立即数逻辑与  </li>
+<li>使用语法：andi rd, rs1, imm  </li>
+<li>功能描述：把符号扩展的立即数与寄存器rs1的值进行按位与，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">andi</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="mi">0xFFE</span><span class="w">    </span><span class="c1">; (t1) ← (t3) &amp; 0xFFE, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="ori">ori</h4>
+<ul>
+<li>指令名：立即数逻辑或  </li>
+<li>使用语法：ori rd, rs1, imm  </li>
+<li>功能描述：把符号扩展的立即数与寄存器rs1的值进行按位或，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">ori</span><span class="w"> </span><span class="no">t6</span><span class="p">,</span><span class="w"> </span><span class="no">t2</span><span class="p">,</span><span class="w"> </span><span class="mi">0x001</span><span class="w">    </span><span class="c1">; (t6) ← (t2) | 0x001, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="xori">xori</h4>
+<ul>
+<li>指令名：立即数逻辑异或  </li>
+<li>使用语法：xori rd, rs1, imm  </li>
+<li>功能描述：把符号扩展的立即数与寄存器rs1的值进行按位异或，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">xori</span><span class="w"> </span><span class="no">s4</span><span class="p">,</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0x002</span><span class="w">    </span><span class="c1">; (s4) ← (t0) ^ 0x002, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="slli">slli</h4>
+<ul>
+<li>指令名：立即数逻辑左移  </li>
+<li>使用语法：slli rd, rs1, shamt  </li>
+<li>功能描述：把寄存器rs1左移shamt位，低位补0，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">slli</span><span class="w"> </span><span class="no">a5</span><span class="p">,</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="w">    </span><span class="c1">; (a5) ← (t3) &lt;&lt; 3, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="srli">srli</h4>
+<ul>
+<li>指令名：立即数逻辑右移  </li>
+<li>使用语法：srli rd, rs1, shamt  </li>
+<li>功能描述：把寄存器rs1右移shamt位，高位补0，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">srli</span><span class="w"> </span><span class="no">a1</span><span class="p">,</span><span class="w"> </span><span class="no">t2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w">    </span><span class="c1">; (a1) ← (t2) &gt;&gt; 1, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="srai">srai</h4>
+<ul>
+<li>指令名：立即数算术右移  </li>
+<li>使用语法：srai rd, rs1, shamt  </li>
+<li>功能描述：把寄存器rs1右移shamt位，高位补<code>rs1[31]</code>，结果写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">srai</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="w">    </span><span class="c1">; (t3) ← (t1) &gt;&gt; 7, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="slti"><em>slti</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名: 小于立即数则置位  </li>
+<li>使用语法：slti rd, rs1, imm  </li>
+<li>功能描述：比较寄存器rs1和符号扩展的立即数，比较时视为有符号数。如果rs1更小，向寄存器rd写入1，否则写入0。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">slti</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c1">; (t0) ← ((t5) &lt; 0), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="sltiu"><em>sltiu</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名: 无符号小于立即数则置位  </li>
+<li>使用语法：sltiu rd, rs1, imm  </li>
+<li>功能描述：比较寄存器rs1和符号扩展的立即数，比较时视为无符号数。如果rs1更小，向寄存器rd写入1，否则写入0。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sltiu</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">-1024</span><span class="w">    </span><span class="c1">; (t3) ← ((t1) &lt; 0xC00), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="lb"><em>lb</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：字节加载  </li>
+<li>使用语法：lb rd, offset(rs1)  </li>
+<li>功能描述：从地址(rs1)+sext(offset)读取一个字节，经符号扩展后写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">lb</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">-3</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; (t0) ← sext(Mem[(fp) - 3][7:0]), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="lbu"><em>lbu</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：无符号字节加载  </li>
+<li>使用语法：lbu rd, offset(rs1)  </li>
+<li>功能描述：从地址(rs1)+sext(offset)读取一个字节，并写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">lbu</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">-3</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; (t0) ← Mem[(fp) - 3][7:0], (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="lh"><em>lh</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：半字加载  </li>
+<li>使用语法：lh rd, offset(rs1)  </li>
+<li>功能描述：从地址(rs1)+sext(offset)读取两个字节，经符号扩展后写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">lh</span><span class="w"> </span><span class="no">t5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; (t5) ← sext(Mem[(fp) + 6][15:0]), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="lhu"><em>lhu</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：无符号半字加载  </li>
+<li>使用语法：lhu rd, offset(rs1)  </li>
+<li>功能描述：从地址(rs1)+sext(offset)读取两个字节，并写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">lhu</span><span class="w"> </span><span class="no">t5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; (t5) ← Mem[(fp) + 6][15:0], (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="lw">lw</h4>
+<ul>
+<li>指令名：字加载  </li>
+<li>使用语法：lw rd, offset(rs1)  </li>
+<li>功能描述：从地址(rs1)+sext(offset)读取四个字节，经符号扩展后写入寄存器rd。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">lh</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; (t3) ← Mem[(fp) + 8], (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="jalr">jalr</h4>
+<ul>
+<li>指令名：跳转并寄存器链接  </li>
+<li>使用语法：jalr rd, offset(rs1)  </li>
+<li>功能描述：将PC设置为(rs1)+sext(offset)，把计算出的地址的最低位设为0，并将原PC+4的值写入寄存器rd。rd默认为1。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">jalr</span><span class="w"> </span><span class="no">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">-4</span><span class="p">(</span><span class="no">t0</span><span class="p">)</span><span class="w">    </span><span class="c1">; t ← (PC) + 4, (PC) ← ((t0) - 4) &amp; ~1, (ra) ← t</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h3 id="43-s">4.3 S型指令</h3>
+<h4 id="sb"><em>sb</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：存字节  </li>
+<li>使用语法：sb rs2, offset(rs1)  </li>
+<li>功能描述：将寄存器rs2的低位字节存入内存地址(rs1)+sext(offset)。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sb</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; Mem[(fp) + 3] ← (t1)[7:0], (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="sh"><em>sh</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：存半字  </li>
+<li>使用语法：sh rs2, offset(rs1)  </li>
+<li>功能描述：将寄存器rs2的低位2个字节存入内存地址(rs1)+sext(offset)。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sh</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; Mem[(fp) + 10] ← (t3)[15:0], (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="sw">sw</h4>
+<ul>
+<li>指令名：存字  </li>
+<li>使用语法：sw rs2, offset(rs1)  </li>
+<li>功能描述：将寄存器rs2存入内存地址(rs1)+sext(offset)。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">sw</span><span class="w"> </span><span class="no">t5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">(</span><span class="no">fp</span><span class="p">)</span><span class="w">    </span><span class="c1">; Mem[(fp) + 4] ← (t5), (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h3 id="44-b">4.4 B型指令</h3>
+<h4 id="beq">beq</h4>
+<ul>
+<li>指令名：相等时分支  </li>
+<li>使用语法：beq rs1, rs2, offset  </li>
+<li>功能描述：若寄存器rs1和寄存器rs2的值相等，把PC的值设置为当前值加上符号扩展的偏移量。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">beq</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">-4</span><span class="w">    </span><span class="c1">; PC ← ((t0) == (t1)) ? PC - 4 : PC + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="bne">bne</h4>
+<ul>
+<li>指令名：不相等时分支  </li>
+<li>使用语法：bne rs1, rs2, offset  </li>
+<li>功能描述：若寄存器rs1和寄存器rs2的值不相等，把PC的值设置为当前值加上符号扩展的偏移量。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">bne</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w">    </span><span class="c1">; PC ← ((t0) != (t1)) ? PC + 8 : PC + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="blt">blt</h4>
+<ul>
+<li>指令名：小于时分支  </li>
+<li>使用语法：blt rs1, rs2, offset  </li>
+<li>功能描述：若寄存器rs1的值小于寄存器rs2的值，把PC的值设置为当前值加上符号扩展的偏移量。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">blt</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">-4</span><span class="w">    </span><span class="c1">; PC ← ((t0) &lt; (t1)) ? PC - 4 : PC + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="bltu"><em>bltu</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：无符号小于时分支  </li>
+<li>使用语法：bltu rs1, rs2, offset  </li>
+<li>功能描述：若寄存器rs1的值小于寄存器rs2的值 (均视为无符号数)，把PC的值设置为当前值加上符号扩展的偏移量。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">bltu</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w">    </span><span class="c1">; PC ← ((t0) &lt; (t1)) ? PC + 8 : PC + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="bge">bge</h4>
+<ul>
+<li>指令名：大于等于时分支  </li>
+<li>使用语法：bge rs1, rs2, offset  </li>
+<li>功能描述：若寄存器rs1的值大于等于寄存器rs2的值，把PC的值设置为当前值加上符号扩展的偏移量。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">bge</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">-4</span><span class="w">    </span><span class="c1">; PC ← ((t0) &gt;= (t1)) ? PC - 4 : PC + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="bgeu"><em>bgeu</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：无符号大于等于时分支  </li>
+<li>使用语法：bgeu rs1, rs2, offset  </li>
+<li>功能描述：若寄存器rs1的值大于等于寄存器rs2的值 (均视为无符号数)，把PC的值设置为当前值加上符号扩展的偏移量。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">bgeu</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="no">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w">    </span><span class="c1">; PC ← ((t0) &gt;= (t1)) ? PC + 8 : PC + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h3 id="45-u">4.5 U型指令</h3>
+<h4 id="lui">lui</h4>
+<ul>
+<li>指令名：高位立即数加载  </li>
+<li>使用语法：lui rd, imm  </li>
+<li>功能描述：将符号扩展的20位立即数逻辑左移12位，结果写入寄存器rd。  </li>
+<li>汇编例子：<br />
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">lui</span><span class="w"> </span><span class="no">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0xABCDE</span><span class="w">    </span><span class="c1">; (t0) ← 0xABCDE000, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h4 id="auipc"><em>auipc</em> (<font color = DodgerBlue><strong>选</strong></font>)</h4>
+<ul>
+<li>指令名：PC加立即数  </li>
+<li>使用语法：auipc rd, imm  </li>
+<li>功能描述：把符号扩展的20位立即数逻辑左移12位，再加到PC上，结果写入寄存器rd。  </li>
+<li>汇编例子：<br />
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">auipc</span><span class="w"> </span><span class="no">t3</span><span class="p">,</span><span class="w"> </span><span class="mi">0x2468A</span><span class="w">    </span><span class="c1">; (t3) ← (PC) + 0x2468A000, (PC) ← (PC) + 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+<h3 id="46-j">4.6 J型指令</h3>
+<h4 id="jal">jal</h4>
+<ul>
+<li>指令名：跳转并链接  </li>
+<li>使用语法：jal rd, offset  </li>
+<li>功能描述：把下一条指令的地址保存到寄存器rd，然后把PC设置为当前值加上符号扩展的立即数。rd默认为1。  </li>
+<li>汇编例子：
+<center>
+<div class="highlight"><pre><span></span><code><span class="nf">jal</span><span class="w"> </span><span class="no">ra</span><span class="p">,</span><span class="w"> </span><span class="mi">-4</span><span class="w">    </span><span class="c1">; (ra) ← (PC) + 4, (PC) ← (PC) - 4</span>
+</code></pre></div>
+</center></li>
+</ul>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../0-overview/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 实验概述" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              实验概述
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../2-parts/" class="md-footer__link md-footer__link--next" aria-label="下一页: 功能部件设计" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              功能部件设计
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2022 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand"], "search": "../../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.431f3d41.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

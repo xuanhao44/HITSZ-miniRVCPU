@@ -1,0 +1,92 @@
+site_name: 计算机设计与实践（2022夏季） | 哈工大（深圳）
+copyright: 'Copyright &copy; 2019 - 2022 哈尔滨工业大学（深圳）'
+repo_name: 'HITSZ-ECEI-CS/CPUDesign'
+repo_url: 'https://gitee.com/hitsz-cslab/cpu'
+
+markdown_extensions:
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed
+  - pymdownx.tilde
+  - admonition
+  - mdx_math:
+      enable_dollar_delimiter: True
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML
+  # - mathjaxhelper.js
+
+theme:
+  language: 'zh'
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.expand
+  icon:
+    logo: fontawesome/solid/microchip
+    repo: fontawesome/brands/git-alt
+    # favicon: fontawesome/solid/microchip
+  palette:
+    primary: 'Cyan'
+    accent: 'Cyan'
+
+nav:
+  - 首页:
+    - 实验须知: index.md
+    - 开发板使用须知: board/minisys.md
+    - 作业提交说明:
+      - 【重要!】课程提交要求: submit/submit.md
+      - 作业系统指南: submit/operation.md
+  - 实验1：RISC-V汇编程序设计: 
+    - 实验概述: lab1/0-overview.md
+    - 实验步骤: lab1/1-step.md
+    - Logisim简介: lab1/2-logisim.md
+    - 验收与提交: lab1/3-submit.md
+  - 实验2：单周期CPU设计:
+    - 实验概述: lab2/0-overview.md
+    - 实验原理:
+      - miniRV-1指令集: lab2/1-inst.md
+      - 功能部件设计: lab2/2-parts.md
+      - 数据通路设计: lab2/3-datpth.md
+      - 控制单元设计: lab2/4-ctrler.md
+      - 单周期CPU时序: lab2/5-timing.md
+      - CPU功能验证: lab2/6-verify.md
+      - 系统总线: lab2/7-bus.md
+      - 接口与外设: lab2/8-peripheral.md
+      - Verilog宏定义使用: lab2/9-macros.md
+    - 实验步骤: lab2/10-step.md
+    - 附录：添加约束: lab2/11-constr.md
+  - 实验3：流水线CPU设计:
+    - 实验概述: lab3/0-overview.md
+    - 实验原理:
+      - 流水线概述: lab3/1-pipeline.md
+      - 理想流水线: lab3/2-perfectpl.md
+      - 数据相关与流水线冒险: lab3/3-hazard.md
+      - 数据冒险的处理: lab3/4-handleDH.md
+      - 控制冒险的处理: lab3/5-handleCH.md
+    - 实验步骤: lab3/6-step.md
+  - Trace测试说明:
+    - 测试机制说明: trace/trace.md
+    - 附录1：远程平台使用指南: trace/remote_env.md
+    - 附录2：虚拟机使用指南: trace/vm.md
+    - 附录3：实验环境部署指南: trace/env_bymyself.md
+  - CPU的调试与下板验证:
+    - 下板验证说明: verify/realtest.md
+    - CPU调试方法:
+      - 方法1：利用Trace调试: verify/trace-debug.md
+      - 方法2：FPGA在线调试: verify/online-debug.md
+  - Verilog代码规范:
+    - Verilog代码规范: codingstyle.md

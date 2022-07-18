@@ -1,0 +1,1618 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.5">
+    
+    
+      
+        <title>数据冒险的处理 - 计算机设计与实践（2022夏季） | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4a0965b7.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#00bdd6">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="计算机设计与实践（2022夏季） | 哈工大（深圳）" class="md-header__button md-logo" aria-label="计算机设计与实践（2022夏季） | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M160 352h192V160H160v192zm288-176h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-16c0-35.35-28.65-64-64-64h-16V16c0-8.836-7.2-16-16-16-8.836 0-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-16c-35.35 0-64 28.65-64 64v16H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v16c0 35.35 28.65 64 64 64h16v48c0 8.8 7.2 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h16c35.35 0 64-28.65 64-64v-16h48c8.838 0 16-7.164 16-16s-7.162-16-16-16h-48v-64h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-64zm-64 192c0 8.836-7.162 16-16 16H144c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v224z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            计算机设计与实践（2022夏季） | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              数据冒险的处理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitee.com/hitsz-cslab/cpu" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HITSZ-ECEI-CS/CPUDesign
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        首页
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab1/0-overview/" class="md-tabs__link">
+        实验1：RISC-V汇编程序设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab2/0-overview/" class="md-tabs__link">
+        实验2：单周期CPU设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../0-overview/" class="md-tabs__link md-tabs__link--active">
+        实验3：流水线CPU设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../trace/trace/" class="md-tabs__link">
+        Trace测试说明
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../verify/realtest/" class="md-tabs__link">
+        CPU的调试与下板验证
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../codingstyle/" class="md-tabs__link">
+        Verilog代码规范
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="计算机设计与实践（2022夏季） | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="计算机设计与实践（2022夏季） | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M160 352h192V160H160v192zm288-176h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-16c0-35.35-28.65-64-64-64h-16V16c0-8.836-7.2-16-16-16-8.836 0-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-16c-35.35 0-64 28.65-64 64v16H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v16c0 35.35 28.65 64 64 64h16v48c0 8.8 7.2 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h16c35.35 0 64-28.65 64-64v-16h48c8.838 0 16-7.164 16-16s-7.162-16-16-16h-48v-64h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-64zm-64 192c0 8.836-7.162 16-16 16H144c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v224z"/></svg>
+
+    </a>
+    计算机设计与实践（2022夏季） | 哈工大（深圳）
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitee.com/hitsz-cslab/cpu" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HITSZ-ECEI-CS/CPUDesign
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          首页
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="首页" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          首页
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        实验须知
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../board/minisys/" class="md-nav__link">
+        开发板使用须知
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_3">
+          作业提交说明
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="作业提交说明" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          作业提交说明
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../submit/submit/" class="md-nav__link">
+        【重要!】课程提交要求
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../submit/operation/" class="md-nav__link">
+        作业系统指南
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          实验1：RISC-V汇编程序设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验1：RISC-V汇编程序设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验1：RISC-V汇编程序设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/1-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/2-logisim/" class="md-nav__link">
+        Logisim简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/3-submit/" class="md-nav__link">
+        验收与提交
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          实验2：单周期CPU设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验2：单周期CPU设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          实验2：单周期CPU设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          实验原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验原理" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/1-inst/" class="md-nav__link">
+        miniRV-1指令集
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/2-parts/" class="md-nav__link">
+        功能部件设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/3-datpth/" class="md-nav__link">
+        数据通路设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/4-ctrler/" class="md-nav__link">
+        控制单元设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/5-timing/" class="md-nav__link">
+        单周期CPU时序
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/6-verify/" class="md-nav__link">
+        CPU功能验证
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/7-bus/" class="md-nav__link">
+        系统总线
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/8-peripheral/" class="md-nav__link">
+        接口与外设
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/9-macros/" class="md-nav__link">
+        Verilog宏定义使用
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/10-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/11-constr/" class="md-nav__link">
+        附录：添加约束
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          实验3：流水线CPU设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验3：流水线CPU设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          实验3：流水线CPU设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          实验原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验原理" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1-pipeline/" class="md-nav__link">
+        流水线概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2-perfectpl/" class="md-nav__link">
+        理想流水线
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3-hazard/" class="md-nav__link">
+        数据相关与流水线冒险
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          数据冒险的处理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        数据冒险的处理
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 数据冒险的检测
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 数据冒险的检测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-rawa" class="md-nav__link">
+    1.1 RAW情形A检测
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-rawb" class="md-nav__link">
+    1.2 RAW情形B检测
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-rawc" class="md-nav__link">
+    1.3 RAW情形C检测
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 数据冒险解决方法
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 数据冒险解决方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 流水线暂停
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 数据前递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 乱序执行
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5-handleCH/" class="md-nav__link">
+        控制冒险的处理
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Trace测试说明
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Trace测试说明" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Trace测试说明
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/trace/" class="md-nav__link">
+        测试机制说明
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/remote_env/" class="md-nav__link">
+        附录1：远程平台使用指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/vm/" class="md-nav__link">
+        附录2：虚拟机使用指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/env_bymyself/" class="md-nav__link">
+        附录3：实验环境部署指南
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          CPU的调试与下板验证
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CPU的调试与下板验证" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          CPU的调试与下板验证
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verify/realtest/" class="md-nav__link">
+        下板验证说明
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2">
+          CPU调试方法
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CPU调试方法" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          CPU调试方法
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verify/trace-debug/" class="md-nav__link">
+        方法1：利用Trace调试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../verify/online-debug/" class="md-nav__link">
+        方法2：FPGA在线调试
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Verilog代码规范
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Verilog代码规范" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Verilog代码规范
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../codingstyle/" class="md-nav__link">
+        Verilog代码规范
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 数据冒险的检测
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 数据冒险的检测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-rawa" class="md-nav__link">
+    1.1 RAW情形A检测
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-rawb" class="md-nav__link">
+    1.2 RAW情形B检测
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-rawc" class="md-nav__link">
+    1.3 RAW情形C检测
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 数据冒险解决方法
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 数据冒险解决方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 流水线暂停
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 数据前递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 乱序执行
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+  <h1>数据冒险的处理</h1>
+
+<h2 id="1">1. 数据冒险的检测</h2>
+<p>&emsp;&emsp;要想解决流水线处理器中的数据冒险问题，首先需要在指令流中检测出数据冒险。</p>
+<p>&emsp;&emsp;下面以图4-1为例介绍RAW冒险三种情形的检测方法。</p>
+<p><center><img src = "../assets/4-1.png" width = 530></center>
+<center>图4-1 RAW数据冒险的三种情形</center></p>
+<h3 id="11-rawa">1.1 RAW情形A检测</h3>
+<p>&emsp;&emsp;相邻指令发生RAW冒险 —— 图4-1中，第2条指令在译码阶段访问的寄存器与第1条指令在执行阶段将要写回的寄存器冲突。</p>
+<p>&emsp;&emsp;流水线CPU中，与情形A有关的数据通路如图4-2所示。</p>
+<p><center><img src = "../assets/4-2.png" width = 600></center>
+<center>图4-2 RAW情形A有关的流水线数据通路</center></p>
+<p>&emsp;&emsp;分析图4-2所示的数据通路，不难发现RAW情形A的判断方法/检测逻辑如下：</p>
+<p><center>
+( REG<sub><strong>ID/EX</strong></sub>.RD == ID.RS1 ) || ( REG<sub><strong>ID/EX</strong></sub>.RD == ID.RS2 )
+</center></p>
+<p>&emsp;&emsp;其中，REG<sub>ID/EX</sub>表示译码阶段和执行阶段之间的流水线寄存器，下同；REG<sub>ID/EX</sub>.RD表示ID/EX流水线寄存器的RD字段，观察图4-2可知该字段暂存的是从ID级传递而来的目标寄存器的寄存器号。</p>
+<p>&emsp;&emsp;显然，对于图4-1中的情形A，有REG<sub>ID/EX</sub>.RD == ID.RS1 == <code>5'd19</code>。</p>
+<h3 id="12-rawb">1.2 RAW情形B检测</h3>
+<p>&emsp;&emsp;间隔1条指令发生RAW冒险 —— 图4-1中，第3条指令在译码阶段访问的寄存器与第1条指令在访存阶段将要写回的寄存器冲突。</p>
+<p>&emsp;&emsp;流水线CPU中，与情形B有关的数据通路如图4-3所示。</p>
+<p><center><img src = "../assets/4-3.png" width = 600></center>
+<center>图4-3 RAW情形B有关的流水线数据通路</center></p>
+<p>&emsp;&emsp;分析图4-3所示的数据通路，不难发现RAW情形B的判断方法/检测逻辑如下：</p>
+<p><center>
+( REG<sub><strong>EX/MEM</strong></sub>.RD == ID.RS1 ) || ( REG<sub><strong>EX/MEM</strong></sub>.RD == ID.RS2 )
+</center></p>
+<p>&emsp;&emsp;显然，对于图4-1中的情形B，有REG<sub>EX/MEM</sub>.RD == ID.RS1 == <code>5'd19</code>。</p>
+<h3 id="13-rawc">1.3 RAW情形C检测</h3>
+<p>&emsp;&emsp;间隔2条指令发生RAW冒险 —— 图4-1中，第4条指令在译码阶段访问的寄存器与第1条指令在写回阶段将要写回的寄存器冲突。</p>
+<p>&emsp;&emsp;流水线CPU中，与情形C有关的数据通路如图4-4所示。</p>
+<p><center><img src = "../assets/4-4.png" width = 690></center>
+<center>图4-4 RAW情形C有关的流水线数据通路</center></p>
+<p>&emsp;&emsp;分析图4-4所示的数据通路，不难发现RAW情形C的判断方法/检测逻辑如下：</p>
+<p><center>
+( REG<sub><strong>MEM/WB</strong></sub>.RD == ID.RS1 ) || ( REG<sub><strong>MEM/WB</strong></sub>.RD == ID.RS2 )
+</center></p>
+<p>&emsp;&emsp;显然，对于图4-1中的情形C，有REG<sub>MEM/WB</sub>.RD == ID.RS1 == <code>5'd19</code>。</p>
+<div class="admonition hint">
+<p class="admonition-title">参考实现 <img alt="✨" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2728.svg" title=":sparkles:" /></p>
+<p>&emsp;&emsp;对于RAW情形C，给出检测逻辑的参考实现代码：</p>
+<p><div class="highlight"><pre><span></span><code><span class="mh">1</span><span class="o">|</span><span class="w">    </span><span class="kt">wire</span><span class="w"> </span><span class="n">rs1_id_wb_hazard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">wb_rd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id_rs1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">wb_we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">id_rf1</span><span class="p">;</span><span class="w"></span>
+<span class="mh">2</span><span class="o">|</span><span class="w">    </span><span class="kt">wire</span><span class="w"> </span><span class="n">rs2_id_wb_hazard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">wb_rd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id_rs2</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">wb_we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">id_rf2</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<center>图4-5 检测RAW冒险情形C的RTL参考实现</center></p>
+<p>&emsp;&emsp;其中，<code>wb_rd</code>表示WB阶段的目标寄存器的寄存器号；<code>wb_we</code>表示WB阶段的写使能信号；<code>id_rs1</code>表示ID阶段的RS1寄存器号；<code>id_rf1</code>表示ID阶段的RS1寄存器的<u>读标志信号</u>，该信号用于标识ID阶段的RS1是否被读取。</p>
+<p>&emsp;&emsp;特别注意的是，此处增加<code>id_rf1</code>和<code>id_rf2</code>信号是为了避免I型、U型和J型指令执行时出现RAW冒险的误判。</p>
+</div>
+<p>&emsp;&emsp;请同学们参考上述实现代码，自行完成RAW三种情形的检测逻辑。</p>
+<p>&emsp;&emsp;添加了数据冒险检测逻辑的流水线CPU数据通路形如图4-6所示。</p>
+<p><center><img src = "../assets/4-6.png"></center>
+<center>图4-6 具有数据冒险检测功能的流水线CPU数据通路示例</center></p>
+<h2 id="2">2. 数据冒险解决方法</h2>
+<h3 id="21">2.1 流水线暂停</h3>
+<p>&emsp;&emsp;流水线发生数据冒险时，最朴素的解决方法就是暂停后续的指令，等待前面的指令执行完成，再重新让后续的指令执行。</p>
+<div class="admonition example">
+<p class="admonition-title">举栗说明 <img alt="🌰" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f330.svg" title=":chestnut:" /></p>
+<p>&emsp;&emsp;对于如图4-1所示的RAW情形A，可让第二条指令暂停3个时钟周期，等待第一条指令写回后，再继续执行，如图4-7所示。</p>
+<p><center><img src = "../assets/4-7.png" width = 500></center>
+<center>图4-7 流水线暂停</center></p>
+</div>
+<p>&emsp;&emsp;流水线暂停除了可以解决数据冒险问题，还可以用于实现复杂操作指令，如乘除法指令。</p>
+<div class="admonition info">
+<p class="admonition-title">PS <img alt="📣" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f4e3.svg" title=":mega:" /></p>
+<p>&emsp;&emsp;乘除法指令需要通过硬件乘法器和硬件除法器实现。硬件的乘除法通常需要多个时钟周期才能完成。对于32bit的“IF-ID-EX-MEM-WB”的五级流水CPU，假设采用两位编码的Booth算法实现乘法器，乘法操作至少也需要16个时钟周期才能完成。因此，在不改变流水线深度的前提下，需要借助流水线暂停来延长执行阶段，才能实现乘除法指令。</p>
+<p>&emsp;&emsp;（1）硬件乘法</p>
+<p>&emsp;&emsp;可采用两位编码的Booth算法实现乘法器，相应的乘法器架构如图4-8所示。使用该乘法器实现32bit乘法，需要17个时钟周期。</p>
+<p><center><img src = "../assets/4-8.png" width = 340></center>
+<center>图4-8 两位编码Booth乘法器架构图</center></p>
+<p>&emsp;&emsp;（2）硬件除法</p>
+<p>&emsp;&emsp;可采用加减交替算法实现除法器，相应的除法器架构如图4-9所示。使用该除法器实现32bit除法，需要32个时钟周期。</p>
+<p><center><img src = "../assets/4-9.png" width = 380></center>
+<center>图4-9 加减交替法除法器架构图</center></p>
+</div>
+<p>&emsp;&emsp;要使流水线的执行暂停下来，只需暂停相关寄存器的更新即可，即：</p>
+<p>&emsp;&emsp;（1）保持取指地址（即PC寄存器的值）不变；  </p>
+<p>&emsp;&emsp;（2）保持各个流水线寄存器（IF/ID、ID/EX、EX/MEM、MEM/WB）不变；</p>
+<p>&emsp;&emsp;暂停寄存器更新的方法是：<u>将寄存器的输入修改为寄存器自身的输出</u>。</p>
+<p>&emsp;&emsp;添加了流水线暂停机制的流水线CPU数据通路形如图4-10所示。</p>
+<p><center><img src = "../assets/4-10.png"></center>
+<center>图4-10 具有暂停功能的流水线CPU数据通路示例</center></p>
+<div class="admonition hint">
+<p class="admonition-title">参考实现 <img alt="✨" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2728.svg" title=":sparkles:" /></p>
+<p>&emsp;&emsp;图4-9中的虚线表示使用生成的暂停信号暂停流水线寄存器。限于空间，具体的暂停逻辑未画出。对于IF/ID寄存器，其暂停逻辑的参考RTL实现如图4-11所示。</p>
+<p><div class="highlight"><pre><span></span><code><span class="w"> </span><span class="mh">1</span><span class="o">|</span><span class="w">    </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w"> </span><span class="mh">2</span><span class="o">|</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">~</span><span class="n">rst_n</span><span class="p">)</span><span class="w">             </span><span class="n">id_pc</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">3</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pipeline_stop</span><span class="p">)</span><span class="w"> </span><span class="n">id_pc</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">id_pc</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">4</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w">                    </span><span class="n">id_pc</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">if_pc</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">5</span><span class="o">|</span><span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w"> </span><span class="mh">6</span><span class="o">|</span><span class="w"></span>
+<span class="w"> </span><span class="mh">7</span><span class="o">|</span><span class="w">    </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w"> </span><span class="mh">8</span><span class="o">|</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">~</span><span class="n">rst_n</span><span class="p">)</span><span class="w">             </span><span class="n">id_inst</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">9</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pipeline_stop</span><span class="p">)</span><span class="w"> </span><span class="n">id_inst</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">id_inst</span><span class="p">;</span><span class="w"></span>
+<span class="mh">10</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w">                    </span><span class="n">id_inst</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">if_inst</span><span class="p">;</span><span class="w"></span>
+<span class="mh">11</span><span class="o">|</span><span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="mh">12</span><span class="o">|</span><span class="w">    </span>
+<span class="mh">13</span><span class="o">|</span><span class="w">    </span><span class="p">......</span><span class="w"></span>
+</code></pre></div>
+<center>图4-11 暂停IF/ID寄存器的RTL参考实现</center></p>
+<p>请同学们参考上述实现，自行完成相关寄存器的暂停操作。</p>
+</div>
+<h3 id="22">2.2 数据前递</h3>
+<p>&emsp;&emsp;数据<u>前递</u>又称数据<u>前推</u>、数据<u>旁路</u>、数据<u>转发</u>，指的是将某个流水线阶段的中间结果向前传递到前面的阶段，且被前递的数据直接参与前面阶段中的操作。</p>
+<div class="admonition example">
+<p class="admonition-title">举个栗子 <img alt="🌰" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f330.svg" title=":chestnut:" /></p>
+<p>&emsp;&emsp;对于图4-1所示的RAW冒险，可采用数据前递方法解决 —— 将执行阶段、访存阶段或写回阶段的中间结果前递给译码阶段，并让前递而来的数据参与到指令译码时的源操作数选择，如图4-12所示。</p>
+<p><center><img src = "../assets/4-12.png" width = 500></center>
+<center>图4-12 数据前递示意图</center></p>
+<p>&emsp;&emsp;图4-12中，从EXE指向ID、从MEM指向ID以及从WB指向ID的三条紫色箭头，分别对应图4-1中RAW冒险的三种情形。第一条指令在执行阶段即可产生计算结果（x19寄存器的新值），此时通过执行阶段到译码阶段的数据前递，可让第二条指令在译码时获得x19的新值，从而在不需暂停流水线的情况下解决了第一、二条指令之间的RAW冒险。</p>
+</div>
+<p>&emsp;&emsp;添加了数据前递机制的流水线CPU数据通路形如图4-13所示。</p>
+<p><center><img src = "../assets/4-13.png"></center>
+<center>图4-13 增加数据前递机制的流水线CPU数据通路</center></p>
+<div class="admonition hint">
+<p class="admonition-title">参考实现 <img alt="✨" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2728.svg" title=":sparkles:" /></p>
+<p>&emsp;&emsp;译码阶段被前递而来的数据，需要加入到源操作数的选择逻辑当中，相应的RTL参考实现如图4-14所示。</p>
+<p><div class="highlight"><pre><span></span><code><span class="w"> </span><span class="mh">1</span><span class="o">|</span><span class="w">    </span><span class="kt">wire</span><span class="w"> </span><span class="n">rs1_id_wb_hazard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">wb_rd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id_rs1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">wb_we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">id_rf1</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">2</span><span class="o">|</span><span class="w">    </span><span class="kt">wire</span><span class="w"> </span><span class="n">rs2_id_wb_hazard</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">wb_rd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id_rs2</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">wb_we</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">id_rf2</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">3</span><span class="o">|</span><span class="w"></span>
+<span class="w"> </span><span class="mh">4</span><span class="o">|</span><span class="w">    </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="w"> </span><span class="mh">5</span><span class="o">|</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">~</span><span class="n">rst_n</span><span class="p">)</span><span class="w">                 </span><span class="n">op_datA</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">6</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rs1_id_wb_hazard</span><span class="p">)</span><span class="w">  </span><span class="n">op_datA</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">forward_dat</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">7</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w">                        </span><span class="n">op_datA</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">original_opA</span><span class="p">;</span><span class="w"></span>
+<span class="w"> </span><span class="mh">8</span><span class="o">|</span><span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w"> </span><span class="mh">9</span><span class="o">|</span><span class="w"></span>
+<span class="mh">10</span><span class="o">|</span><span class="w">    </span><span class="k">always</span><span class="w"> </span><span class="p">@(</span><span class="k">posedge</span><span class="w"> </span><span class="n">clk</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="k">negedge</span><span class="w"> </span><span class="n">rst_n</span><span class="p">)</span><span class="w"> </span><span class="k">begin</span><span class="w"></span>
+<span class="mh">11</span><span class="o">|</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">~</span><span class="n">rst_n</span><span class="p">)</span><span class="w">                 </span><span class="n">op_datB</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">32&#39;h0</span><span class="p">;</span><span class="w"></span>
+<span class="mh">12</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rs2_id_wb_hazard</span><span class="p">)</span><span class="w">  </span><span class="n">op_datB</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">forward_dat</span><span class="p">;</span><span class="w"></span>
+<span class="mh">13</span><span class="o">|</span><span class="w">        </span><span class="k">else</span><span class="w">                        </span><span class="n">op_datB</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">original_opB</span><span class="p">;</span><span class="w"></span>
+<span class="mh">14</span><span class="o">|</span><span class="w">    </span><span class="k">end</span><span class="w"></span>
+</code></pre></div>
+<center>图4-14 译码阶段前递数据处理的RTL参考实现</center></p>
+</div>
+<p>&emsp;&emsp;流水线暂停和数据前递并不冲突，有时甚至需要配合使用。</p>
+<div class="admonition question">
+<p class="admonition-title">思考题 <img alt="🌟" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f31f.svg" title=":star2:" /></p>
+<p>&emsp;&emsp;假设将图4-1中的第一条指令换成<code>lw x19, 0(x1)</code>，考虑此时的RAW情形A，能否使用数据前递解决？</p>
+</div>
+<h3 id="23">2.3 乱序执行</h3>
+<p>&emsp;&emsp;流水线发生数据冒险时，除了暂停和前递，还可以让后续的无相关关系的指令先执行，使得冒险问题自然而然地解决。</p>
+<p>&emsp;&emsp;实现乱序执行的基本思路是，检测指令流中是否存在冒险；若存在冒险，则让后续的无相关指令先执行。乱序执行<u>既可通过硬件动态实现，也可以通过编译器或汇编器静态实现</u>。</p>
+<p>&emsp;&emsp;典型的乱序执行算法包括<u>记分牌算法</u>和<u>Tomasulo算法</u>等，其硬件实现方法较为复杂，此处不作详细介绍。感兴趣的同学们可自行查阅相关资料。</p>
+<p>&emsp;&emsp;对乱序执行感兴趣的同学，建议先尝试通过汇编器静态实现。</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../3-hazard/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 数据相关与流水线冒险" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              数据相关与流水线冒险
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../5-handleCH/" class="md-footer__link md-footer__link--next" aria-label="下一页: 控制冒险的处理" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              控制冒险的处理
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2022 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand"], "search": "../../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.431f3d41.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

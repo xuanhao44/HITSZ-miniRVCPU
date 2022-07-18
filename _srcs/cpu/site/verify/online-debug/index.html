@@ -1,0 +1,1580 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.5">
+    
+    
+      
+        <title>方法2：FPGA在线调试 - 计算机设计与实践（2022夏季） | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.4a0965b7.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#00bdd6">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="cyan" data-md-color-accent="cyan">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="计算机设计与实践（2022夏季） | 哈工大（深圳）" class="md-header__button md-logo" aria-label="计算机设计与实践（2022夏季） | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M160 352h192V160H160v192zm288-176h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-16c0-35.35-28.65-64-64-64h-16V16c0-8.836-7.2-16-16-16-8.836 0-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-16c-35.35 0-64 28.65-64 64v16H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v16c0 35.35 28.65 64 64 64h16v48c0 8.8 7.2 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h16c35.35 0 64-28.65 64-64v-16h48c8.838 0 16-7.164 16-16s-7.162-16-16-16h-48v-64h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-64zm-64 192c0 8.836-7.162 16-16 16H144c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v224z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            计算机设计与实践（2022夏季） | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              方法2：FPGA在线调试
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitee.com/hitsz-cslab/cpu" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HITSZ-ECEI-CS/CPUDesign
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        首页
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab1/0-overview/" class="md-tabs__link">
+        实验1：RISC-V汇编程序设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab2/0-overview/" class="md-tabs__link">
+        实验2：单周期CPU设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../lab3/0-overview/" class="md-tabs__link">
+        实验3：流水线CPU设计
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../trace/trace/" class="md-tabs__link">
+        Trace测试说明
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../realtest/" class="md-tabs__link md-tabs__link--active">
+        CPU的调试与下板验证
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../codingstyle/" class="md-tabs__link">
+        Verilog代码规范
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="计算机设计与实践（2022夏季） | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="计算机设计与实践（2022夏季） | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M160 352h192V160H160v192zm288-176h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-16c0-35.35-28.65-64-64-64h-16V16c0-8.836-7.2-16-16-16-8.836 0-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-64V16c0-8.836-7.2-16-16-16s-16 7.164-16 16v48h-16c-35.35 0-64 28.65-64 64v16H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v64H16c-8.836 0-16 7.2-16 16s7.164 16 16 16h48v16c0 35.35 28.65 64 64 64h16v48c0 8.8 7.2 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h64v48c0 8.836 7.164 16 16 16 8.838 0 16-7.164 16-16v-48h16c35.35 0 64-28.65 64-64v-16h48c8.838 0 16-7.164 16-16s-7.162-16-16-16h-48v-64h48c8.8 0 16-7.2 16-16s-7.162-16-16-16h-48v-64zm-64 192c0 8.836-7.162 16-16 16H144c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h224c8.8 0 16 7.2 16 16v224z"/></svg>
+
+    </a>
+    计算机设计与实践（2022夏季） | 哈工大（深圳）
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitee.com/hitsz-cslab/cpu" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    HITSZ-ECEI-CS/CPUDesign
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          首页
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="首页" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          首页
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        实验须知
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../board/minisys/" class="md-nav__link">
+        开发板使用须知
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_3">
+          作业提交说明
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="作业提交说明" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          作业提交说明
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../submit/submit/" class="md-nav__link">
+        【重要!】课程提交要求
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../submit/operation/" class="md-nav__link">
+        作业系统指南
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          实验1：RISC-V汇编程序设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验1：RISC-V汇编程序设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验1：RISC-V汇编程序设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/1-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/2-logisim/" class="md-nav__link">
+        Logisim简介
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/3-submit/" class="md-nav__link">
+        验收与提交
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          实验2：单周期CPU设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验2：单周期CPU设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          实验2：单周期CPU设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          实验原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验原理" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/1-inst/" class="md-nav__link">
+        miniRV-1指令集
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/2-parts/" class="md-nav__link">
+        功能部件设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/3-datpth/" class="md-nav__link">
+        数据通路设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/4-ctrler/" class="md-nav__link">
+        控制单元设计
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/5-timing/" class="md-nav__link">
+        单周期CPU时序
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/6-verify/" class="md-nav__link">
+        CPU功能验证
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/7-bus/" class="md-nav__link">
+        系统总线
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/8-peripheral/" class="md-nav__link">
+        接口与外设
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/9-macros/" class="md-nav__link">
+        Verilog宏定义使用
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/10-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/11-constr/" class="md-nav__link">
+        附录：添加约束
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          实验3：流水线CPU设计
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验3：流水线CPU设计" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          实验3：流水线CPU设计
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/0-overview/" class="md-nav__link">
+        实验概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          实验原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="实验原理" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          实验原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/1-pipeline/" class="md-nav__link">
+        流水线概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/2-perfectpl/" class="md-nav__link">
+        理想流水线
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/3-hazard/" class="md-nav__link">
+        数据相关与流水线冒险
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/4-handleDH/" class="md-nav__link">
+        数据冒险的处理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/5-handleCH/" class="md-nav__link">
+        控制冒险的处理
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/6-step/" class="md-nav__link">
+        实验步骤
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Trace测试说明
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Trace测试说明" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Trace测试说明
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/trace/" class="md-nav__link">
+        测试机制说明
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/remote_env/" class="md-nav__link">
+        附录1：远程平台使用指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/vm/" class="md-nav__link">
+        附录2：虚拟机使用指南
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../trace/env_bymyself/" class="md-nav__link">
+        附录3：实验环境部署指南
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          CPU的调试与下板验证
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CPU的调试与下板验证" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          CPU的调试与下板验证
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../realtest/" class="md-nav__link">
+        下板验证说明
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2">
+          CPU调试方法
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CPU调试方法" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          CPU调试方法
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trace-debug/" class="md-nav__link">
+        方法1：利用Trace调试
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          方法2：FPGA在线调试
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        方法2：FPGA在线调试
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 下板前的调试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fpga" class="md-nav__link">
+    2. FPGA在线调试
+  </a>
+  
+    <nav class="md-nav" aria-label="2. FPGA在线调试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 抓取需探测的信号
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-debug" class="md-nav__link">
+    2.2 综合并建立debug
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-bit" class="md-nav__link">
+    2.3 实现并生产bit流文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-bitdebug" class="md-nav__link">
+    2.4 下载bit流和debug文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5 下板观察
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    2.6 注意事项
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Verilog代码规范
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Verilog代码规范" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Verilog代码规范
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../codingstyle/" class="md-nav__link">
+        Verilog代码规范
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 下板前的调试
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fpga" class="md-nav__link">
+    2. FPGA在线调试
+  </a>
+  
+    <nav class="md-nav" aria-label="2. FPGA在线调试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 抓取需探测的信号
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-debug" class="md-nav__link">
+    2.2 综合并建立debug
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-bit" class="md-nav__link">
+    2.3 实现并生产bit流文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-bitdebug" class="md-nav__link">
+    2.4 下载bit流和debug文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5 下板观察
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    2.6 注意事项
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+  <h1>方法2：FPGA在线调试</h1>
+
+<h2 id="1">1. 下板前的调试</h2>
+<p>&emsp;&emsp;在下板验证之前，务必对自己设计的CPU进行充分的仿真调试。此外，还需认真排查综合和实现时的warning。一般地，Critical Warning是强烈建议要修正的，普通的Warning则是尽量修正。</p>
+<p>&emsp;&emsp;排查了Warning之后，建议人工检查RTL代码，避免以下问题：</p>
+<ul>
+<li>
+<p>多驱动</p>
+</li>
+<li>
+<p>模块的输入/输出端口接入的信号方向有误</p>
+</li>
+<li>
+<p>时钟复位信号接错</p>
+</li>
+<li>
+<p>代码不规范，乱用阻塞赋值和非阻塞赋值，随意使用always语句</p>
+</li>
+<li>
+<p>仿真时控制信号有不定态“X”或高阻"Z" (特别注意顶层接口上不要出现"X"和"Z")</p>
+</li>
+<li>
+<p>时序违约</p>
+</li>
+<li>
+<p>模块里的控制路径上的信号未进行复位</p>
+</li>
+</ul>
+<p>&emsp;&emsp;上述问题通常会导致仿真通过而下板出错的情况。如果出现仿真对，下板不对，请首先检查RTL代码中是否存在以上问题。</p>
+<h2 id="2-fpga">2. FPGA在线调试</h2>
+<p>&emsp;&emsp;在FPGA开发过程中，经常碰到仿真上板行为不一致，更多时候是仿真正常，上板异常。由于上板调试手段薄弱，导致很难定位错误。这时候可以借助Xilinx的下载线进行在线调试，在线调试是在FPGA上运行过程中探测预定好的信号，然后通过USB编程线缆显示到上位机上。</p>
+<p>&emsp;&emsp;下面简单介绍使用在线调试的方法：RTL里设定需探测的信号，综合并建立Debug core，实现并生产bit流文件，下载bit流和debug文件，上板观察。</p>
+<h3 id="21">2.1 抓取需探测的信号</h3>
+<p>&emsp;&emsp;在RTL源码中，给想要抓取的探测信号声明前增加<code>(*mark_debug = "true"*)</code>。</p>
+<p>&emsp;&emsp;比如，我们想要在FPGA板上观察debug信号、PC寄存器和数码管寄存器，需要在代码里这样设置。</p>
+<p><center><img src = "../assets/v-1(1).jpg" width = 400></center>
+<center>抓取写回信息</center></p>
+<p><center><img src = "../assets/v-1(2).jpg" width = 400></center>
+<center>抓取PC寄存器</center></p>
+<p><center><img src = "../assets/v-1(3).jpg" width = 400></center>
+<center>抓取数码管寄存器</center></p>
+<p>&emsp;&emsp;设定完成后，就可以运行综合了。</p>
+<h3 id="22-debug">2.2 综合并建立debug</h3>
+<p>&emsp;&emsp;在综合完成后，需建立debug。</p>
+<p>&emsp;&emsp;点击工程左侧synthesis-&gt;Open Synthesized Desgin-&gt;Set Up Debug。</p>
+<p><center><img src = "../assets/v-2.jpg" width = 280></center></p>
+<p>&emsp;&emsp;随后会出现如下界面，点击Next：</p>
+<p><center><img src = "../assets/v-3.jpg" width = 600></center></p>
+<p>&emsp;&emsp;随后会列出抓取的Debug信息，点击Next：</p>
+<p><center><img src = "../assets/v-4.jpg" width = 600></center></p>
+<p>&emsp;&emsp;选择抓取的深度和触发控制类型，点击Next（更高级的调试可以勾选“Advanced trigger”）：</p>
+<p><center><img src = "../assets/v-5.jpg" width = 600></center></p>
+<p>&emsp;&emsp;最后，点击Finish：</p>
+<p><center><img src = "../assets/v-6.jpg" width = 600></center></p>
+<h3 id="23-bit">2.3 实现并生产bit流文件</h3>
+<p>&emsp;&emsp;在2.2节完成后会出现类似下图界面，直接点击Generate Bitstream：</p>
+<p><center><img src = "../assets/v-7.jpg"></center></p>
+<p>&emsp;&emsp;弹出如下界面，点击Save：</p>
+<p><center><img src = "../assets/v-8.jpg" width = 400></center></p>
+<p>&emsp;&emsp;如果有后续弹出界面，继续点击OK或Yes即可。这时就进入后续生产bit文件的流程了，此时Vivado界面里的synthesis design界面就可以关闭了。如果发现以下错误，则是因为路径太深，引用起来名字太长，降低工程目录深度即可：</p>
+<p><center><img src = "../assets/v-9.jpg"></center></p>
+<h3 id="24-bitdebug">2.4 下载bit流和debug文件</h3>
+<p>&emsp;&emsp;在完成2.3节后，会生成bit流文件和调试使用ltx文件。这里，打开Open Hardware Manager，连接好FPGA开发板后，选择Program device，如下图。自动加载了bit流文件和调试的ltx文件。选择Program，等待下载完成。</p>
+<p><center><img src = "../assets/v-10.jpg" width = 600></center></p>
+<h3 id="25">2.5 下板观察</h3>
+<p>&emsp;&emsp;在下载完成后，vivado界面如下，在线调试就是在hw_ila_1界面里进行的。</p>
+<p><center><img src = "../assets/v-11.jpg"></center></p>
+<p>&emsp;&emsp;hw_ila_1界面主要分为3个界面，分别如下：</p>
+<p><center><img src = "../assets/v-12.jpg"></center></p>
+<p>&emsp;&emsp;首先，我们需要在右下角区域设定触发条件。所谓触发条件，就是设定该条件满足时获取波形，比如我先设定触发条件是数码管寄存器到达0x0500_0005。在下图中，先点击“+”，在双击num_data。</p>
+<p><center><img src = "../assets/v-13.jpg"></center></p>
+<p>&emsp;&emsp;之后会出现如下界面，设定好触发条件。</p>
+<p><center><img src = "../assets/v-14.jpg"></center></p>
+<p>&emsp;&emsp;可以设定多个触发条件，比如，再加一个除法条件是写回使能是0xf，可以设定多个触发条件直接的关系，比如是任意一个满足、两个都是满足等等，如下图：</p>
+<p><center><img src = "../assets/v-15.jpg" width = 600></center></p>
+<p>&emsp;&emsp;在左下角窗口，选择settings，可以设定Capture选项，可能经常用到的是Trigger position in window，用来设定触发条件满足的时刻在波形窗口的位置。比如，下图设定为500，当触发条件满足时，波形窗口的第500个clk的位置是该条件，言下之意，将触发条件满足前的500个clk的信号值也抓出来了，这样可以看到触发条件之前的电路行为。Refresh rate设定了波形窗口的刷新频率。</p>
+<p><center><img src = "../assets/v-16.jpg" width = 600></center></p>
+<p>&emsp;&emsp;触发条件建立后，就可以启动波形抓取了，最关键的有三个触发按键，即下图圈出的3个按键：</p>
+<ul>
+<li>
+<p>左起第一个，设定触发模式，有两个选项：单触发；循环触发。当该按键按下时，表示循环检测触发，那么只要触发条件满足，波形窗口就会更新。当设置为单触发时，就是触发一次完成后，就不会再检测触发条件了。比如，如果我们设定触发条件是PC=0xbfc00690，那么如果该PC被多次执行到。如果设定为单触发，那按下FPGA板上的复位键，波形窗口只会展示第一次触发时的情况。如果设定循环触发，那么波形窗口会以Refresh rate不停刷新新捕获的触发条件。</p>
+</li>
+<li>
+<p>左起第二个，等待触发条件被满足。点击该按键，就是等待除法条件被满足，展示出波形。</p>
+</li>
+<li>
+<p>左起第三个，立即触发。点击该按键，表示不管触发条件，立即抓取一段波形展示到窗口中。</p>
+</li>
+</ul>
+<p>&emsp;&emsp;下图就是点击第三个按键得到的波形，因为是立即触发，所以num_data不是0x0500_0005，且有一条标注为“T”的红色，就是触发的时刻。由于触发时刻位于波形窗口的500 clk位置，所以红色的位置正好是500 clk处。</p>
+<p><center><img src = "../assets/v-17.jpg"></center></p>
+<p>&emsp;&emsp;从上图也能看到，num_data是0x5c00_005c，表示一次测试已经完成了。所以这时候，点击第二个触发按键等待触发，会发现波形窗口没有反应。这是因为触发条件没有被满足，这时按下FPGA板上的复位键即可。结果如下图。红色圈出的就是触发条件：num_data==32’h5c00_005c &amp;&amp; rf_wen==4’hf。</p>
+<p><center><img src = "../assets/v-18.jpg"></center></p>
+<p>&emsp;&emsp;剩下的debug过程，就和仿真debug类似了，去观察波形。但在线调试时，你无法添加在2.1节未被添加debug mark的信号。在线调试过程中，可能需要不停的更换触发条件，不停的按复位键。</p>
+<h3 id="26">2.6 注意事项</h3>
+<p>&emsp;&emsp;在2.1节中添加要抓取的信号时，不要给太多信号标注debug mark了。在线调试时抓取波形是需要消耗电路资源和存储单元的，因而能抓取的波形大小是受限的。应当只给必要的debug信号添加debug mark。</p>
+<p>&emsp;&emsp;在2.2节中抓取波形的深度，不宜太深。如果设定得太深，那么会存在存储资源不够，导致最后生成bit流和debug文件失败。</p>
+<p>&emsp;&emsp;抓取的信号数量和抓取的深度是一对矛盾的变量。如果抓取深度相对较低，抓取的信号数量就可以相对多些。</p>
+<p>&emsp;&emsp;在2.5节中，相对仿真调试，在线调试对调试思想和技巧有更高的要求，请好好整理思路，多多总结技巧。特别强调以下几点：</p>
+<ul>
+<li>
+<p>触发条件的设定有很多组合，请根据需求认真考虑，好好设计</p>
+</li>
+<li>
+<p>通常只需要使用单触发模式，但循环触发有时候也很有用，必要时好好利用</p>
+</li>
+<li>
+<p>在线调试界面里很多按键，请自行学习，可以网上搜索资料，也可以在Xilinx官网上搜索，查找官方文档等</p>
+</li>
+</ul>
+<p>&emsp;&emsp;最后再提醒一点，仿真通过但上板失败时，请先重点排查其他问题，最后再使用在线调试的方法。也就是仿真通过，上板异常时，应按以下流程排查：</p>
+<p>&emsp;&emsp;1) 复核生成、下载的bit文件是否正确；</p>
+<p>&emsp;&emsp;2) 复核仿真结果是否正确；</p>
+<p>&emsp;&emsp;3) 检查实现时的时序报告（Vivado界面左侧“Timing Summary”）；</p>
+<p>&emsp;&emsp;4) 认真排查综合和实现时的Warning；</p>
+<p>&emsp;&emsp;5) 排查RTL代码规范，避免多驱动、阻塞赋值乱用；</p>
+<p>&emsp;&emsp;6) 使用Vivado的逻辑分析仪进行板上在线调试。</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../trace-debug/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 方法1：利用Trace调试" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              方法1：利用Trace调试
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../codingstyle/" class="md-footer__link md-footer__link--next" aria-label="下一页: Verilog代码规范" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              Verilog代码规范
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2022 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand"], "search": "../../assets/javascripts/workers/search.85cb4492.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.431f3d41.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

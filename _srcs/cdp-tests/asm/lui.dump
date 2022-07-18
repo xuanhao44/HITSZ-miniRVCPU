@@ -1,0 +1,83 @@
+
+lui:     file format elf32-littleriscv
+
+
+Disassembly of section .text.init:
+
+00000000 <_start>:
+   0:	0040006f          	jal	x0,4 <reset_vector>
+
+00000004 <reset_vector>:
+   4:	000000b7          	lui	x1,0x0
+   8:	00000393          	addi	x7,x0,0
+   c:	00200193          	addi	x3,x0,2
+  10:	04709a63          	bne	x1,x7,64 <fail>
+
+00000014 <test_3>:
+  14:	fffff0b7          	lui	x1,0xfffff
+  18:	4010d093          	srai	x1,x1,0x1
+  1c:	80000393          	addi	x7,x0,-2048
+  20:	00300193          	addi	x3,x0,3
+  24:	04709063          	bne	x1,x7,64 <fail>
+
+00000028 <test_4>:
+  28:	7ffff0b7          	lui	x1,0x7ffff
+  2c:	4140d093          	srai	x1,x1,0x14
+  30:	7ff00393          	addi	x7,x0,2047
+  34:	00400193          	addi	x3,x0,4
+  38:	02709663          	bne	x1,x7,64 <fail>
+
+0000003c <test_5>:
+  3c:	800000b7          	lui	x1,0x80000
+  40:	4140d093          	srai	x1,x1,0x14
+  44:	80000393          	addi	x7,x0,-2048
+  48:	00500193          	addi	x3,x0,5
+  4c:	00709c63          	bne	x1,x7,64 <fail>
+
+00000050 <test_6>:
+  50:	80000037          	lui	x0,0x80000
+  54:	00000393          	addi	x7,x0,0
+  58:	00600193          	addi	x3,x0,6
+  5c:	00701463          	bne	x0,x7,64 <fail>
+  60:	00301e63          	bne	x0,x3,7c <pass>
+
+00000064 <fail>:
+  64:	00018063          	beq	x3,x0,64 <fail>
+  68:	00119193          	slli	x3,x3,0x1
+  6c:	0011e193          	ori	x3,x3,1
+  70:	05d00893          	addi	x17,x0,93
+  74:	00018513          	addi	x10,x3,0
+  78:	00000073          	ecall
+
+0000007c <pass>:
+  7c:	00100193          	addi	x3,x0,1
+  80:	05d00893          	addi	x17,x0,93
+  84:	00000513          	addi	x10,x0,0
+  88:	00000073          	ecall
+  8c:	c0001073          	unimp
+  90:	0000                	c.unimp
+  92:	0000                	c.unimp
+  94:	0000                	c.unimp
+  96:	0000                	c.unimp
+  98:	0000                	c.unimp
+  9a:	0000                	c.unimp
+  9c:	0000                	c.unimp
+  9e:	0000                	c.unimp
+  a0:	0000                	c.unimp
+  a2:	0000                	c.unimp
+  a4:	0000                	c.unimp
+  a6:	0000                	c.unimp
+  a8:	0000                	c.unimp
+  aa:	0000                	c.unimp
+  ac:	0000                	c.unimp
+  ae:	0000                	c.unimp
+  b0:	0000                	c.unimp
+  b2:	0000                	c.unimp
+  b4:	0000                	c.unimp
+  b6:	0000                	c.unimp
+  b8:	0000                	c.unimp
+  ba:	0000                	c.unimp
+  bc:	0000                	c.unimp
+  be:	0000                	c.unimp
+  c0:	0000                	c.unimp
+  c2:	0000                	c.unimp

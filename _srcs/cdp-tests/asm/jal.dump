@@ -1,0 +1,51 @@
+
+jal:     file format elf32-littleriscv
+
+
+Disassembly of section .text.init:
+
+00000000 <_start>:
+   0:	0040006f          	jal	x0,4 <reset_vector>
+
+00000004 <reset_vector>:
+   4:	00200193          	addi	x3,x0,2
+   8:	00000093          	addi	x1,x0,0
+   c:	0100026f          	jal	x4,1c <target_2>
+
+00000010 <linkaddr_2>:
+  10:	00000013          	addi	x0,x0,0
+  14:	00000013          	addi	x0,x0,0
+  18:	03c0006f          	jal	x0,54 <fail>
+
+0000001c <target_2>:
+  1c:	01000113          	addi	x2,x0,16
+  20:	02411a63          	bne	x2,x4,54 <fail>
+
+00000024 <test_3>:
+  24:	00100093          	addi	x1,x0,1
+  28:	0140006f          	jal	x0,3c <test_3+0x18>
+  2c:	00108093          	addi	x1,x1,1
+  30:	00108093          	addi	x1,x1,1
+  34:	00108093          	addi	x1,x1,1
+  38:	00108093          	addi	x1,x1,1
+  3c:	00108093          	addi	x1,x1,1
+  40:	00108093          	addi	x1,x1,1
+  44:	00300393          	addi	x7,x0,3
+  48:	00300193          	addi	x3,x0,3
+  4c:	00709463          	bne	x1,x7,54 <fail>
+  50:	00301e63          	bne	x0,x3,6c <pass>
+
+00000054 <fail>:
+  54:	00018063          	beq	x3,x0,54 <fail>
+  58:	00119193          	slli	x3,x3,0x1
+  5c:	0011e193          	ori	x3,x3,1
+  60:	05d00893          	addi	x17,x0,93
+  64:	00018513          	addi	x10,x3,0
+  68:	00000073          	ecall
+
+0000006c <pass>:
+  6c:	00100193          	addi	x3,x0,1
+  70:	05d00893          	addi	x17,x0,93
+  74:	00000513          	addi	x10,x0,0
+  78:	00000073          	ecall
+  7c:	c0001073          	unimp

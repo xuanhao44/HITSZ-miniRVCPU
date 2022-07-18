@@ -1,0 +1,37 @@
+
+simple:     file format elf32-littleriscv
+
+
+Disassembly of section .text.init:
+
+00000000 <_start>:
+   0:	0040006f          	jal	x0,4 <reset_vector>
+
+00000004 <reset_vector>:
+   4:	00100193          	addi	x3,x0,1
+   8:	05d00893          	addi	x17,x0,93
+   c:	00000513          	addi	x10,x0,0
+  10:	00000073          	ecall
+  14:	c0001073          	unimp
+  18:	0000                	c.unimp
+  1a:	0000                	c.unimp
+  1c:	0000                	c.unimp
+  1e:	0000                	c.unimp
+  20:	0000                	c.unimp
+  22:	0000                	c.unimp
+  24:	0000                	c.unimp
+  26:	0000                	c.unimp
+  28:	0000                	c.unimp
+  2a:	0000                	c.unimp
+  2c:	0000                	c.unimp
+  2e:	0000                	c.unimp
+  30:	0000                	c.unimp
+  32:	0000                	c.unimp
+  34:	0000                	c.unimp
+  36:	0000                	c.unimp
+  38:	0000                	c.unimp
+  3a:	0000                	c.unimp
+  3c:	0000                	c.unimp
+  3e:	0000                	c.unimp
+  40:	0000                	c.unimp
+  42:	0000                	c.unimp
