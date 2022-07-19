@@ -3,25 +3,37 @@
 ## 项目结构
 
 ```ascii
-├─ single-cycle              单周期 CPU 代码
-│  ├─ trace                  trace 比对代码
-│     ├─ in                  IROM 和 DRAM 在 CPU 里面
-│     ├─ out                 IROM 和 DRAM 在 CPU 外面
-│     └─ wrong-example       错误示例代码
-│  └─ onBoard                开发板运行代码
-│     ├─ test1               测试 1 上板代码（实验性质）
-│     └─ test2               测试 2 上板代码（通用）
-├─ pipeline                  流水线 CPU 代码
-│  ├─ trace                  trace 比对代码
-│  └─ onBoard                开发板运行代码（通用）
-├─ report                    实验报告
-├─ _srcs                     资源文件
-└─ _images                   图片仓库
+├─ single-cycle 单周期 CPU 代码
+│  ├─ trace trace 比对代码
+│     ├─ in IROM 和 DRAM 在 CPU 里面
+│     ├─ out IROM 和 DRAM 在 CPU 外面
+│     └─ wrong-example 错误示例代码
+│  └─ onBoard 开发板运行代码
+│     ├─ test1 测试 1 上板代码（实验性质）
+│     └─ test2 测试 2 上板代码（通用）
+├─ pipeline 流水线 CPU 代码
+│  ├─ trace trace 比对代码
+│  └─ onBoard 开发板运行代码（通用）
+├─ report 实验报告
+│  ├─ report.md 总报告
+│  ├─ 0.3.md 资源使用情况、功耗数据截图（实现后）
+│  ├─ 1.2.md 单周期 CPU 模块详细设计
+│  ├─ 1.3.md 单周期 CPU 仿真及结果分析
+│  ├─ 2.3.md 流水线 CPU 模块详细设计
+│  ├─ 2.4.md 流水线 CPU 仿真及结果分析
+│  ├─ 3.1.md ALU 模块设计的细微差别
+│  ├─ 3.2.md 检测数据冒险的判断条件
+│  └─ 4.md 总结
+├─ _srcs 资源文件
+│  └─ ... （清单不在此列出）
+└─ _images 图片仓库
+   └─ ... （清单不在此列出）
 ```
 
 ## 参考
 
-- https://hitsz-cslab.gitee.io/CPU/
+- https://hitsz-cslab.gitee.io/cpu（指导书年年在变）
+- https://github.com/HITSZ-CDP/cdp-tests（测试框架年年在变）
 - https://github.com/xyfJASON/HITSZ-miniRV-1
 - https://github.com/Yikai-coder/HITsz_CPU_design
 - https://github.com/FinCreWorld/miniRV-1
