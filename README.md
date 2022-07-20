@@ -145,32 +145,35 @@
 
 ### pipeline/trace
 
-top
+- top
 
-- miniCPU
-  - HAZARD_DETECTION
-  - IF
-    - PC
-    - NPC
-  - REG_IF_ID
-  - ID/WB
-    - CONTROLLER
-    - SEXT
-    - RF
-  - REG_ID_EX
-  - EX
-    - ALU_MUX
-    - ALU
-    - NPC_CONTROL
-    - WD_MUX1
-  - REG_EX_MEM
-  - MEM
-    - WD_MUX2
-  - REG_MEM_WB
-- IROM
-- DRAM
+  - miniCPU
+    - HAZARD_DETECTION
+    - IF
+      - PC
+      - NPC
+    - REG_IF_ID
+    - ID/WB
+      - CONTROLLER
+      - SEXT
+      - RF
+    - REG_ID_EX
+    - EX
+      - ALU_MUX
+      - ALU
+      - NPC_CONTROL
+      - WD_MUX1
+    - REG_EX_MEM
+    - MEM
+      - WD_MUX2
+    - REG_MEM_WB
+
+  - IROM
+
+  - DRAM
+
 
 ### pipeline/onBoard/test1、test2
 
-同 single_cycle/onBoard/test2 的结构。
+miniCPU 外部同 single_cycle/onBoard/test2 的结构。
 
