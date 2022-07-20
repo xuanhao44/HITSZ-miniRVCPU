@@ -5,7 +5,7 @@ module HAZARD_DETECTION (
     input  wire        rst_n      ,
 
     // 用于判断是否是 LOAD 指令
-    input  wire [1:0]  wd_sel     ,
+    input  wire [1:0]  wd_sel_EX  ,
 
     // 用于判断 rD1/rD2 是否被使用
     input  wire        rD1_used   ,
@@ -81,7 +81,7 @@ end
 
 // 载入-使用型数据冒险: 相邻的数据冒险 + load 指令(代表是写回是 rd)
 // 处理方式: 1) 停顿, 插入气泡(PC, IF/ID 不变; ID/EX 置 0); 2) 前递(前面已经写好了逻辑)
-wire load_use_hazard = (RAW_A_rD1 || RAW_A_rD2) & (wd_sel == `DRAM_RD);
+wire load_use_hazard = (RAW_A_rD1 || RAW_A_rD2) & (wd_sel_EX == `DRAM_RD);
 
 // 控制冒险
 // 处理方式: 静态分支预测, 总是预测不跳转; 清除后二条指令, 即 flush IF/ID, ID/EX

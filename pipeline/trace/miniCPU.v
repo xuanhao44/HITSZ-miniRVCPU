@@ -77,7 +77,7 @@ HAZARD_DETECTION U_HAZARD_DETECTION (
     .clk            (clk           ),
     .rst_n          (rst_n         ),
 
-    .wd_sel         (wd_sel_EX     ),
+    .wd_sel_EX      (wd_sel_EX     ),
 
     .rD1_used       (rD1_used      ),
     .rD2_used       (rD2_used      ),

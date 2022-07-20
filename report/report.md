@@ -12,62 +12,62 @@
 
 2. 指令描述
 
-|   单周期   |                                                            |
-| :--------: | :--------------------------------------------------------: |
-|  **R 型**  |                                                            |
-|    add     |                    (rd) ← (rs1) + (rs2)                    |
-|    sub     |                    (rd) ← (rs1) - (rs2)                    |
-|    and     |                   (rd) ← (rs1) &  (rs2)                    |
-|     or     |                   (rd) ← (rs1) \| (rs2)                    |
-|    xor     |                    (rd) ← (rs1) ^ (rs2)                    |
-|    sll     |                   (rd) ← (rs1) <<  (rs2)                   |
-|    srl     |              (rd) ← (rs1) >>  (rs2)，逻辑右移              |
-|    sra     |              (rd) ← (rs1) >>  (rs2)，算术右移              |
-|  **I 型**  |                                                            |
-|    addi    |                 (rd) ← (rs1) +  sext(imm)                  |
-|    andi    |                 (rd) ← (rs1) &  sext(imm)                  |
-|    ori     |                 (rd) ← (rs1) \|  sext(imm)                 |
-|    xori    |                 (rd) ← (rs1) ^  sext(imm)                  |
-|    slli    |                   (rd) ← (rs1) <<  shamt                   |
-|    srli    |              (rd) ← (rs1) >>  shamt，逻辑右移              |
-|    srai    |              (rd) ← (rs1) >>  shamt，算术右移              |
-|     lw     |       `(rd) ← sext(Mem[(rs1) + sext(offset)][31:0])`       |
-|    jalr    | t ← (pc) + 4；(pc) ← ((rs1) + sext(offset)) & ~1；(rd) ← t |
-| **S 类型** |                                                            |
-|     sw     |          Mem[(rs1) + sext(offset)] ← (rs2)[31:0]           |
+| 单周期   |                                                            |
+| -------- | ---------------------------------------------------------- |
+| **R 型** |                                                            |
+| add      | (rd) ← (rs1) + (rs2)                                       |
+| sub      | (rd) ← (rs1) - (rs2)                                       |
+| and      | (rd) ← (rs1) &  (rs2)                                      |
+| or       | (rd) ← (rs1) \| (rs2)                                      |
+| xor      | (rd) ← (rs1) ^ (rs2)                                       |
+| sll      | (rd) ← (rs1) <<  (rs2)                                     |
+| srl      | (rd) ← (rs1) >>  (rs2)，逻辑右移                           |
+| sra      | (rd) ← (rs1) >>  (rs2)，算术右移                           |
+| **I 型** |                                                            |
+| addi     | (rd) ← (rs1) +  sext(imm)                                  |
+| andi     | (rd) ← (rs1) &  sext(imm)                                  |
+| ori      | (rd) ← (rs1) \|  sext(imm)                                 |
+| xori     | (rd) ← (rs1) ^  sext(imm)                                  |
+| slli     | (rd) ← (rs1) <<  shamt                                     |
+| srli     | (rd) ← (rs1) >>  shamt，逻辑右移                           |
+| srai     | (rd) ← (rs1) >>  shamt，算术右移                           |
+| lw       | `(rd) ← sext(Mem[(rs1) + sext(offset)][31:0])`             |
+| jalr     | t ← (pc) + 4；(pc) ← ((rs1) + sext(offset)) & ~1；(rd) ← t |
+| **S 型** |                                                            |
+| sw       | Mem[(rs1) + sext(offset)] ← (rs2)[31:0]                    |
 
-|   多周期   |                                                            |
-| :--------: | :--------------------------------------------------------: |
-|  **R 型**  |                                                            |
-|    add     |                    (rd) ← (rs1) + (rs2)                    |
-|    sub     |                    (rd) ← (rs1) - (rs2)                    |
-|    and     |                   (rd) ← (rs1) &  (rs2)                    |
-|     or     |                   (rd) ← (rs1) \| (rs2)                    |
-|    xor     |                    (rd) ← (rs1) ^ (rs2)                    |
-|    sll     |                   (rd) ← (rs1) <<  (rs2)                   |
-|    srl     |              (rd) ← (rs1) >>  (rs2)，逻辑右移              |
-|    sra     |              (rd) ← (rs1) >>  (rs2)，算术右移              |
-| **I 类型** |                                                            |
-|    addi    |                 (rd) ← (rs1) +  sext(imm)                  |
-|    andi    |                 (rd) ← (rs1) &  sext(imm)                  |
-|    ori     |                 (rd) ← (rs1) \|  sext(imm)                 |
-|    xori    |                 (rd) ← (rs1) ^  sext(imm)                  |
-|    slli    |                   (rd) ← (rs1) <<  shamt                   |
-|    srli    |              (rd) ← (rs1) >>  shamt, 逻辑右移              |
-|    srai    |              (rd) ← (rs1) >>  shamt, 算术右移              |
-|     lw     |       `(rd) ← sext(Mem[(rs1) + sext(offset)][31:0])`       |
-|    jalr    | t ← (pc) + 4；(pc) ← ((rs1) + sext(offset)) & ~1；(rd) ← t |
-|  **S 型**  |                                                            |
-|     sw     |          Mem[(rs1) + sext(offset)] ← (rs2)[31:0]           |
-|  **B 型**  |                                                            |
-|    beq     |       if ((rs1) = (rs2)) (pc) ← (pc) + sext(offset)        |
-|    bne     |       if ((rs1) ≠ (rs2)) (pc) ← (pc) + sext(offset)        |
-|    blt     | if ((rs1) < (rs2)) (pc) ← (pc) + sext(offset)，有符号比较  |
-|    bge     | if ((rs1) ≥ (rs2)) (pc) ← (pc) + sext(offset)，有符号比较  |
-|  **U 型**  |                                                            |
-|    lui     |               (rd) ← sext(imm[31:12]  << 12)               |
-|  **J 型**  |                                                            |
-|    jal     |        (rd) ← (pc) + 4；(pc) ← (pc) + sext(offset)         |
+| 多周期   |                                                            |
+| -------- | ---------------------------------------------------------- |
+| **R 型** |                                                            |
+| add      | (rd) ← (rs1) + (rs2)                                       |
+| sub      | (rd) ← (rs1) - (rs2)                                       |
+| and      | (rd) ← (rs1) &  (rs2)                                      |
+| or       | (rd) ← (rs1) \| (rs2)                                      |
+| xor      | (rd) ← (rs1) ^ (rs2)                                       |
+| sll      | (rd) ← (rs1) <<  (rs2)                                     |
+| srl      | (rd) ← (rs1) >>  (rs2)，逻辑右移                           |
+| sra      | (rd) ← (rs1) >>  (rs2)，算术右移                           |
+| **I 型** |                                                            |
+| addi     | (rd) ← (rs1) +  sext(imm)                                  |
+| andi     | (rd) ← (rs1) &  sext(imm)                                  |
+| ori      | (rd) ← (rs1) \|  sext(imm)                                 |
+| xori     | (rd) ← (rs1) ^  sext(imm)                                  |
+| slli     | (rd) ← (rs1) <<  shamt                                     |
+| srli     | (rd) ← (rs1) >>  shamt, 逻辑右移                           |
+| srai     | (rd) ← (rs1) >>  shamt, 算术右移                           |
+| lw       | `(rd) ← sext(Mem[(rs1) + sext(offset)][31:0])`             |
+| jalr     | t ← (pc) + 4；(pc) ← ((rs1) + sext(offset)) & ~1；(rd) ← t |
+| **S 型** |                                                            |
+| sw       | Mem[(rs1) + sext(offset)] ← (rs2)[31:0]                    |
+| **B 型** |                                                            |
+| beq      | if ((rs1) = (rs2)) (pc) ← (pc) + sext(offset)              |
+| bne      | if ((rs1) ≠ (rs2)) (pc) ← (pc) + sext(offset)              |
+| blt      | if ((rs1) < (rs2)) (pc) ← (pc) + sext(offset)，有符号比较  |
+| bge      | if ((rs1) ≥ (rs2)) (pc) ← (pc) + sext(offset)，有符号比较  |
+| **U 型** |                                                            |
+| lui      | (rd) ← sext(imm[31:12]  << 12)                             |
+| **J 型** |                                                            |
+| jal      | (rd) ← (pc) + 4；(pc) ← (pc) + sext(offset)                |
 
 ### 0.2 设计的主要特色
 
@@ -166,7 +166,7 @@
 
 （要求：无需画出模块内的逻辑，但要标出模块之间信号线的信号名和位宽，以 及说明每个模块的功能含义）
 
-图
+![流水线cpu数据通路](../_images/%E6%B5%81%E6%B0%B4%E7%BA%BFcpu%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png)
 
 模块说明：
 
