@@ -730,21 +730,39 @@
     <wire from="(220,420)" to="(250,420)"/>
     <wire from="(130,400)" to="(250,400)"/>
     <wire from="(350,410)" to="(390,410)"/>
-    <comp lib="0" loc="(220,420)" name="Constant">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="value" val="0xfffffffc"/>
-    </comp>
     <comp lib="0" loc="(340,360)" name="Tunnel">
       <a name="facing" val="south"/>
       <a name="width" val="1"/>
       <a name="label" val="keep"/>
       <a name="labelfont" val="Dialog plain 12"/>
     </comp>
+    <comp lib="0" loc="(390,410)" name="Tunnel">
+      <a name="facing" val="west"/>
+      <a name="width" val="32"/>
+      <a name="label" val="pc"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
     <comp lib="0" loc="(260,490)" name="Tunnel">
       <a name="facing" val="north"/>
       <a name="width" val="1"/>
       <a name="label" val="rst_n"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="0" loc="(130,400)" name="Pin">
+      <a name="facing" val="east"/>
+      <a name="output" val="false"/>
+      <a name="width" val="32"/>
+      <a name="tristate" val="true"/>
+      <a name="pull" val="none"/>
+      <a name="label" val="din, 32bit"/>
+      <a name="labelloc" val="north"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+      <a name="labelcolor" val="#000000"/>
+    </comp>
+    <comp lib="0" loc="(330,490)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="width" val="1"/>
+      <a name="label" val="clk"/>
       <a name="labelfont" val="Dialog plain 12"/>
     </comp>
     <comp lib="5" loc="(350,410)" name="Register">
@@ -755,17 +773,18 @@
       <a name="labelcolor" val="#000000"/>
       <a name="Select" val="low"/>
     </comp>
-    <comp lib="0" loc="(330,490)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="width" val="1"/>
-      <a name="label" val="clk"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="0" loc="(390,410)" name="Tunnel">
-      <a name="facing" val="west"/>
+    <comp lib="0" loc="(220,420)" name="Constant">
+      <a name="facing" val="east"/>
       <a name="width" val="32"/>
-      <a name="label" val="pc"/>
-      <a name="labelfont" val="Dialog plain 12"/>
+      <a name="value" val="0xfffffffc"/>
+    </comp>
+    <comp lib="3" loc="(280,410)" name="Multiplexer">
+      <a name="facing" val="east"/>
+      <a name="selloc" val="bl"/>
+      <a name="select" val="1"/>
+      <a name="width" val="32"/>
+      <a name="disabled" val="Z"/>
+      <a name="enable" val="false"/>
     </comp>
     <comp lib="7" loc="(373,351)" name="Text">
       <a name="text" val="1bit"/>
@@ -780,25 +799,6 @@
       <a name="color" val="#000000"/>
       <a name="halign" val="center"/>
       <a name="valign" val="base"/>
-    </comp>
-    <comp lib="3" loc="(280,410)" name="Multiplexer">
-      <a name="facing" val="east"/>
-      <a name="selloc" val="bl"/>
-      <a name="select" val="1"/>
-      <a name="width" val="32"/>
-      <a name="disabled" val="Z"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(130,400)" name="Pin">
-      <a name="facing" val="east"/>
-      <a name="output" val="false"/>
-      <a name="width" val="32"/>
-      <a name="tristate" val="true"/>
-      <a name="pull" val="none"/>
-      <a name="label" val="din, 32bit"/>
-      <a name="labelloc" val="north"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-      <a name="labelcolor" val="#000000"/>
     </comp>
   </circuit>
   <circuit name="NPC">
@@ -816,43 +816,18 @@
     <wire from="(140,400)" to="(200,400)"/>
     <wire from="(140,380)" to="(200,380)"/>
     <wire from="(310,450)" to="(310,480)"/>
-    <comp lib="4" loc="(240,390)" name="Adder">
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(370,430)" name="Tunnel">
-      <a name="facing" val="west"/>
-      <a name="width" val="32"/>
-      <a name="label" val="npc"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="0" loc="(140,440)" name="Tunnel">
+    <comp lib="3" loc="(330,430)" name="Multiplexer">
       <a name="facing" val="east"/>
+      <a name="selloc" val="bl"/>
+      <a name="select" val="1"/>
       <a name="width" val="32"/>
-      <a name="label" val="npc_change"/>
-      <a name="labelfont" val="Dialog plain 12"/>
+      <a name="disabled" val="Z"/>
+      <a name="enable" val="false"/>
     </comp>
     <comp lib="0" loc="(140,380)" name="Constant">
       <a name="facing" val="east"/>
       <a name="width" val="32"/>
       <a name="value" val="0x4"/>
-    </comp>
-    <comp lib="0" loc="(370,390)" name="Tunnel">
-      <a name="facing" val="west"/>
-      <a name="width" val="32"/>
-      <a name="label" val="pc4"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="0" loc="(140,400)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="label" val="pc"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="0" loc="(310,480)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="width" val="1"/>
-      <a name="label" val="op"/>
-      <a name="labelfont" val="Dialog plain 12"/>
     </comp>
     <comp lib="7" loc="(418,395)" name="Text">
       <a name="text" val="32bit"/>
@@ -860,6 +835,16 @@
       <a name="color" val="#000000"/>
       <a name="halign" val="center"/>
       <a name="valign" val="base"/>
+    </comp>
+    <comp lib="7" loc="(417,436)" name="Text">
+      <a name="text" val="32bit"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="4" loc="(240,390)" name="Adder">
+      <a name="width" val="32"/>
     </comp>
     <comp lib="7" loc="(283,498)" name="Text">
       <a name="text" val="1bit"/>
@@ -875,20 +860,23 @@
       <a name="halign" val="center"/>
       <a name="valign" val="base"/>
     </comp>
-    <comp lib="3" loc="(330,430)" name="Multiplexer">
-      <a name="facing" val="east"/>
-      <a name="selloc" val="bl"/>
-      <a name="select" val="1"/>
-      <a name="width" val="32"/>
-      <a name="disabled" val="Z"/>
-      <a name="enable" val="false"/>
+    <comp lib="0" loc="(310,480)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="width" val="1"/>
+      <a name="label" val="op"/>
+      <a name="labelfont" val="Dialog plain 12"/>
     </comp>
-    <comp lib="7" loc="(417,436)" name="Text">
-      <a name="text" val="32bit"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
+    <comp lib="0" loc="(140,440)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="label" val="npc_change"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="0" loc="(370,390)" name="Tunnel">
+      <a name="facing" val="west"/>
+      <a name="width" val="32"/>
+      <a name="label" val="pc4"/>
+      <a name="labelfont" val="Dialog plain 12"/>
     </comp>
     <comp lib="7" loc="(48,444)" name="Text">
       <a name="text" val="32bit"/>
@@ -896,6 +884,18 @@
       <a name="color" val="#000000"/>
       <a name="halign" val="center"/>
       <a name="valign" val="base"/>
+    </comp>
+    <comp lib="0" loc="(370,430)" name="Tunnel">
+      <a name="facing" val="west"/>
+      <a name="width" val="32"/>
+      <a name="label" val="npc"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="0" loc="(140,400)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="label" val="pc"/>
+      <a name="labelfont" val="Dialog plain 12"/>
     </comp>
   </circuit>
   <circuit name="NPC_CONTROL">
@@ -927,9 +927,36 @@
     <wire from="(330,430)" to="(330,460)"/>
     <wire from="(200,430)" to="(330,430)"/>
     <wire from="(330,280)" to="(330,330)"/>
-    <wire from="(200,280)" to="(330,280)"/>
-    <comp lib="7" loc="(147,284)" name="Text">
-      <a name="text" val="2bit"/>
+    <wire from="(140,340)" to="(160,340)"/>
+    <wire from="(140,320)" to="(160,320)"/>
+    <wire from="(190,280)" to="(330,280)"/>
+    <comp lib="0" loc="(200,430)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="4"/>
+      <a name="label" val="jump[0], branch"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="0" loc="(200,570)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="1"/>
+      <a name="label" val="sgn"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="1" loc="(200,330)" name="XOR Gate">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="size" val="30"/>
+      <a name="inputs" val="2"/>
+      <a name="out" val="01"/>
+      <a name="label" val=""/>
+      <a name="labelfont" val="Dialog plain 12"/>
+      <a name="labelcolor" val="#000000"/>
+      <a name="xor" val="odd"/>
+      <a name="negate0" val="false"/>
+      <a name="negate1" val="false"/>
+    </comp>
+    <comp lib="7" loc="(182,472)" name="Text">
+      <a name="text" val="1bit"/>
       <a name="font" val="Dialog plain 12"/>
       <a name="color" val="#000000"/>
       <a name="halign" val="center"/>
@@ -941,6 +968,33 @@
       <a name="label" val="npc_change"/>
       <a name="labelfont" val="Dialog plain 12"/>
     </comp>
+    <comp lib="7" loc="(259,554)" name="Text">
+      <a name="text" val="blt"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="0" loc="(140,320)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="label" val="alu_c"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="7" loc="(416,518)" name="Text">
+      <a name="text" val="1bit"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="7" loc="(429,332)" name="Text">
+      <a name="text" val="32bit"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
     <comp lib="1" loc="(270,600)" name="NOT Gate">
       <a name="facing" val="east"/>
       <a name="width" val="1"/>
@@ -950,46 +1004,14 @@
       <a name="labelfont" val="Dialog plain 12"/>
       <a name="labelcolor" val="#000000"/>
     </comp>
-    <comp lib="7" loc="(429,518)" name="Text">
-      <a name="text" val="1bit"/>
+    <comp lib="7" loc="(79,436)" name="Text">
+      <a name="text" val="1+3bit"/>
       <a name="font" val="Dialog plain 12"/>
       <a name="color" val="#000000"/>
       <a name="halign" val="center"/>
       <a name="valign" val="base"/>
-    </comp>
-    <comp lib="7" loc="(260,474)" name="Text">
-      <a name="text" val="beq"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="0" loc="(200,430)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="4"/>
-      <a name="label" val="jump[0], branch"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="0" loc="(390,540)" name="Tunnel">
-      <a name="facing" val="west"/>
-      <a name="width" val="1"/>
-      <a name="label" val="npc_op"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="0" loc="(200,330)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="label" val="alu_c[31:1], 1'b0"/>
-      <a name="labelfont" val="Dialog plain 12"/>
     </comp>
     <comp lib="7" loc="(180,310)" name="Text">
-      <a name="text" val="32bit"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="7" loc="(182,399)" name="Text">
       <a name="text" val="32bit"/>
       <a name="font" val="Dialog plain 12"/>
       <a name="color" val="#000000"/>
@@ -1002,82 +1024,6 @@
       <a name="color" val="#000000"/>
       <a name="halign" val="center"/>
       <a name="valign" val="base"/>
-    </comp>
-    <comp lib="7" loc="(85,434)" name="Text">
-      <a name="text" val="1+3bit"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="3" loc="(350,540)" name="Multiplexer">
-      <a name="facing" val="east"/>
-      <a name="selloc" val="tr"/>
-      <a name="select" val="4"/>
-      <a name="width" val="1"/>
-      <a name="disabled" val="0"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="7" loc="(182,472)" name="Text">
-      <a name="text" val="1bit"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="7" loc="(184,553)" name="Text">
-      <a name="text" val="1bit"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="0" loc="(200,370)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="label" val="pc_imm"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="7" loc="(259,554)" name="Text">
-      <a name="text" val="blt"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="0" loc="(200,280)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="2"/>
-      <a name="label" val="jump"/>
-      <a name="labelfont" val="Dialog plain 12"/>
-    </comp>
-    <comp lib="7" loc="(354,458)" name="Text">
-      <a name="text" val=""/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="7" loc="(260,589)" name="Text">
-      <a name="text" val="bge"/>
-      <a name="font" val="Dialog plain 12"/>
-      <a name="color" val="#000000"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
-    </comp>
-    <comp lib="3" loc="(350,350)" name="Multiplexer">
-      <a name="facing" val="east"/>
-      <a name="selloc" val="tr"/>
-      <a name="select" val="2"/>
-      <a name="width" val="32"/>
-      <a name="disabled" val="Z"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(200,570)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="1"/>
-      <a name="label" val="sgn"/>
-      <a name="labelfont" val="Dialog plain 12"/>
     </comp>
     <comp lib="1" loc="(270,520)" name="NOT Gate">
       <a name="facing" val="east"/>
@@ -1094,12 +1040,93 @@
       <a name="label" val="zero"/>
       <a name="labelfont" val="Dialog plain 12"/>
     </comp>
-    <comp lib="7" loc="(429,332)" name="Text">
+    <comp lib="0" loc="(200,370)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="label" val="pc_imm"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="7" loc="(81,325)" name="Text">
       <a name="text" val="32bit"/>
       <a name="font" val="Dialog plain 12"/>
       <a name="color" val="#000000"/>
       <a name="halign" val="center"/>
       <a name="valign" val="base"/>
+    </comp>
+    <comp lib="0" loc="(140,340)" name="Constant">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="value" val="0x1"/>
+    </comp>
+    <comp lib="3" loc="(350,350)" name="Multiplexer">
+      <a name="facing" val="east"/>
+      <a name="selloc" val="tr"/>
+      <a name="select" val="2"/>
+      <a name="width" val="32"/>
+      <a name="disabled" val="Z"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="7" loc="(184,553)" name="Text">
+      <a name="text" val="1bit"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="0" loc="(390,540)" name="Tunnel">
+      <a name="facing" val="west"/>
+      <a name="width" val="1"/>
+      <a name="label" val="npc_op"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="7" loc="(354,458)" name="Text">
+      <a name="text" val=""/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="7" loc="(182,399)" name="Text">
+      <a name="text" val="32bit"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="0" loc="(190,280)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="2"/>
+      <a name="label" val="jump"/>
+      <a name="labelfont" val="Dialog plain 12"/>
+    </comp>
+    <comp lib="7" loc="(260,474)" name="Text">
+      <a name="text" val="beq"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="7" loc="(138,284)" name="Text">
+      <a name="text" val="2bit"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="7" loc="(260,589)" name="Text">
+      <a name="text" val="bge"/>
+      <a name="font" val="Dialog plain 12"/>
+      <a name="color" val="#000000"/>
+      <a name="halign" val="center"/>
+      <a name="valign" val="base"/>
+    </comp>
+    <comp lib="3" loc="(350,540)" name="Multiplexer">
+      <a name="facing" val="east"/>
+      <a name="selloc" val="tr"/>
+      <a name="select" val="4"/>
+      <a name="width" val="1"/>
+      <a name="disabled" val="0"/>
+      <a name="enable" val="false"/>
     </comp>
   </circuit>
 </project>

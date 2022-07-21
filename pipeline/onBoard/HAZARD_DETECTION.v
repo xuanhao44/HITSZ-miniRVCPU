@@ -55,8 +55,8 @@ wire RAW_B_rD1 = (wR_MEM == rR1_ID) && rf_we_MEM && rD1_used && wR_MEM;
 wire RAW_B_rD2 = (wR_MEM == rR2_ID) && rf_we_MEM && rD2_used && wR_MEM;
 
 // RAW - C 间隔两条
-wire RAW_C_rD1 = (wR_WB  == rR1_ID) & rf_we_WB  && rD1_used && wR_WB;
-wire RAW_C_rD2 = (wR_WB  == rR2_ID) & rf_we_WB  && rD2_used && wR_WB;
+wire RAW_C_rD1 = (wR_WB  == rR1_ID) && rf_we_WB  && rD1_used && wR_WB;
+wire RAW_C_rD2 = (wR_WB  == rR2_ID) && rf_we_WB  && rD2_used && wR_WB;
 
 // 逻辑与就是 &&, 别以为 1 位就真是 按位与和逻辑与一样, 至少含义是不一样的; 另外不是一位的话就不能使用按位与代替逻辑与了, 切记
 
