@@ -32,8 +32,12 @@
 
 ## 参考
 
-- https://hitsz-cslab.gitee.io/cpu（指导书年年在变）
-- https://github.com/HITSZ-CDP/cdp-tests（测试框架年年在变）
+- https://hitsz-cslab.gitee.io/cpu
+  - （指导书年年在变）
+
+- https://github.com/HITSZ-CDP/cdp-tests
+  - （测试框架年年在变）
+
 - https://github.com/xyfJASON/HITSZ-miniRV-1
 - https://github.com/Yikai-coder/HITsz_CPU_design
 - https://github.com/FinCreWorld/miniRV-1
